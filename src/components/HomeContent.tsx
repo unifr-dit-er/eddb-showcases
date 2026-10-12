@@ -38,7 +38,7 @@ const SidebarContent = () => {
             Pressearchiv
           </span>
         </div>
-        <p className="mt-1.5 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/50">
+        <p className="mt-1.5 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/65">
           {t('sidebar.subtitle')}
         </p>
       </div>

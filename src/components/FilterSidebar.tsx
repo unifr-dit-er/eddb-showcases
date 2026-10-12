@@ -21,11 +21,11 @@ const SectionHeader = ({
   const { t } = useLanguage()
   return (
     <div className="flex items-center justify-between mb-2.5">
-      <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-sidebar-foreground/45">{children}</p>
+      <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-sidebar-foreground/65">{children}</p>
       {onReset && (
         <button
           onClick={onReset}
-          className="text-[11px] text-sidebar-foreground/40 hover:text-sidebar-foreground/70 transition-colors"
+          className="text-[11px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors"
         >
           {t('sidebar.clear')}
         </button>
@@ -84,7 +84,7 @@ export const FilterSidebar = () => {
         <>
           <button
             onClick={resetFilters}
-            className="w-full text-[13px] text-sidebar-foreground/45 hover:text-sidebar-foreground/80 transition-colors py-1 text-center"
+            className="w-full text-[13px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors py-1 text-center"
           >
             {t('sidebar.resetFilters')}
           </button>
@@ -103,7 +103,7 @@ export const FilterSidebar = () => {
             if (e.key === 'Enter') setFilter('q', qInput)
           }}
           onBlur={() => qInput !== filters.q && setFilter('q', qInput)}
-          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/30 focus-visible:border-primary focus-visible:ring-primary/30 h-9 text-base"
+          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-9 text-base"
         />
       </div>
 
@@ -121,7 +121,7 @@ export const FilterSidebar = () => {
         <div className="grid grid-cols-2 gap-2">
           {(['from', 'to'] as const).map((bound) => (
             <div key={bound}>
-              <p className="text-[11px] text-sidebar-foreground/40 mb-1 tracking-widest uppercase">
+              <p className="text-[11px] text-sidebar-foreground/65 mb-1 tracking-widest uppercase">
                 {t(bound === 'from' ? 'sidebar.period.from' : 'sidebar.period.to')}
               </p>
               <Select value={filters[bound] || ALL} onValueChange={(v) => setYear(bound, v)}>

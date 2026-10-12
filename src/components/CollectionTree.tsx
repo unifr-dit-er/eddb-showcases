@@ -9,7 +9,7 @@ import { ChevronRight, FileText, Folder, FolderOpen, Newspaper } from 'lucide-re
 import { useMemo, useState } from 'react'
 
 const Count = ({ value, active }: { value: number; active?: boolean }) => (
-  <span className={cn('text-[10px] tabular-nums shrink-0', active ? 'text-primary-foreground/80' : 'text-sidebar-foreground/50')}>
+  <span className={cn('text-[10px] tabular-nums shrink-0', active ? 'text-primary-foreground/80' : 'text-sidebar-foreground/65')}>
     {value}
   </span>
 )
@@ -19,7 +19,7 @@ const rowClass = (active: boolean) =>
     'flex-1 min-w-0 flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm leading-tight transition-colors',
     active
       ? 'bg-primary text-primary-foreground'
-      : 'text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+      : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
   )
 
 // "CH: Presse" → "Presse": under the "Switzerland" heading the prefix is redundant.
@@ -63,7 +63,7 @@ export const CollectionTree = ({ series }: { series: SeriesFacet[] }) => {
 
       {national.length > 0 && (
         <div>
-          <p className="px-2 mb-1 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/35">
+          <p className="px-2 mb-1 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/65">
             {t('sidebar.collections.national')}
           </p>
           {national.map((s) => (
@@ -79,7 +79,7 @@ export const CollectionTree = ({ series }: { series: SeriesFacet[] }) => {
       )}
 
       <div>
-        <p className="px-2 mb-1 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/35">
+        <p className="px-2 mb-1 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/65">
           {t('sidebar.collections.cantons')}
         </p>
         {cantons.map((s) => {
@@ -105,7 +105,7 @@ export const CollectionTree = ({ series }: { series: SeriesFacet[] }) => {
             >
               <div className="flex items-center gap-0.5">
                 <CollapsibleTrigger
-                  className="p-1 rounded text-sidebar-foreground/40 hover:text-sidebar-foreground/80 transition-colors"
+                  className="p-1 rounded text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors"
                   aria-label={seriesTitle(s)}
                 >
                   <ChevronRight className={cn('h-3.5 w-3.5 transition-transform duration-150', isOpen && 'rotate-90')} />

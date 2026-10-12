@@ -80,13 +80,14 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.5rem;
-  --sidebar: oklch(0.16 0.012 264);           /* deep navy charcoal */
+  /* Midnight blue, the university's secondary colour (manual p. 15). */
+  --sidebar: oklch(0.329 0.075 245.4);           /* #0A3859 */
   --sidebar-foreground: oklch(0.92 0.006 76); /* warm off-white */
   --sidebar-primary: oklch(0.58 0.13 238.7);
   --sidebar-primary-foreground: oklch(0 0 0);
-  --sidebar-accent: oklch(0.21 0.012 264);    /* slightly lighter for inputs */
+  --sidebar-accent: oklch(0.38 0.075 245.4);   /* slightly lighter for inputs */
   --sidebar-accent-foreground: oklch(0.92 0.006 76);
-  --sidebar-border: oklch(0.27 0.012 264);
+  --sidebar-border: oklch(0.44 0.07 245.4);
   --sidebar-ring: oklch(0.58 0.13 238.7);
 }
 

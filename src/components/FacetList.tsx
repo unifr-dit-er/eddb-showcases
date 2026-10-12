@@ -53,7 +53,7 @@ export const FacetList = ({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={placeholder}
-        className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/30 focus-visible:border-primary focus-visible:ring-primary/30 h-8 text-sm"
+        className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-8 text-sm"
       />
       <ul className="space-y-0.5">
         {visible.map((v) => {
@@ -71,10 +71,10 @@ export const FacetList = ({
                   />
                   <label
                     htmlFor={inputId}
-                    className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/70 cursor-pointer leading-tight"
+                    className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 cursor-pointer leading-tight"
                   >
                     <span>{v.value}</span>
-                    <span className="text-[10px] text-sidebar-foreground/50 tabular-nums shrink-0">{v.count}</span>
+                    <span className="text-[10px] text-sidebar-foreground/65 tabular-nums shrink-0">{v.count}</span>
                   </label>
                 </div>
               ) : (
@@ -85,14 +85,14 @@ export const FacetList = ({
                     'w-full flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm leading-tight transition-colors',
                     isSelected
                       ? 'bg-primary text-primary-foreground'
-                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                      : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
                   )}
                 >
                   <span className="truncate">{v.value}</span>
                   <span
                     className={cn(
                       'text-[10px] tabular-nums shrink-0',
-                      isSelected ? 'text-primary-foreground/80' : 'text-sidebar-foreground/50'
+                      isSelected ? 'text-primary-foreground/80' : 'text-sidebar-foreground/65'
                     )}
                   >
                     {v.count}
@@ -106,7 +106,7 @@ export const FacetList = ({
       {!query && matches.length > initialCount && (
         <button
           onClick={() => setExpanded((e) => !e)}
-          className="text-[11px] text-sidebar-foreground/45 hover:text-sidebar-foreground/80 transition-colors"
+          className="text-[11px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors"
         >
           {expanded ? t('sidebar.showLess') : `${t('sidebar.showMore')} (${matches.length})`}
         </button>
