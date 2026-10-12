@@ -17,7 +17,6 @@ no database — all data comes from NocoDB.
 ```
 NEXT_PUBLIC_NOCODB_API_URL=   # NocoDB base URL
 NOCODB_API_TOKEN=              # NocoDB API token (server-side only)
-NOCODB_FIXTURE_PATH=           # Development only: JSON export of the public base
 ```
 
 # Architecture

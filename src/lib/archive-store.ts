@@ -6,7 +6,6 @@
  * in memory lets the routes filter, count and paginate in one place, and
  * expose only whitelisted fields.
  */
-import { readFile } from 'node:fs/promises'
 import type { Article, Series } from '@/types/archive'
 import { fetchNocoDB } from '@/lib/nocodb'
 import {
@@ -52,16 +51,9 @@ const fetchAll = async (
   }
 }
 
-// Development only: a JSON export of the public base (NOCODB_FIXTURE_PATH),
-// so the app can run without an API token.
-const loadFixture = async (
-  path: string
-): Promise<{ articles: NocoDBRecord[]; series: NocoDBRecord[] }> =>
-  JSON.parse(await readFile(path, 'utf8'))
-
+// Always through the NocoDB API, in development as in production, so the
+// app behaves the same with the same token.
 const loadRaw = async () => {
-  const fixture = process.env.NOCODB_FIXTURE_PATH
-  if (fixture && process.env.NODE_ENV !== 'production') return loadFixture(fixture)
   const [articles, series] = await Promise.all([
     fetchAll(NOCODB_TABLES.ARTICLES, ARTICLE_FIELDS, '(ok_for_public,eq,YES)'),
     fetchAll(NOCODB_TABLES.SERIES, SERIES_FIELDS),

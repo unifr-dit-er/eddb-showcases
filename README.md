@@ -31,8 +31,8 @@ Routes : `/api/articles` (liste filtrée), `/api/articles/<id>` (notice),
 ### Prérequis
 
 - Node.js 22+
-- Un jeton NocoDB lisant la base *Pressearchiv Public*, ou un export JSON
-  de cette base
+- Un jeton NocoDB lisant la base *Pressearchiv Public* : on développe
+  toujours sur l'API, comme en production
 
 ### Installation
 
@@ -46,8 +46,6 @@ Créer un fichier `.env.local` à la racine :
 
 ```env
 NOCODB_API_TOKEN=your_token_here
-# ou, en développement seulement, un export local de la base publique :
-# NOCODB_FIXTURE_PATH=/chemin/vers/export.json
 ```
 
 > `NEXT_PUBLIC_NOCODB_API_URL` est déjà défini dans `.env` et versionné dans le repo.
