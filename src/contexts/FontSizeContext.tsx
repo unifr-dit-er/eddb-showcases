@@ -1,6 +1,7 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import { useLocalSetting } from '@/hooks/useLocalSetting'
 
 export type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -34,21 +35,11 @@ interface FontSizeContextValue {
 const FontSizeContext = createContext<FontSizeContextValue | null>(null)
 
 export const FontSizeProvider = ({ children }: { children: ReactNode }) => {
-  // Read at first render, as the locale in LanguageContext.
-  const [fontSize, setFontSizeState] = useState<FontSize>(() => {
-    if (typeof window === 'undefined') return DEFAULT_FONT_SIZE
-    const stored = localStorage.getItem(STORAGE_KEY)
-    return stored && FONT_SIZES.includes(stored as FontSize) ? (stored as FontSize) : DEFAULT_FONT_SIZE
-  })
+  const [fontSize, setFontSize] = useLocalSetting<FontSize>(STORAGE_KEY, FONT_SIZES, DEFAULT_FONT_SIZE)
 
   useEffect(() => {
     document.documentElement.style.fontSize = FONT_SIZE_VALUES[fontSize]
   }, [fontSize])
-
-  const setFontSize = useCallback((size: FontSize) => {
-    localStorage.setItem(STORAGE_KEY, size)
-    setFontSizeState(size)
-  }, [])
 
   return (
     <FontSizeContext.Provider value={{ fontSize, setFontSize, fontSizes: FONT_SIZES, fontSizeLabels: FONT_SIZE_LABELS }}>
