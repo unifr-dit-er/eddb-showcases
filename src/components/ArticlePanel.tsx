@@ -69,14 +69,14 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                   <ChevronRight className="h-3 w-3 opacity-50" />
                   <button
                     onClick={() => setFilters({ series: series.id, collection: '' })}
-                    className="hover:text-primary transition-colors"
+                    className="hover:text-primary-ink transition-colors"
                   >
                     {seriesTitle(series)}
                   </button>
                   <ChevronRight className="h-3 w-3 opacity-50" />
                   <button
                     onClick={() => setFilters({ series: series.id, collection: article.collection })}
-                    className="hover:text-primary transition-colors"
+                    className="hover:text-primary-ink transition-colors"
                   >
                     {t(article.collection === 'press' ? 'sidebar.collection.press' : 'sidebar.collection.documents')}
                   </button>
@@ -97,12 +97,12 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                 {article.journal && (
                   <button
                     onClick={() => setFilters({ journal: filters.journal === article.journal ? '' : article.journal })}
-                    className="font-serif italic text-base text-foreground/85 hover:text-primary transition-colors"
+                    className="font-serif italic text-base text-foreground/85 hover:text-primary-ink transition-colors"
                   >
                     {article.journal}
                   </button>
                 )}
-                <span className="text-primary font-medium">
+                <span className="text-primary-ink font-medium">
                   {article.date ? formatDate(article.date, locale) : t('article.undated')}
                 </span>
               </div>
@@ -151,7 +151,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 font-medium text-primary hover:text-primary/80 transition-colors"
+                    className="inline-flex items-center gap-1.5 font-medium text-primary-ink hover:text-primary-ink/80 transition-colors"
                   >
                     <ExternalLink className="h-4 w-4" />
                     {t('article.original')}
@@ -172,8 +172,8 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                       className={cn(
                         'text-xs px-2 py-0.5 font-normal cursor-pointer transition-colors',
                         filters.keywords.includes(kw)
-                          ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                          : 'hover:bg-primary/15 hover:text-primary'
+                          ? 'bg-primary/10 text-primary-ink hover:bg-primary/15'
+                          : 'hover:bg-primary/10 hover:text-primary-ink'
                       )}
                     >
                       {kw}
@@ -203,7 +203,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                 onClick={handleCopyLink}
                 className={cn(
                   'flex items-center gap-1.5 text-sm font-medium transition-colors cursor-pointer',
-                  linkCopied ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  linkCopied ? 'text-primary-ink' : 'text-muted-foreground hover:text-foreground'
                 )}
               >
                 {linkCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}

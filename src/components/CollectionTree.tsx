@@ -18,7 +18,7 @@ const rowClass = (active: boolean) =>
   cn(
     'flex-1 min-w-0 flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm leading-tight transition-colors',
     active
-      ? 'bg-primary text-primary-foreground'
+      ? 'bg-primary-ink text-primary-foreground'
       : 'text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-foreground'
   )
 

@@ -35,6 +35,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -55,7 +56,12 @@
   --card-foreground: oklch(0.17 0.008 250);
   --popover: oklch(0.99 0.003 82);
   --popover-foreground: oklch(0.17 0.008 250);
-  --primary: oklch(0.537 0.210 14.8);          /* #ca0d45 */
+  /* Sky blue of the Faculty of Humanities (Unifr corporate design manual,
+     p. 15: RGB 0/131/190, #0083BE) for fills, bars and rules. --primary-ink,
+     the same blue darkened by 15 % (#006FA2), carries text and the fills
+     under white text (WCAG AA contrast). */
+  --primary: oklch(0.58 0.13 238.7);
+  --primary-ink: oklch(0.515 0.116 238.8);
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.93 0.006 82);
   --secondary-foreground: oklch(0.17 0.008 250);
@@ -66,8 +72,8 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.87 0.006 82);
   --input: oklch(0.87 0.006 82);
-  --ring: oklch(0.537 0.210 14.8);
-  --chart-1: oklch(0.537 0.210 14.8);
+  --ring: oklch(0.58 0.13 238.7);
+  --chart-1: oklch(0.58 0.13 238.7);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
@@ -75,12 +81,12 @@
   --radius: 0.5rem;
   --sidebar: oklch(0.16 0.012 264);           /* deep navy charcoal */
   --sidebar-foreground: oklch(0.92 0.006 76); /* warm off-white */
-  --sidebar-primary: oklch(0.537 0.210 14.8);
+  --sidebar-primary: oklch(0.58 0.13 238.7);
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.21 0.012 264);    /* slightly lighter for inputs */
   --sidebar-accent-foreground: oklch(0.92 0.006 76);
   --sidebar-border: oklch(0.27 0.012 264);
-  --sidebar-ring: oklch(0.537 0.210 14.8);
+  --sidebar-ring: oklch(0.58 0.13 238.7);
 }
 
 .dark {
@@ -90,7 +96,8 @@
   --card-foreground: oklch(0.92 0.006 76);
   --popover: oklch(0.21 0.012 264);
   --popover-foreground: oklch(0.92 0.006 76);
-  --primary: oklch(0.537 0.210 14.8);
+  --primary: oklch(0.58 0.13 238.7);
+  --primary-ink: oklch(0.515 0.116 238.8);
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.27 0.012 264);
   --secondary-foreground: oklch(0.92 0.006 76);
@@ -101,20 +108,20 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.537 0.210 14.8);
-  --chart-1: oklch(0.537 0.210 14.8);
+  --ring: oklch(0.58 0.13 238.7);
+  --chart-1: oklch(0.58 0.13 238.7);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.13 0.012 264);
   --sidebar-foreground: oklch(0.92 0.006 76);
-  --sidebar-primary: oklch(0.537 0.210 14.8);
+  --sidebar-primary: oklch(0.58 0.13 238.7);
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.20 0.012 264);
   --sidebar-accent-foreground: oklch(0.92 0.006 76);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.537 0.210 14.8);
+  --sidebar-ring: oklch(0.58 0.13 238.7);
 }
 
 @layer base {

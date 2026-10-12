@@ -71,7 +71,7 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
           </>
         )}
         <span className="text-border" aria-hidden>|</span>
-        <span className="text-primary font-medium tabular-nums">
+        <span className="text-primary-ink font-medium tabular-nums">
           {article.date ? formatDate(article.date, locale, '2-digit') : t('article.undated')}
         </span>
       </div>
@@ -93,8 +93,8 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
             className={cn(
               'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
               filters.series === article.seriesId
-                ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                : 'text-muted-foreground bg-muted hover:bg-primary/15 hover:text-primary'
+                ? 'bg-primary/10 text-primary-ink hover:bg-primary/15'
+                : 'text-muted-foreground bg-muted hover:bg-primary/10 hover:text-primary-ink'
             )}
           >
             {seriesTitle(series)}
@@ -117,8 +117,8 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
             className={cn(
               'text-xs px-1.5 py-0 font-normal cursor-pointer transition-colors',
               filters.keywords.includes(kw)
-                ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                : 'hover:bg-primary/15 hover:text-primary'
+                ? 'bg-primary/10 text-primary-ink hover:bg-primary/15'
+                : 'hover:bg-primary/10 hover:text-primary-ink'
             )}
           >
             {kw}
