@@ -58,11 +58,13 @@
   --popover-foreground: oklch(0.17 0.008 250);
   /* Unifr corporate design manual, p. 14-15. Sky blue of the Faculty of
      Humanities (#0083BE) for fills, bars and rules, with black text on it
-     (the university's main colour). Accented text in midnight blue (#0A3859),
+     (the university's main colour). Accented text in midnight blue (#071D49),
      the university's secondary colour, which the manual allows with faculty
-     colours; faculty colours themselves are never darkened. */
+     colours; faculty colours themselves are never darkened. Midnight blue is
+     Pantone 2768 C: the manual prints RGB 10/56/89, which matches neither its
+     CMYK, its Pantone nor its swatch. */
   --primary: oklch(0.58 0.13 238.7);
-  --primary-ink: oklch(0.329 0.075 245.4);
+  --primary-ink: oklch(0.245 0.087 262);
   --primary-foreground: oklch(0 0 0);
   --secondary: oklch(0.93 0.006 82);
   --secondary-foreground: oklch(0.17 0.008 250);
@@ -81,13 +83,13 @@
   --chart-5: oklch(0.269 0 0);
   --radius: 0.5rem;
   /* Midnight blue, the university's secondary colour (manual p. 15). */
-  --sidebar: oklch(0.329 0.075 245.4);           /* #0A3859 */
+  --sidebar: oklch(0.245 0.087 262);                /* #071D49 */
   --sidebar-foreground: oklch(0.92 0.006 76); /* warm off-white */
   --sidebar-primary: oklch(0.58 0.13 238.7);
   --sidebar-primary-foreground: oklch(0 0 0);
-  --sidebar-accent: oklch(0.38 0.075 245.4);   /* slightly lighter for inputs */
+  --sidebar-accent: oklch(0.295 0.087 262);    /* slightly lighter for inputs */
   --sidebar-accent-foreground: oklch(0.92 0.006 76);
-  --sidebar-border: oklch(0.44 0.07 245.4);
+  --sidebar-border: oklch(0.355 0.087 262);
   --sidebar-ring: oklch(0.58 0.13 238.7);
 }
 
