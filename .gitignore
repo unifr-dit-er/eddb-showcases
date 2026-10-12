@@ -1,0 +1,19 @@
+# Dependencies, installed once at the root for all workspaces
+node_modules/
+
+# Build output
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Secrets: local tokens and Quadlet files filled on the VM
+.env.local
+.env*.local
+*.container
+
+# Misc
+.DS_Store
+*.pem
+npm-debug.log*

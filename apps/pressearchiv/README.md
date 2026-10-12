@@ -36,8 +36,11 @@ Routes : `/api/articles` (liste filtrée), `/api/articles/<id>` (notice),
 
 ### Installation
 
+L'application fait partie du monorepo `eddb-showcases` : les dépendances
+s'installent à sa racine (voir son `README.md`).
+
 ```bash
-npm install
+npm ci            # à la racine du monorepo
 ```
 
 ### Variables d'environnement
@@ -53,7 +56,7 @@ NOCODB_API_TOKEN=your_token_here
 ### Lancer le serveur de développement
 
 ```bash
-npm run dev
+npm run dev --workspace=apps/pressearchiv   # depuis la racine
 ```
 
 L'application est accessible sur [http://localhost:3000](http://localhost:3000).

@@ -8,16 +8,19 @@
 ## 1. Cloner le dépôt
 
 ```bash
-git clone <url-du-repo>
-cd eddb-pressearchiv
+git clone git@github.com:unifr-dit-er/eddb-showcases.git
+cd eddb-showcases
 ```
+
+L'application vit dans `apps/pressearchiv/` du monorepo ; les commandes
+ci-dessous se lancent depuis la racine du dépôt.
 
 ## 2. Créer le fichier Quadlet
 
 Copier le template et l'adapter :
 
 ```bash
-cp eddb-pressearchiv.container.example eddb-pressearchiv.container
+cp apps/pressearchiv/eddb-pressearchiv.container.example eddb-pressearchiv.container
 ```
 
 Puis éditer `eddb-pressearchiv.container` :
@@ -35,7 +38,9 @@ cp eddb-pressearchiv.container /home/podman/.config/containers/systemd/
 ## 4. Builder l'image
 
 ```bash
-podman build -t eddb-pressearchiv:latest .
+podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
+# Sous un sous-chemin d'eddb.unifr.ch :
+# podman build -f apps/pressearchiv/Dockerfile --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv -t eddb-pressearchiv:latest .
 ```
 
 ## 5. Démarrer le service
@@ -55,7 +60,9 @@ podman logs -f eddb-pressearchiv
 systemctl --user status eddb-pressearchiv.service
 
 # Redémarrer après un rebuild
-podman build -t eddb-pressearchiv:latest .
+podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
+# Sous un sous-chemin d'eddb.unifr.ch :
+# podman build -f apps/pressearchiv/Dockerfile --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv -t eddb-pressearchiv:latest .
 systemctl --user restart eddb-pressearchiv.service
 ```
 

@@ -1,0 +1,22 @@
+{
+  "name": "eddb-showcases",
+  "private": true,
+  "description": "Public showcases of the EDDB databases: shared kit and one application per showcase",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run lint && npm run typecheck && npm run test"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}

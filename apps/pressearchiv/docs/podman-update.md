@@ -8,8 +8,11 @@ git pull
 
 ## 2. Rebuilder l'image
 
+Depuis la racine du monorepo (`eddb-showcases`) ; ajouter
+`--build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv` sous un sous-chemin.
+
 ```bash
-podman build -t eddb-pressearchiv:latest .
+podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
 ```
 
 ## 3. Redémarrer le service
