@@ -1,9 +1,9 @@
 'use client'
 
-import AboutDialog from '@/components/AboutDialog'
-import DecisionList from '@/components/DecisionList'
-import DecisionPanel from '@/components/DecisionPanel'
-import FilterSidebar from '@/components/FilterSidebar'
+import { AboutDialog } from '@/components/AboutDialog'
+import { ArticleList } from '@/components/ArticleList'
+import { ArticlePanel } from '@/components/ArticlePanel'
+import { FilterSidebar } from '@/components/FilterSidebar'
 import LanguageSelector from '@/components/LanguageSelector'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
@@ -16,22 +16,41 @@ import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { ChevronRight, Menu } from 'lucide-react'
 
-const SidebarContent = () => (
-  <>
-    <div className="bg-white px-4 py-4 shrink-0">
-      <Image src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/unifr.png`} alt="Université de Fribourg" width={340} height={84} className="h-10 w-auto object-contain" loading="eager" priority />
-    </div>
-    <div className="px-4 py-3 shrink-0">
-      <span className="text-lg font-bold tracking-tight text-sidebar-foreground">Datacant</span>
-    </div>
-    <div className="h-px bg-sidebar-border/60 shrink-0" />
-    <ScrollArea className="flex-1 min-h-0">
-      <FilterSidebar />
-    </ScrollArea>
-  </>
-)
+// Masthead in the newspaper manner: serif title between two rules.
+const SidebarContent = () => {
+  const { t } = useLanguage()
+  return (
+    <>
+      <div className="bg-white px-4 py-4 shrink-0">
+        <Image
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/unifr.png`}
+          alt="Université de Fribourg"
+          width={340}
+          height={84}
+          className="h-10 w-auto object-contain"
+          loading="eager"
+          priority
+        />
+      </div>
+      <div className="px-4 pt-4 pb-3 shrink-0">
+        <div className="border-y-2 border-sidebar-foreground/70 py-2">
+          <span className="block font-serif text-[1.75rem] font-semibold leading-none tracking-tight text-sidebar-foreground">
+            Pressearchiv
+          </span>
+        </div>
+        <p className="mt-1.5 text-[10px] tracking-[0.2em] uppercase text-sidebar-foreground/50">
+          {t('sidebar.subtitle')}
+        </p>
+      </div>
+      <div className="h-px bg-sidebar-border/60 shrink-0" />
+      <ScrollArea className="flex-1 min-h-0">
+        <FilterSidebar />
+      </ScrollArea>
+    </>
+  )
+}
 
-const HomeContent = () => {
+export const HomeContent = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -40,16 +59,17 @@ const HomeContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
-    document.title = 'Datacant'
+    document.title = 'Pressearchiv'
+    document.documentElement.lang = locale
   }, [locale])
 
-  const decisionId = searchParams.get('decision')
+  const articleId = searchParams.get('article')
 
   const closePanel = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString())
-    params.delete('decision')
+    params.delete('article')
     const qs = params.toString()
-    router.push(qs ? `${pathname}?${qs}` : pathname)
+    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
   }, [searchParams, router, pathname])
 
   return (
@@ -61,8 +81,14 @@ const HomeContent = () => {
 
       {/* Sidebar — mobile/tablet drawer */}
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="w-80 p-0 bg-sidebar text-sidebar-foreground flex flex-col gap-0 lg:hidden" showCloseButton={false}>
-          <VisuallyHidden><SheetTitle>Filtres</SheetTitle></VisuallyHidden>
+        <SheetContent
+          side="left"
+          className="w-80 p-0 bg-sidebar text-sidebar-foreground flex flex-col gap-0 lg:hidden"
+          showCloseButton={false}
+        >
+          <VisuallyHidden>
+            <SheetTitle>{t('sidebar.open')}</SheetTitle>
+          </VisuallyHidden>
           <SidebarContent />
         </SheetContent>
       </Sheet>
@@ -73,13 +99,16 @@ const HomeContent = () => {
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden shrink-0 text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Ouvrir les filtres"
+              aria-label={t('sidebar.open')}
             >
               <Menu className="h-5 w-5" />
             </button>
             <h1 className="text-sm lg:text-base font-semibold text-foreground leading-snug truncate">
               {t('header.title')}
             </h1>
+            <span className="hidden sm:inline shrink-0 text-[10px] tracking-[0.15em] uppercase font-semibold text-primary border border-primary/40 rounded px-1.5 py-0.5">
+              {t('header.prototype')}
+            </span>
             <div className="w-px h-4 bg-border shrink-0" />
             <AboutDialog />
           </div>
@@ -102,7 +131,7 @@ const HomeContent = () => {
         </header>
 
         <div className="flex-1 overflow-y-auto">
-          <DecisionList />
+          <ArticleList />
         </div>
 
         <footer className="shrink-0 border-t border-border px-4 lg:px-6 py-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 [&_a]:transition-colors">
@@ -118,15 +147,17 @@ const HomeContent = () => {
           </p>
           <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-muted-foreground/60">
             {t('footer.eddb')}{' '}
-            <a href="https://www.unifr.ch/it/fr/eddb.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">EDDB</a>
-            {' '}{t('footer.eddb.of')}{' '}
-            <a href="https://www.unifr.ch/it/fr/enseignement-et-recherche.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">DIT-ER</a>
+            <a href="https://www.unifr.ch/it/fr/eddb.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+              EDDB
+            </a>{' '}
+            {t('footer.eddb.of')}{' '}
+            <a href="https://www.unifr.ch/it/fr/enseignement-et-recherche.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+              DIT-ER
+            </a>
           </p>
         </footer>
       </main>
-      <DecisionPanel decisionId={decisionId} onClose={closePanel} />
+      <ArticlePanel articleId={articleId} onClose={closePanel} />
     </div>
   )
 }
-
-export default HomeContent

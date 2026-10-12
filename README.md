@@ -1,6 +1,12 @@
-# Datacant — Jurisprudence cantonale en matière de protection des données
+# Pressearchiv — Archives de presse de l'Institut de plurilinguisme
 
-Dashboard de jurisprudence en droit de la protection des données, alimenté par NocoDB.
+Vitrine publique des archives de presse sur l'enseignement des langues et la
+politique linguistique en Suisse (articles de presse et littérature grise
+depuis 2014), alimentée par NocoDB (EDDB). Prototype.
+
+Construite sur le modèle de la vitrine datacant (mêmes technologies, même
+charte), dont elle reprend la structure : filtres dans la barre latérale,
+liste de fiches, panneau de détail, adresse partageable.
 
 ## Stack
 
@@ -8,18 +14,29 @@ Dashboard de jurisprudence en droit de la protection des données, alimenté par
 - Tailwind CSS + shadcn/ui
 - TanStack Query
 
+## Données
+
+La vitrine ne lit que la base NocoDB **Pressearchiv Public**, copie de la
+base complète sans les textes intégraux (droits d'auteur). Le serveur charge
+la base en mémoire (environ 4 000 notices, rechargées toutes les heures), ne
+garde que les notices `ok_for_public = YES` et les champs de la liste
+blanche (`src/lib/archive-config.ts`), puis filtre, compte et pagine pour le
+navigateur. Ni le texte intégral ni les PDF ne sont exposés.
+
+Routes : `/api/articles` (liste filtrée), `/api/articles/<id>` (notice),
+`/api/facets` (collections, sources, mots-clés, langues, années).
+
 ## Développement
 
 ### Prérequis
 
 - Node.js 22+
-- Accès à l'instance NocoDB
+- Un jeton NocoDB lisant la base *Pressearchiv Public*, ou un export JSON
+  de cette base
 
 ### Installation
 
 ```bash
-git clone <url-du-repo>
-cd eddb-datacant
 npm install
 ```
 
@@ -29,6 +46,8 @@ Créer un fichier `.env.local` à la racine :
 
 ```env
 NOCODB_API_TOKEN=your_token_here
+# ou, en développement seulement, un export local de la base publique :
+# NOCODB_FIXTURE_PATH=/chemin/vers/export.json
 ```
 
 > `NEXT_PUBLIC_NOCODB_API_URL` est déjà défini dans `.env` et versionné dans le repo.
@@ -40,6 +59,12 @@ npm run dev
 ```
 
 L'application est accessible sur [http://localhost:3000](http://localhost:3000).
+
+### Tests
+
+```bash
+npm test
+```
 
 ## Production
 

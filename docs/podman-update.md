@@ -9,21 +9,21 @@ git pull
 ## 2. Rebuilder l'image
 
 ```bash
-podman build -t eddb-datacant:latest .
+podman build -t eddb-pressearchiv:latest .
 ```
 
 ## 3. Redémarrer le service
 
 ```bash
-systemctl --user restart eddb-datacant.service
+systemctl --user restart eddb-pressearchiv.service
 ```
 
 ## Vérification
 
 ```bash
 # Vérifier que le service tourne
-systemctl --user status eddb-datacant.service
+systemctl --user status eddb-pressearchiv.service
 
 # Consulter les logs
-podman logs -f eddb-datacant
+podman logs -f eddb-pressearchiv
 ```

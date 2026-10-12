@@ -35,7 +35,7 @@ yarn-error.log*
 .env*.local
 
 # Quadlet container file — contains secrets and VM-specific config, use .container.example as template
-eddb-datacant.container
+eddb-pressearchiv.container
 
 # vercel
 .vercel

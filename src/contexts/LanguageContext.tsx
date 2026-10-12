@@ -8,20 +8,23 @@ import {
   type ReactNode,
 } from 'react'
 import {
+  type Labels,
   type Locale,
-  type LangSuffix,
   type Translations,
   DEFAULT_LOCALE,
   LOCALE_STORAGE_KEY,
+  getLabels,
   getTranslations,
-  getLangSuffix,
 } from '@/i18n'
+import type { Series } from '@/types/archive'
 
 interface LanguageContextValue {
   locale: Locale
   setLocale: (locale: Locale) => void
   t: (key: keyof Translations) => string
-  langSuffix: LangSuffix
+  // Label of a data value (record type, language code), or the value itself.
+  label: (kind: keyof Labels, value: string) => string
+  seriesTitle: (series: Pick<Series, 'titleDE' | 'titleFR'>) => string
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
@@ -42,10 +45,20 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     (key: keyof Translations) => getTranslations(locale)[key],
     [locale]
   )
-  const langSuffix = getLangSuffix(locale)
+
+  const label = useCallback(
+    (kind: keyof Labels, value: string) => getLabels(locale)[kind][value] ?? value,
+    [locale]
+  )
+
+  const seriesTitle = useCallback(
+    (series: Pick<Series, 'titleDE' | 'titleFR'>) =>
+      locale === 'de' ? series.titleDE : series.titleFR,
+    [locale]
+  )
 
   return (
-    <LanguageContext.Provider value={{ locale, setLocale, t, langSuffix }}>
+    <LanguageContext.Provider value={{ locale, setLocale, t, label, seriesTitle }}>
       {children}
     </LanguageContext.Provider>
   )

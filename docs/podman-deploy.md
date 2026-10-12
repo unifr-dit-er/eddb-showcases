@@ -9,7 +9,7 @@
 
 ```bash
 git clone <url-du-repo>
-cd eddb-datacant
+cd eddb-pressearchiv
 ```
 
 ## 2. Créer le fichier Quadlet
@@ -17,10 +17,10 @@ cd eddb-datacant
 Copier le template et l'adapter :
 
 ```bash
-cp eddb-datacant.container.example eddb-datacant.container
+cp eddb-pressearchiv.container.example eddb-pressearchiv.container
 ```
 
-Puis éditer `eddb-datacant.container` :
+Puis éditer `eddb-pressearchiv.container` :
 - Remplacer `your_token_here` par le vrai token NocoDB
 - Ajuster `PublishPort` si nécessaire (port externe:3000)
 
@@ -29,33 +29,33 @@ Puis éditer `eddb-datacant.container` :
 ## 3. Déployer le fichier Quadlet
 
 ```bash
-cp eddb-datacant.container /home/podman/.config/containers/systemd/
+cp eddb-pressearchiv.container /home/podman/.config/containers/systemd/
 ```
 
 ## 4. Builder l'image
 
 ```bash
-podman build -t eddb-datacant:latest .
+podman build -t eddb-pressearchiv:latest .
 ```
 
 ## 5. Démarrer le service
 
 ```bash
 systemctl --user daemon-reload
-systemctl --user start eddb-datacant.service
+systemctl --user start eddb-pressearchiv.service
 ```
 
 ## Commandes utiles
 
 ```bash
 # Voir les logs
-podman logs -f eddb-datacant
+podman logs -f eddb-pressearchiv
 
 # Statut du service
-systemctl --user status eddb-datacant.service
+systemctl --user status eddb-pressearchiv.service
 
 # Redémarrer après un rebuild
-podman build -t eddb-datacant:latest .
-systemctl --user restart eddb-datacant.service
+podman build -t eddb-pressearchiv:latest .
+systemctl --user restart eddb-pressearchiv.service
 ```
 

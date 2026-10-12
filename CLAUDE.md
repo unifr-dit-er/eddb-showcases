@@ -1,7 +1,9 @@
 # Project Overview
 
-This is a read-only dashboard/SaaS web app that displays data fetched from a NocoDB API.
-There is no authentication and no database — all data comes from NocoDB.
+This is a read-only public showcase of the press archive of the Institute of
+Multilingualism (Pressearchiv), with data fetched from a NocoDB API. It follows
+the datacant showcase (same stack, same look). There is no authentication and
+no database — all data comes from NocoDB.
 
 # Tech Stack
 
@@ -15,11 +17,18 @@ There is no authentication and no database — all data comes from NocoDB.
 ```
 NEXT_PUBLIC_NOCODB_API_URL=   # NocoDB base URL
 NOCODB_API_TOKEN=              # NocoDB API token (server-side only)
+NOCODB_FIXTURE_PATH=           # Development only: JSON export of the public base
 ```
 
 # Architecture
 
-- All NocoDB requests are proxied through `/app/api/nocodb/` to keep the API token server-side
+- Only the NocoDB base **Pressearchiv Public** is read (copy without the copyrighted
+  full texts). Never read the full "Pressearchiv" base, never expose `full_text`,
+  `pdf_filename` or `pdf_path`.
+- Unlike datacant, there is no generic proxy: `src/lib/archive-store.ts` loads the
+  public records (whitelisted fields, `ok_for_public = YES`) into memory, refreshed
+  every hour, and the route handlers in `/app/api/` (`articles`, `articles/[id]`,
+  `facets`) filter, count and paginate them. The API token stays server-side.
 - All data fetching on the client uses **TanStack Query** (`useQuery`, `useMutation`)
 - No direct `fetch` calls in components or pages — always go through a custom hook
 - No Server Components for data fetching — use Client Components with TanStack Query
@@ -30,7 +39,8 @@ NOCODB_API_TOKEN=              # NocoDB API token (server-side only)
 src/
 ├── app/
 │   ├── api/
-│   │   └── nocodb/        # Proxy route handlers to NocoDB
+│   │   ├── articles/      # Filtered list and single record
+│   │   └── facets/        # Counts for the filters
 │   ├── layout.tsx
 │   └── page.tsx
 ├── components/
@@ -38,7 +48,9 @@ src/
 │   └── ...                # App-specific components
 ├── hooks/                 # Custom hooks, all prefixed with "use"
 ├── lib/
-│   └── nocodb.ts          # NocoDB API client (used in route handlers only)
+│   ├── nocodb.ts          # NocoDB API client (used in route handlers only)
+│   ├── archive-*.ts       # Whitelist, mapping, in-memory store, queries (server)
+│   └── format.ts, text.ts # Shared helpers
 └── types/                 # Shared TypeScript types and interfaces
 ```
 
@@ -56,7 +68,7 @@ src/
 - No database or ORM (Prisma, Drizzle, etc.)
 - No global state manager (Zustand, Jotai, Redux, etc.) — TanStack Query handles server state
 - No Server Components for data fetching
-- No direct `fetch` calls outside of `/app/api/` route handlers
+- No direct `fetch` calls outside of `/app/api/` route handlers and `src/lib/archive-store.ts`
 - No `use client` in page-level components — keep pages as thin wrappers
 
 # shadcn/ui

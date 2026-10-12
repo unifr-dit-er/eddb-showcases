@@ -3,9 +3,9 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { Info } from 'lucide-react'
+import { Info, Lock } from 'lucide-react'
 
-const AboutDialog = () => {
+export const AboutDialog = () => {
   const { t } = useLanguage()
 
   return (
@@ -21,10 +21,15 @@ const AboutDialog = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>{t('header.title')}</DialogTitle>
+          <DialogTitle className="font-serif text-2xl">{t('header.title')}</DialogTitle>
         </DialogHeader>
 
         <DialogDescription className="text-sm text-muted-foreground leading-relaxed">{t('about.content')}</DialogDescription>
+
+        <p className="flex gap-2.5 text-sm text-muted-foreground leading-relaxed">
+          <Lock className="h-4 w-4 mt-0.5 shrink-0" aria-hidden />
+          {t('about.fullText')}
+        </p>
 
         <Separator />
 
@@ -47,35 +52,7 @@ const AboutDialog = () => {
             <a href="https://www.unifr.ch/it/fr/enseignement-et-recherche.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">DIT-ER</a>
           </p>
         </div>
-
-        <Separator />
-
-        <div className="flex items-center gap-3 text-[11px] font-semibold text-muted-foreground/60">
-          <a
-            href="https://creativecommons.org/publicdomain/zero/1.0/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-            title="CC0 1.0 Universal"
-          >
-            <span className="border border-current rounded px-1 py-px tracking-normal font-bold text-[10px]">CC0</span>
-            <span className="tracking-[0.15em] uppercase">PDF</span>
-          </a>
-          <span className="text-muted-foreground/30">·</span>
-          <a
-            href="https://creativecommons.org/licenses/by-nc/4.0/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-            title="CC BY-NC 4.0"
-          >
-            <span className="border border-current rounded px-1 py-px tracking-normal font-bold text-[10px]">CC BY-NC</span>
-            <span className="tracking-[0.15em] uppercase">{t('footer.license.content')}</span>
-          </a>
-        </div>
       </DialogContent>
     </Dialog>
   )
 }
-
-export default AboutDialog
