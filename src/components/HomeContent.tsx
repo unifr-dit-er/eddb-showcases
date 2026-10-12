@@ -6,6 +6,7 @@ import { ArticlePanel } from '@/components/ArticlePanel'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import LanguageSelector from '@/components/LanguageSelector'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { SiteFooter } from '@/components/SiteFooter'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -14,7 +15,7 @@ import { useFontSize } from '@/contexts/FontSizeContext'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
-import { ChevronRight, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 
 // Masthead in the newspaper manner: serif title between two rules.
 const SidebarContent = () => {
@@ -134,28 +135,7 @@ export const HomeContent = () => {
           <ArticleList />
         </div>
 
-        <footer className="shrink-0 border-t border-border px-4 lg:px-6 py-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 [&_a]:transition-colors">
-          <p className="flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase font-semibold text-muted-foreground/60">
-            <span className="inline-block h-2.5 w-2.5 bg-primary shrink-0" />
-            <a href={t('footer.faculty.url')} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-              {t('footer.faculty')}
-            </a>
-            <ChevronRight className="inline h-3 w-3 mx-1 opacity-50" />
-            <a href={t('footer.institute.url')} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-              {t('footer.institute')}
-            </a>
-          </p>
-          <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-muted-foreground/60">
-            {t('footer.eddb')}{' '}
-            <a href="https://www.unifr.ch/it/fr/eddb.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-              EDDB
-            </a>{' '}
-            {t('footer.eddb.of')}{' '}
-            <a href="https://www.unifr.ch/it/fr/enseignement-et-recherche.html" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-              DIT-ER
-            </a>
-          </p>
-        </footer>
+        <SiteFooter />
       </main>
       <ArticlePanel articleId={articleId} onClose={closePanel} />
     </div>
