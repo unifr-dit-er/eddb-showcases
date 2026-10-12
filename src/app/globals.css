@@ -56,13 +56,14 @@
   --card-foreground: oklch(0.17 0.008 250);
   --popover: oklch(0.99 0.003 82);
   --popover-foreground: oklch(0.17 0.008 250);
-  /* Sky blue of the Faculty of Humanities (Unifr corporate design manual,
-     p. 15: RGB 0/131/190, #0083BE) for fills, bars and rules. --primary-ink,
-     the same blue darkened by 15 % (#006FA2), carries text and the fills
-     under white text (WCAG AA contrast). */
+  /* Unifr corporate design manual, p. 14-15. Sky blue of the Faculty of
+     Humanities (#0083BE) for fills, bars and rules, with black text on it
+     (the university's main colour). Accented text in midnight blue (#0A3859),
+     the university's secondary colour, which the manual allows with faculty
+     colours; faculty colours themselves are never darkened. */
   --primary: oklch(0.58 0.13 238.7);
-  --primary-ink: oklch(0.515 0.116 238.8);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary-ink: oklch(0.329 0.075 245.4);
+  --primary-foreground: oklch(0 0 0);
   --secondary: oklch(0.93 0.006 82);
   --secondary-foreground: oklch(0.17 0.008 250);
   --muted: oklch(0.93 0.006 82);
@@ -82,7 +83,7 @@
   --sidebar: oklch(0.16 0.012 264);           /* deep navy charcoal */
   --sidebar-foreground: oklch(0.92 0.006 76); /* warm off-white */
   --sidebar-primary: oklch(0.58 0.13 238.7);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary-foreground: oklch(0 0 0);
   --sidebar-accent: oklch(0.21 0.012 264);    /* slightly lighter for inputs */
   --sidebar-accent-foreground: oklch(0.92 0.006 76);
   --sidebar-border: oklch(0.27 0.012 264);
@@ -97,8 +98,8 @@
   --popover: oklch(0.21 0.012 264);
   --popover-foreground: oklch(0.92 0.006 76);
   --primary: oklch(0.58 0.13 238.7);
-  --primary-ink: oklch(0.515 0.116 238.8);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary-ink: oklch(0.58 0.13 238.7);
+  --primary-foreground: oklch(0 0 0);
   --secondary: oklch(0.27 0.012 264);
   --secondary-foreground: oklch(0.92 0.006 76);
   --muted: oklch(0.27 0.012 264);
@@ -117,7 +118,7 @@
   --sidebar: oklch(0.13 0.012 264);
   --sidebar-foreground: oklch(0.92 0.006 76);
   --sidebar-primary: oklch(0.58 0.13 238.7);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary-foreground: oklch(0 0 0);
   --sidebar-accent: oklch(0.20 0.012 264);
   --sidebar-accent-foreground: oklch(0.92 0.006 76);
   --sidebar-border: oklch(1 0 0 / 10%);

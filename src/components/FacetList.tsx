@@ -84,7 +84,7 @@ export const FacetList = ({
                   className={cn(
                     'w-full flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm leading-tight transition-colors',
                     isSelected
-                      ? 'bg-primary-ink text-primary-foreground'
+                      ? 'bg-primary text-primary-foreground'
                       : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
                   )}
                 >
