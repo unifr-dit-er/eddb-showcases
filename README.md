@@ -24,15 +24,18 @@ Rules:
 
 ## Development
 
-Node.js 22+. Dependencies are installed once, at the root:
+Node.js 22+ and **npm 11**: npm 10.9 fails to resolve this workspace
+(`Cannot read properties of null (reading 'edgesOut')`); only `npm ci` works
+with it, as in the Dockerfiles. Dependencies are installed once, at the
+root:
 
 ```bash
 npm ci
 ```
 
-> To add or update a dependency, use npm 11 (`npx npm@11 install …`): npm
-> 10.9 fails to resolve this workspace (`Cannot read properties of null
-> (reading 'edgesOut')`). `npm ci` works with both.
+Install scripts are reviewed in `allowScripts` (root `package.json`);
+`unrs-resolver` is denied, its native binding coming from an optional
+dependency.
 
 Each application reads its token from `apps/<showcase>/.env.local`
 (ignored by git), then:

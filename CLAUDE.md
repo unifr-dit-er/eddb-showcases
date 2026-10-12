@@ -30,9 +30,10 @@ the kit is checked against every showcase in the same commit.
 
 # Tooling
 
-- npm workspaces; install with `npm ci` at the root. Add or update
-  dependencies with npm 11 (`npx npm@11 install …`): npm 10.9 fails on this
-  workspace. `overrides` live in the root `package.json` only.
+- npm workspaces, **npm 11** (npm 10.9 fails to resolve this workspace;
+  `npm ci` still works with it, as in the Dockerfiles). Install with
+  `npm ci` at the root. `overrides` and `allowScripts` live in the root
+  `package.json` only.
 - `npm run check` (lint, typecheck, tests) and `npm run build` run every
   workspace.
 - Dockerfiles build from the repository root:
