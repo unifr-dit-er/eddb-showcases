@@ -1,0 +1,19 @@
+[Unit]
+Description=Eddb Pressearchiv Container
+
+[Container]
+Label=app=eddb-pressearchiv
+ContainerName=eddb-pressearchiv
+Image=localhost/eddb-pressearchiv:latest
+# Free port on the VM, to be chosen with the nginx configuration (svx-web-configs).
+PublishPort=127.0.0.1:PORT:3000
+# Token of the EDDB service account, which must read the "Pressearchiv Public"
+# base only (never the full "Pressearchiv" base).
+Environment=NOCODB_API_TOKEN=your_token_here
+
+[Service]
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=default.target
