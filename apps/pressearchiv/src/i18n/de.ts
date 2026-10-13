@@ -1,9 +1,9 @@
 import type { Labels, Translations } from './index'
 
 const translations: Translations = {
-  'header.title': 'Pressearchiv: Sprachenunterricht und Sprachenpolitik in der Schweiz',
+  'header.title': 'Presseartikel und graue Literatur zum Sprachenunterricht und zur Sprachenpolitik in der Schweiz',
   'header.prototype': 'Prototyp',
-  'sidebar.subtitle': 'Presse und Dokumente · seit 2014',
+  'sidebar.subtitle': 'Archiv der Presse · 2014-2025',
   'sidebar.search.label': 'Suche',
   'sidebar.search.placeholder': 'Titel, Autor:in, Schlagwort…',
   'sidebar.series.label': 'Serie',

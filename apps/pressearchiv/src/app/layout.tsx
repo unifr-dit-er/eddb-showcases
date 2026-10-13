@@ -41,7 +41,7 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   title: 'Pressearchiv — Institut de plurilinguisme',
   description:
-    "Archives de presse sur l'enseignement des langues et la politique linguistique en Suisse",
+    'Articles de presse et littérature grise sur l’enseignement des langues et la politique linguistique en Suisse',
 }
 
 export default function RootLayout({

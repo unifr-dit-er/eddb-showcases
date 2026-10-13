@@ -104,7 +104,7 @@ export const HomeContent = () => {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <h1 className="text-sm lg:text-base font-semibold text-foreground leading-snug truncate">
+            <h1 className="text-sm lg:text-base font-semibold text-foreground leading-snug line-clamp-2">
               {t('header.title')}
             </h1>
             <span className="hidden sm:inline shrink-0 text-[10px] tracking-[0.15em] uppercase font-semibold text-primary-ink border border-primary/40 rounded px-1.5 py-0.5">
