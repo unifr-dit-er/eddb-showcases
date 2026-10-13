@@ -1,68 +1,85 @@
 # Déploiement avec Podman + Quadlet
 
-## Prérequis
+En service depuis le 13.10.2026 sur **svx-web-eddb**, sous
+**https://eddb.unifr.ch/pressearchiv** (prototype), port local **8097**.
+Le bloc nginx (`location /pressearchiv`) et la table des ports vivent dans
+le dépôt `svx-web-configs`.
 
-- Podman installé sur la VM
-- Accès au répertoire `/home/podman/.config/containers/systemd/`
-
-## 1. Cloner le dépôt
-
-```bash
-git clone git@github.com:unifr-dit-er/eddb-showcases.git
-cd eddb-showcases
-```
-
-L'application vit dans `apps/pressearchiv/` du monorepo ; les commandes
-ci-dessous se lancent depuis la racine du dépôt.
-
-## 2. Créer le fichier Quadlet
-
-Copier le template et l'adapter :
+Toutes les commandes se lancent **en tant que `podman`**, le compte qui fait
+tourner les conteneurs :
 
 ```bash
-cp apps/pressearchiv/eddb-pressearchiv.container.example eddb-pressearchiv.container
+sudo machinectl shell --uid podman
 ```
 
-Puis éditer `eddb-pressearchiv.container` :
-- Remplacer `your_token_here` par le vrai token NocoDB
-- Ajuster `PublishPort` si nécessaire (port externe:3000)
-
-> Ce fichier contient des secrets — il est ignoré par git et ne doit jamais être commité.
-
-## 3. Déployer le fichier Quadlet
+## 1. Cloner le monorepo
 
 ```bash
-cp eddb-pressearchiv.container /home/podman/.config/containers/systemd/
+git clone https://github.com/unifr-dit-er/eddb-showcases.git ~/repos/eddb-showcases
+cd ~/repos/eddb-showcases
 ```
 
-## 4. Builder l'image
+L'application vit dans `apps/pressearchiv/` ; les commandes ci-dessous se
+lancent depuis la racine du dépôt.
+
+## 2. Construire l'image
+
+Le sous-chemin est fixé à la construction : `/pressearchiv` sous
+eddb.unifr.ch, rien pour un domaine propre.
 
 ```bash
-podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
-# Sous un sous-chemin d'eddb.unifr.ch :
-# podman build -f apps/pressearchiv/Dockerfile --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv -t eddb-pressearchiv:latest .
+podman build --ulimit nofile=4096:4096 \
+  -f apps/pressearchiv/Dockerfile \
+  --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv \
+  -t eddb-pressearchiv:latest .
 ```
 
-## 5. Démarrer le service
+`--ulimit` évite l'erreur `EMFILE` de npm au build tant que le compte
+`podman` de svx-web-eddb n'a pas de `containers.conf` (voir `docs/podman.md`
+de `svx-web-configs`).
+
+## 3. Créer le fichier Quadlet
+
+Partir du gabarit et y mettre le port et le jeton :
+
+```bash
+cp apps/pressearchiv/eddb-pressearchiv.container.example \
+  ~/.config/containers/systemd/eddb-pressearchiv.container
+chmod 600 ~/.config/containers/systemd/eddb-pressearchiv.container
+```
+
+Puis éditer le fichier :
+
+- `PublishPort=127.0.0.1:8097:3000`
+- `NOCODB_API_TOKEN` : jeton du compte de service des vitrines, qui ne lit
+  que la base *Pressearchiv Public* (jamais la base complète).
+
+> Ce fichier contient un secret : il reste sur la VM, jamais dans git.
+
+## 4. Démarrer le service
 
 ```bash
 systemctl --user daemon-reload
-systemctl --user start eddb-pressearchiv.service
+systemctl --user start eddb-pressearchiv
 ```
+
+`monitor.sh` surveille automatiquement tout `.container` présent dans le
+dossier de Quadlet.
+
+## 5. Vérifier
+
+```bash
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8097/pressearchiv   # 200
+curl -s http://127.0.0.1:8097/pressearchiv/api/facets | head -c 80            # "total":3952…
+```
+
+Puis, depuis l'extérieur, https://eddb.unifr.ch/pressearchiv.
 
 ## Commandes utiles
 
 ```bash
-# Voir les logs
 podman logs -f eddb-pressearchiv
-
-# Statut du service
-systemctl --user status eddb-pressearchiv.service
-
-# Redémarrer après un rebuild
-podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
-# Sous un sous-chemin d'eddb.unifr.ch :
-# podman build -f apps/pressearchiv/Dockerfile --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv -t eddb-pressearchiv:latest .
-systemctl --user restart eddb-pressearchiv.service
+systemctl --user status eddb-pressearchiv
 ```
 
+Mise à jour : [podman-update.md](podman-update.md).
