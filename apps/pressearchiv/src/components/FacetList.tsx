@@ -80,20 +80,27 @@ export const FacetList = ({
       >
         {visible.map((v) => {
           const isSelected = selected.includes(v.value)
+          // No result with the other filters: greyed out, unless selected
+          // (it must stay removable).
+          const isEmpty = v.count === 0 && !isSelected
           const inputId = `${id}-${v.value}`
           return (
             <li key={v.value} className={cn(columns === 2 && wide(v.value) && 'col-span-2')}>
               {multiple ? (
-                <div className="flex items-center gap-2.5 py-1">
+                <div className={cn('flex items-center gap-2.5 py-1', isEmpty && 'opacity-40')}>
                   <Checkbox
                     id={inputId}
                     checked={isSelected}
+                    disabled={isEmpty}
                     onCheckedChange={() => onToggle(v.value)}
                     className="border-sidebar-border/60"
                   />
                   <label
                     htmlFor={inputId}
-                    className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 cursor-pointer leading-tight"
+                    className={cn(
+                      'flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 leading-tight',
+                      isEmpty ? 'cursor-default' : 'cursor-pointer'
+                    )}
                   >
                     <span>{label(v.value)}</span>
                     <span className="text-[10px] text-sidebar-foreground/65 tabular-nums shrink-0">{v.count}</span>
@@ -103,11 +110,14 @@ export const FacetList = ({
                 <button
                   onClick={() => onToggle(v.value)}
                   aria-pressed={isSelected}
+                  disabled={isEmpty}
                   className={cn(
                     'w-full flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm leading-tight transition-colors',
                     isSelected
                       ? 'bg-primary text-primary-foreground'
-                      : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                      : isEmpty
+                        ? 'text-sidebar-foreground/80 opacity-40 cursor-default'
+                        : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
                   )}
                 >
                   <span className="truncate">{label(v.value)}</span>

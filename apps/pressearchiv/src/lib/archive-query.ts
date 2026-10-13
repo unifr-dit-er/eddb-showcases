@@ -155,18 +155,66 @@ export const queryArticles = (articles: Article[], filters: ArchiveFilters): Art
   }
 }
 
-export const computeFacets = (articles: Article[], series: Series[]): Facets => {
+// Counts of `values` in `articles`, in the order of `order` (zero kept):
+// short lists (series, types, languages) keep a stable order while filtering.
+const countInOrder = (order: string[], values: string[]): CountedValue[] => {
+  const counts = new Map<string, number>()
+  for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1)
+  return order.map((value) => ({ value, count: counts.get(value) ?? 0 }))
+}
+
+// Long lists (sources, keywords) keep only values present in the results,
+// most frequent first, plus the selected ones even when they fall to zero.
+const countPresent = (values: string[], selected: string[]): CountedValue[] => {
+  const counted = countBy(values)
+  const missing = selected.filter((s) => !counted.some((c) => c.value === s))
+  return [...counted, ...missing.map((value) => ({ value, count: 0 }))]
+}
+
+/**
+ * Counts for the filters, given the active ones. Each filter counts its
+ * values against every other active filter but not itself, so the user can
+ * still switch from one series, source or language to another; record
+ * types, combined with "or", likewise. Keywords, combined with "and",
+ * count against every filter, keywords included. The year range is the
+ * archive's, for a stable timeline axis.
+ */
+export const computeFacets = (
+  articles: Article[],
+  series: Series[],
+  filters: ArchiveFilters = DEFAULT_FILTERS
+): Facets => {
+  const without = (changes: Partial<ArchiveFilters>) => filterArticles(articles, { ...filters, ...changes })
+  const matching = filterArticles(articles, filters)
   const years = articles.map(yearOf).filter((y): y is number => y !== null)
+
+  const bySeries = without({ series: '' })
+  const byType = without({ types: [] })
+  const byLanguage = without({ language: '' })
+  const byJournal = without({ journal: '' })
+
   return {
-    total: articles.length,
+    total: matching.length,
     series: series.map((s) => ({
       ...s,
-      count: articles.filter((a) => a.seriesId === s.id).length,
+      count: bySeries.filter((a) => a.seriesId === s.id).length,
     })),
-    journals: countBy(articles.map((a) => a.journal)),
-    keywords: countBy(articles.flatMap((a) => a.keywords)),
-    languages: countBy(articles.flatMap((a) => a.languages)),
-    recordTypes: countBy(articles.map((a) => a.recordType)),
+    recordTypes: countInOrder(
+      countBy(articles.map((a) => a.recordType)).map((c) => c.value),
+      byType.map((a) => a.recordType)
+    ),
+    languages: countInOrder(
+      countBy(articles.flatMap((a) => a.languages)).map((c) => c.value),
+      byLanguage.flatMap((a) => a.languages)
+    ),
+    journals: countPresent(
+      byJournal.map((a) => a.journal),
+      filters.journal ? [filters.journal] : []
+    ),
+    keywords: countPresent(
+      matching.flatMap((a) => a.keywords),
+      filters.keywords
+    ),
     years: {
       min: years.length ? Math.min(...years) : 0,
       max: years.length ? Math.max(...years) : 0,

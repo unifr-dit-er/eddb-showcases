@@ -81,4 +81,34 @@ describe('computeFacets', () => {
     expect(f.keywords[0]).toEqual({ value: 'French', count: 2 })
     expect(f.years).toEqual({ min: 2016, max: 2018 })
   })
+
+  it('counts each filter against the others, not itself', () => {
+    const f = computeFacets(articles, allSeries, { ...DEFAULT_FILTERS, series: '1' })
+    expect(f.total).toBe(2)
+    // Series ignore their own filter: switching series stays possible.
+    expect(f.series.map((s) => s.count)).toEqual([2, 2])
+    // Types count within the series, in a stable order, zero kept.
+    expect(f.recordTypes).toEqual([
+      { value: 'Newspaper article', count: 1 },
+      { value: 'Report', count: 1 },
+    ])
+    expect(f.languages.find((l) => l.value === 'ita')).toEqual({ value: 'ita', count: 0 })
+    // Long lists keep only what is present.
+    expect(f.journals.map((j) => j.value)).toEqual(['Thurgauer Zeitung'])
+  })
+
+  it('counts keywords against every filter and keeps the selected ones', () => {
+    const f = computeFacets(articles, allSeries, { ...DEFAULT_FILTERS, keywords: ['Thurgau'] })
+    expect(f.total).toBe(1)
+    expect(f.keywords).toEqual([
+      { value: 'French', count: 1 },
+      { value: 'Thurgau', count: 1 },
+    ])
+    const none = computeFacets(articles, allSeries, { ...DEFAULT_FILTERS, keywords: ['Thurgau'], language: 'ita' })
+    expect(none.keywords).toEqual([{ value: 'Thurgau', count: 0 }])
+  })
+
+  it('keeps the year range of the whole archive', () => {
+    expect(computeFacets(articles, allSeries, { ...DEFAULT_FILTERS, series: '2' }).years).toEqual({ min: 2016, max: 2018 })
+  })
 })

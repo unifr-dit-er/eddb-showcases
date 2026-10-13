@@ -59,12 +59,10 @@ export const FilterSidebar = () => {
     return list
   }, [facets])
 
+  // Server order (frequency in the whole archive): stable while filtering.
   const languages = useMemo(
-    () =>
-      (facets?.languages ?? [])
-        .map((l) => ({ ...l, name: label('language', l.value) }))
-        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, locale)),
-    [facets, label, locale]
+    () => (facets?.languages ?? []).map((l) => ({ ...l, name: label('language', l.value) })),
+    [facets, label]
   )
 
   // The series as they are in the base, the two Swiss-wide ones first.
@@ -209,7 +207,7 @@ export const FilterSidebar = () => {
           <SelectContent>
             <SelectItem value={ALL}>{t('sidebar.language.all')}</SelectItem>
             {languages.map((l) => (
-              <SelectItem key={l.value} value={l.value}>
+              <SelectItem key={l.value} value={l.value} disabled={l.count === 0 && l.value !== filters.language}>
                 {l.name} ({l.count})
               </SelectItem>
             ))}
