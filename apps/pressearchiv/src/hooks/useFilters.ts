@@ -9,7 +9,7 @@ import { useCallback, useMemo } from 'react'
 const PARAM: Record<keyof ArchiveFilters, string> = {
   q: 'q',
   series: 'series',
-  collection: 'collection',
+  types: 'type',
   journal: 'journal',
   keywords: 'keyword',
   language: 'lang',
@@ -19,11 +19,12 @@ const PARAM: Record<keyof ArchiveFilters, string> = {
   sortDir: 'sort',
 }
 
-export type ResettableFilter = 'q' | 'collections' | 'period' | 'journal' | 'language' | 'keywords'
+export type ResettableFilter = 'q' | 'series' | 'types' | 'period' | 'journal' | 'language' | 'keywords'
 
 const RESET_PARAMS: Record<ResettableFilter, string[]> = {
   q: ['q'],
-  collections: ['series', 'collection'],
+  series: ['series'],
+  types: ['type'],
   period: ['from', 'to'],
   journal: ['journal'],
   language: ['lang'],
@@ -46,11 +47,10 @@ export const useFilters = () => {
   const pathname = usePathname()
 
   const filters: ArchiveFilters = useMemo(() => {
-    const collection = searchParams.get('collection')
     return {
       q: searchParams.get('q') ?? '',
       series: searchParams.get('series') ?? '',
-      collection: collection === 'press' || collection === 'documents' ? collection : '',
+      types: searchParams.getAll('type'),
       journal: searchParams.get('journal') ?? '',
       keywords: searchParams.getAll('keyword'),
       language: searchParams.get('lang') ?? '',
@@ -69,7 +69,7 @@ export const useFilters = () => {
     [router, pathname]
   )
 
-  // Several filters at once (e.g. a series and its collection, a period).
+  // Several filters at once (e.g. both bounds of a period).
   const setFilters = useCallback(
     (changes: Partial<ArchiveFilters>) => {
       const params = new URLSearchParams(searchParams.toString())
@@ -95,16 +95,17 @@ export const useFilters = () => {
     [setFilters]
   )
 
-  const toggleKeyword = useCallback(
-    (keyword: string) =>
+  // Adds or removes one value of a multi-valued filter.
+  const toggleValue = useCallback(
+    (key: 'keywords' | 'types', value: string) =>
       setFilter(
-        'keywords',
-        filters.keywords.includes(keyword)
-          ? filters.keywords.filter((k) => k !== keyword)
-          : [...filters.keywords, keyword]
+        key,
+        filters[key].includes(value) ? filters[key].filter((v) => v !== value) : [...filters[key], value]
       ),
-    [filters.keywords, setFilter]
+    [filters, setFilter]
   )
+  const toggleKeyword = useCallback((keyword: string) => toggleValue('keywords', keyword), [toggleValue])
+  const toggleType = useCallback((type: string) => toggleValue('types', type), [toggleValue])
 
   const resetFilter = useCallback(
     (key: ResettableFilter) => {
@@ -129,7 +130,7 @@ export const useFilters = () => {
   const hasActiveFilters = Boolean(
     filters.q ||
       filters.series ||
-      filters.collection ||
+      filters.types.length ||
       filters.journal ||
       filters.language ||
       filters.keywords.length ||
@@ -137,5 +138,5 @@ export const useFilters = () => {
       filters.to
   )
 
-  return { filters, setFilter, setFilters, toggleKeyword, resetFilter, resetFilters, hasActiveFilters }
+  return { filters, setFilter, setFilters, toggleKeyword, toggleType, resetFilter, resetFilters, hasActiveFilters }
 }

@@ -20,16 +20,12 @@ export type RecordType =
   | 'Presentation'
   | 'publication'
 
-// Each series held a press and a documents sub-collection in the original
-// base; the sub-series were dropped in NocoDB and are derived again from the
-// record type.
-export type Collection = 'press' | 'documents'
-
 export interface Series {
   id: string
   titleDE: string
   titleFR: string
-  // "CH: Presse" and "CH: Graue Literatur" cover the whole of Switzerland.
+  // "CH: Presse" and "CH: Graue Literatur" cover the whole of Switzerland;
+  // they come first in the series filter.
   national: boolean
 }
 
@@ -46,7 +42,6 @@ export interface ArticleSummary {
   journal: string
   authors: Author[]
   recordType: string
-  collection: Collection
   languages: string[]
   seriesId: string
   keywords: string[]
@@ -65,8 +60,7 @@ export interface CountedValue {
 }
 
 export interface SeriesFacet extends Series {
-  press: number
-  documents: number
+  count: number
 }
 
 export interface Facets {
@@ -98,7 +92,8 @@ export interface ArticlesPage {
 export interface ArchiveFilters {
   q: string
   series: string
-  collection: '' | Collection
+  // record_level values; a record matches if it has any of them.
+  types: string[]
   journal: string
   keywords: string[]
   language: string
@@ -111,7 +106,7 @@ export interface ArchiveFilters {
 export const DEFAULT_FILTERS: ArchiveFilters = {
   q: '',
   series: '',
-  collection: '',
+  types: [],
   journal: '',
   keywords: [],
   language: '',

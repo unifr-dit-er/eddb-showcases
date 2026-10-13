@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { collectionOf, isPublic, mapArticle, mapSeries, parseDate, splitMulti } from '../archive-mappers'
+import { isPublic, mapArticle, mapSeries, parseDate, splitMulti } from '../archive-mappers'
 
 describe('splitMulti', () => {
   it('splits " | " separated values and drops blanks', () => {
@@ -17,15 +17,6 @@ describe('parseDate', () => {
     expect(parseDate('2016Dezember/01/01')).toBe('')
     expect(parseDate('2017/13/01')).toBe('')
     expect(parseDate(null)).toBe('')
-  })
-})
-
-describe('collectionOf', () => {
-  it('files documents and press by record type', () => {
-    expect(collectionOf('Document')).toBe('documents')
-    expect(collectionOf('Bill')).toBe('documents')
-    expect(collectionOf('Newspaper article')).toBe('press')
-    expect(collectionOf('Audio recording')).toBe('press')
   })
 })
 
@@ -62,7 +53,7 @@ describe('mapArticle', () => {
       id: '12',
       internalNo: '000009374',
       date: '2017-09-08',
-      collection: 'press',
+      recordType: 'Newspaper article',
       seriesId: '24',
       languages: ['ger'],
       keywords: ['Schools', 'Thurgau'],

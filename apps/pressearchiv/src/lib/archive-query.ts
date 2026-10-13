@@ -21,14 +21,13 @@ const YEAR = /^\d{4}$/
 
 export const parseFilters = (params: URLSearchParams): ArchiveFilters => {
   const page = Number(params.get('page') ?? '1')
-  const collection = params.get('collection')
   const from = params.get('from') ?? ''
   const to = params.get('to') ?? ''
   return {
     ...DEFAULT_FILTERS,
     q: (params.get('q') ?? '').trim(),
     series: params.get('series') ?? '',
-    collection: collection === 'press' || collection === 'documents' ? collection : '',
+    types: params.getAll('type').filter(Boolean),
     journal: params.get('journal') ?? '',
     keywords: params.getAll('keyword').filter(Boolean),
     language: params.get('lang') ?? '',
@@ -73,7 +72,7 @@ export const filterArticles = (
 
   return articles.filter((a) => {
     if (filters.series && a.seriesId !== filters.series) return false
-    if (filters.collection && a.collection !== filters.collection) return false
+    if (filters.types.length > 0 && !filters.types.includes(a.recordType)) return false
     if (filters.journal && a.journal !== filters.journal) return false
     if (filters.language && !a.languages.includes(filters.language)) return false
     // Keywords narrow the results: an article must carry all of them.
@@ -112,7 +111,6 @@ export const toSummary = (a: Article): ArticleSummary => ({
   journal: a.journal,
   authors: a.authors,
   recordType: a.recordType,
-  collection: a.collection,
   languages: a.languages,
   seriesId: a.seriesId,
   keywords: a.keywords,
@@ -163,8 +161,7 @@ export const computeFacets = (articles: Article[], series: Series[]): Facets => 
     total: articles.length,
     series: series.map((s) => ({
       ...s,
-      press: articles.filter((a) => a.seriesId === s.id && a.collection === 'press').length,
-      documents: articles.filter((a) => a.seriesId === s.id && a.collection === 'documents').length,
+      count: articles.filter((a) => a.seriesId === s.id).length,
     })),
     journals: countBy(articles.map((a) => a.journal)),
     keywords: countBy(articles.flatMap((a) => a.keywords)),

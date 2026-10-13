@@ -13,10 +13,15 @@ interface FacetListProps {
   values: CountedValue[]
   selected: string[]
   onToggle: (value: string) => void
-  placeholder: string
-  // Single choice (sources) shows plain rows, several (keywords) checkboxes.
+  // Without a placeholder, no search field (short lists).
+  placeholder?: string
+  // Single choice (series, sources) shows plain rows, several (types,
+  // keywords) checkboxes.
   multiple?: boolean
   initialCount?: number
+  // Displayed text of a value (translated type, series title); the value
+  // itself stays in the URL.
+  label?: (value: string) => string
 }
 
 // A long list of values with their counts, most frequent first: a text
@@ -30,6 +35,7 @@ export const FacetList = ({
   placeholder,
   multiple = false,
   initialCount = 8,
+  label = (value) => value,
 }: FacetListProps) => {
   const { t } = useLanguage()
   const [query, setQuery] = useState('')
@@ -37,8 +43,8 @@ export const FacetList = ({
 
   const matches = useMemo(() => {
     const q = normalize(query.trim())
-    return q ? values.filter((v) => normalize(v.value).includes(q)) : values
-  }, [values, query])
+    return q ? values.filter((v) => normalize(label(v.value)).includes(q)) : values
+  }, [values, query, label])
 
   const visible = useMemo(() => {
     if (expanded || query) return matches
@@ -49,12 +55,14 @@ export const FacetList = ({
 
   return (
     <div className="space-y-2">
-      <Input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder={placeholder}
-        className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-8 text-sm"
-      />
+      {placeholder && (
+        <Input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={placeholder}
+          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-8 text-sm"
+        />
+      )}
       <ul className="space-y-0.5">
         {visible.map((v) => {
           const isSelected = selected.includes(v.value)
@@ -73,7 +81,7 @@ export const FacetList = ({
                     htmlFor={inputId}
                     className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 cursor-pointer leading-tight"
                   >
-                    <span>{v.value}</span>
+                    <span>{label(v.value)}</span>
                     <span className="text-[10px] text-sidebar-foreground/65 tabular-nums shrink-0">{v.count}</span>
                   </label>
                 </div>
@@ -88,7 +96,7 @@ export const FacetList = ({
                       : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
                   )}
                 >
-                  <span className="truncate">{v.value}</span>
+                  <span className="truncate">{label(v.value)}</span>
                   <span
                     className={cn(
                       'text-[10px] tabular-nums shrink-0',

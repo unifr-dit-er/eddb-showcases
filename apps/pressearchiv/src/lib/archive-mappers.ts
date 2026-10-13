@@ -1,5 +1,5 @@
-import type { Article, Author, Collection, Series } from '@/types/archive'
-import { DOCUMENT_TYPES, NATIONAL_SERIES_PREFIX } from '@/lib/archive-config'
+import type { Article, Author, Series } from '@/types/archive'
+import { NATIONAL_SERIES_PREFIX } from '@/lib/archive-config'
 
 type NocoDBRecord = Record<string, unknown>
 
@@ -23,9 +23,6 @@ export const parseDate = (value: unknown): string => {
   return `${y}-${m}-${d}`
 }
 
-export const collectionOf = (recordType: string): Collection =>
-  DOCUMENT_TYPES.has(recordType) ? 'documents' : 'press'
-
 const mapAuthors = (record: NocoDBRecord): Author[] => {
   const names = splitMulti(record.authors)
   const roles = splitMulti(record.creator_roles)
@@ -45,24 +42,20 @@ const seriesIdOf = (record: NocoDBRecord): string => {
 export const isPublic = (record: NocoDBRecord): boolean =>
   text(record.ok_for_public).toUpperCase() === 'YES'
 
-export const mapArticle = (record: NocoDBRecord): Article => {
-  const recordType = text(record.record_level)
-  return {
-    id: text(record.Id ?? record.id),
-    internalNo: text(record.internal_no),
-    title: text(record.title),
-    date: parseDate(record.date_start),
-    journal: text(record.journal),
-    authors: mapAuthors(record),
-    recordType,
-    collection: collectionOf(recordType),
-    languages: splitMulti(record.language_codes),
-    seriesId: seriesIdOf(record),
-    keywords: [...new Set(splitMulti(record.key_words))],
-    teaser: text(record.teaser_text),
-    url: text(record.url),
-  }
-}
+export const mapArticle = (record: NocoDBRecord): Article => ({
+  id: text(record.Id ?? record.id),
+  internalNo: text(record.internal_no),
+  title: text(record.title),
+  date: parseDate(record.date_start),
+  journal: text(record.journal),
+  authors: mapAuthors(record),
+  recordType: text(record.record_level),
+  languages: splitMulti(record.language_codes),
+  seriesId: seriesIdOf(record),
+  keywords: [...new Set(splitMulti(record.key_words))],
+  teaser: text(record.teaser_text),
+  url: text(record.url),
+})
 
 export const mapSeries = (record: NocoDBRecord): Series => {
   const titleDE = text(record.title_ger)

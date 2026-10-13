@@ -10,7 +10,7 @@ import { useFilters } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { displayName, formatDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
-import { Check, ChevronRight, Copy, ExternalLink, Lock } from 'lucide-react'
+import { Check, Copy, ExternalLink, Lock } from 'lucide-react'
 import { useState } from 'react'
 
 interface ArticlePanelProps {
@@ -28,7 +28,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
   const { data: article, isLoading } = useArticle(articleId)
   const { seriesById } = useFacets()
   const { t, locale, label, seriesTitle } = useLanguage()
-  const { filters, setFilters, toggleKeyword } = useFilters()
+  const { filters, setFilter, toggleKeyword, toggleType } = useFilters()
   const [linkCopied, setLinkCopied] = useState(false)
   const [isOpen, setIsOpen] = useState(!!articleId)
   const [shownId, setShownId] = useState(articleId)
@@ -60,29 +60,13 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
         showCloseButton={false}
       >
         <SheetHeader className="px-0 pt-6 pb-0 mb-5 gap-3">
-          {article && (
-            // Where the document is filed: Switzerland › series › collection.
-            <nav className="flex flex-wrap items-center gap-1 text-[0.75rem] text-muted-foreground">
-              <span>{t('sidebar.collections.national')}</span>
-              {series && (
-                <>
-                  <ChevronRight className="h-3 w-3 opacity-50" />
-                  <button
-                    onClick={() => setFilters({ series: series.id, collection: '' })}
-                    className="hover:text-primary-ink transition-colors"
-                  >
-                    {seriesTitle(series)}
-                  </button>
-                  <ChevronRight className="h-3 w-3 opacity-50" />
-                  <button
-                    onClick={() => setFilters({ series: series.id, collection: article.collection })}
-                    className="hover:text-primary-ink transition-colors"
-                  >
-                    {t(article.collection === 'press' ? 'sidebar.collection.press' : 'sidebar.collection.documents')}
-                  </button>
-                </>
-              )}
-            </nav>
+          {series && (
+            <button
+              onClick={() => setFilter('series', filters.series === series.id ? '' : series.id)}
+              className="self-start text-[0.6875rem] font-bold tracking-[0.15em] uppercase text-muted-foreground hover:text-primary-ink transition-colors"
+            >
+              {seriesTitle(series)}
+            </button>
           )}
           <SheetTitle className="font-serif text-[1.75rem] font-semibold leading-tight text-foreground">
             {article?.title ?? (isLoading ? t('article.loading') : '')}
@@ -90,13 +74,19 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
           {article && (
             <SheetDescription asChild>
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.875rem] text-muted-foreground">
-                <span className="flex items-center gap-1.5 text-[0.6875rem] font-semibold tracking-[0.15em] uppercase">
+                <button
+                  onClick={() => toggleType(article.recordType)}
+                  className={cn(
+                    'flex items-center gap-1.5 text-[0.6875rem] font-semibold tracking-[0.15em] uppercase transition-colors',
+                    filters.types.includes(article.recordType) ? 'text-primary-ink' : 'hover:text-primary-ink'
+                  )}
+                >
                   <RecordTypeIcon type={article.recordType} />
                   {label('recordType', article.recordType)}
-                </span>
+                </button>
                 {article.journal && (
                   <button
-                    onClick={() => setFilters({ journal: filters.journal === article.journal ? '' : article.journal })}
+                    onClick={() => setFilter('journal', filters.journal === article.journal ? '' : article.journal)}
                     className="font-serif italic text-base text-foreground/85 hover:text-primary-ink transition-colors"
                   >
                     {article.journal}

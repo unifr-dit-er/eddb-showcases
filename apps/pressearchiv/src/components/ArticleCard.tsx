@@ -19,17 +19,18 @@ const MAX_KEYWORDS = 4
 
 export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) => {
   const { t, locale, label, seriesTitle } = useLanguage()
-  const { filters, setFilters, toggleKeyword } = useFilters()
+  const { filters, setFilter, toggleKeyword, toggleType } = useFilters()
   const { seriesById } = useFacets()
   const series = seriesById.get(article.seriesId)
 
   const handleSeriesClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setFilters(
-      filters.series === article.seriesId
-        ? { series: '', collection: '' }
-        : { series: article.seriesId, collection: '' }
-    )
+    setFilter('series', filters.series === article.seriesId ? '' : article.seriesId)
+  }
+
+  const handleTypeClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    toggleType(article.recordType)
   }
 
   const handleKeywordClick = (e: React.MouseEvent, keyword: string) => {
@@ -60,7 +61,15 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
     >
       {/* Dateline: type, source, date, as at the head of a press clipping */}
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-2 text-[0.8125rem]">
-        <span className="flex items-center gap-1.5 text-[0.6875rem] font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+        <span
+          onClick={handleTypeClick}
+          className={cn(
+            'flex items-center gap-1.5 text-[0.6875rem] font-semibold tracking-[0.15em] uppercase transition-colors cursor-pointer',
+            filters.types.includes(article.recordType)
+              ? 'text-primary-ink'
+              : 'text-muted-foreground hover:text-primary-ink'
+          )}
+        >
           <RecordTypeIcon type={article.recordType} />
           {label('recordType', article.recordType)}
         </span>

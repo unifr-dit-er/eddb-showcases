@@ -6,12 +6,8 @@ const translations: Translations = {
   'sidebar.subtitle': 'Presse und Dokumente · seit 2014',
   'sidebar.search.label': 'Suche',
   'sidebar.search.placeholder': 'Titel, Autor:in, Schlagwort…',
-  'sidebar.collections.label': 'Sammlungen',
-  'sidebar.collections.all': 'Ganze Schweiz',
-  'sidebar.collections.national': 'Schweiz',
-  'sidebar.collections.cantons': 'Kantone',
-  'sidebar.collection.press': 'Presse',
-  'sidebar.collection.documents': 'Dokumente',
+  'sidebar.series.label': 'Serie',
+  'sidebar.types.label': 'Dokumenttyp',
   'sidebar.period.label': 'Zeitraum',
   'sidebar.period.from': 'Von',
   'sidebar.period.to': 'Bis',
@@ -58,7 +54,7 @@ const translations: Translations = {
   'footer.eddb.of': 'von',
   'about.title': 'Über',
   'about.content':
-    'Das Pressearchiv des Instituts für Mehrsprachigkeit versammelt Presseartikel und graue Literatur zum Sprachenunterricht und zur Sprachenpolitik in der Schweiz. Die seit 2014 gesammelten Dokumente sind nach Kantonen geordnet, je in einer Presse- und einer Dokumentensammlung; zwei Sammlungen betreffen die ganze Schweiz. Jeder Eintrag nennt Quelle, Datum, Autor:innen, Textanfang und Schlagwörter.',
+    'Das Pressearchiv des Instituts für Mehrsprachigkeit versammelt Presseartikel und graue Literatur zum Sprachenunterricht und zur Sprachenpolitik in der Schweiz. Die seit 2014 gesammelten Dokumente sind in Serien geordnet: eine pro Kanton und zwei für die ganze Schweiz. Jeder Eintrag nennt Quelle, Datum, Autor:innen, Textanfang und Schlagwörter.',
   'about.fullText':
     'Aus urheberrechtlichen Gründen werden die Volltexte nicht veröffentlicht. Ist die Originalpublikation online, führt ein Link zu ihr.',
 }

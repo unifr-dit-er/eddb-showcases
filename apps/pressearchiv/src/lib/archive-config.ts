@@ -31,19 +31,9 @@ export const ARTICLE_FIELDS = [
 
 export const SERIES_FIELDS = ['Id', 'internal_no', 'title_ger', 'title_fre'] as const
 
-// Series that cover the whole of Switzerland rather than one canton.
+// Series that cover the whole of Switzerland rather than one canton, shown
+// first in the series filter.
 export const NATIONAL_SERIES_PREFIX = 'CH:'
-
-// Record types filed in the documents collection of a series; every other
-// type belongs to the press collection (to be confirmed by the institute).
-export const DOCUMENT_TYPES = new Set([
-  'Document',
-  'Report',
-  'Bill',
-  'Book',
-  'Presentation',
-  'publication',
-])
 
 export const PAGE_SIZE = 25
 

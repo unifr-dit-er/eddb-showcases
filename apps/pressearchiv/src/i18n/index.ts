@@ -9,12 +9,8 @@ export interface Translations {
   'sidebar.subtitle': string
   'sidebar.search.label': string
   'sidebar.search.placeholder': string
-  'sidebar.collections.label': string
-  'sidebar.collections.all': string
-  'sidebar.collections.national': string
-  'sidebar.collections.cantons': string
-  'sidebar.collection.press': string
-  'sidebar.collection.documents': string
+  'sidebar.series.label': string
+  'sidebar.types.label': string
   'sidebar.period.label': string
   'sidebar.period.from': string
   'sidebar.period.to': string

@@ -26,8 +26,8 @@ describe('buildArchive', () => {
 
 describe('parseFilters', () => {
   it('reads and sanitises the query string', () => {
-    const f = parseFilters(new URLSearchParams('q=%20lang%20&keyword=A&keyword=B&from=2016&to=abc&page=-2&collection=x&sort=asc'))
-    expect(f).toMatchObject({ q: 'lang', keywords: ['A', 'B'], from: '2016', to: '', page: 1, collection: '', sortDir: 'asc' })
+    const f = parseFilters(new URLSearchParams('q=%20lang%20&keyword=A&keyword=B&type=Report&type=Film&from=2016&to=abc&page=-2&sort=asc'))
+    expect(f).toMatchObject({ q: 'lang', keywords: ['A', 'B'], types: ['Report', 'Film'], from: '2016', to: '', page: 1, sortDir: 'asc' })
   })
 })
 
@@ -48,11 +48,17 @@ describe('queryArticles', () => {
     expect(ids({ keywords: ['French', 'Thurgau'] })).toEqual(['1'])
   })
 
-  it('filters by series, collection, journal, language and years', () => {
-    expect(ids({ series: '1', collection: 'documents' })).toEqual(['2'])
+  it('filters by series, journal, language and years', () => {
+    expect(ids({ series: '1' })).toEqual(['2', '1'])
     expect(ids({ journal: 'Le Temps' })).toEqual(['4'])
     expect(ids({ language: 'ita' })).toEqual(['3'])
     expect(ids({ from: '2016', to: '2016' })).toEqual(['3', '1'])
+  })
+
+  it('keeps records of any of the selected types', () => {
+    expect(ids({ types: ['Report'] })).toEqual(['2'])
+    expect(ids({ types: ['Report', 'Newspaper article'] })).toEqual(['2', '3', '1', '4'])
+    expect(ids({ series: '1', types: ['Newspaper article'] })).toEqual(['1'])
   })
 
   it('counts years without the year filter', () => {
@@ -67,10 +73,11 @@ describe('queryArticles', () => {
 })
 
 describe('computeFacets', () => {
-  it('counts collections per series and values per facet', () => {
+  it('counts records per series and values per facet', () => {
     const f = computeFacets(articles, allSeries)
     expect(f.total).toBe(4)
-    expect(f.series.find((s) => s.id === '1')).toMatchObject({ press: 1, documents: 1 })
+    expect(f.series.find((s) => s.id === '1')).toMatchObject({ count: 2 })
+    expect(f.recordTypes[0]).toEqual({ value: 'Newspaper article', count: 3 })
     expect(f.keywords[0]).toEqual({ value: 'French', count: 2 })
     expect(f.years).toEqual({ min: 2016, max: 2018 })
   })

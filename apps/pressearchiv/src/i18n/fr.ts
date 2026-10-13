@@ -6,12 +6,8 @@ const translations: Translations = {
   'sidebar.subtitle': 'Presse et documents · depuis 2014',
   'sidebar.search.label': 'Recherche',
   'sidebar.search.placeholder': 'Titre, auteur·e, mot-clé…',
-  'sidebar.collections.label': 'Collections',
-  'sidebar.collections.all': 'Toute la Suisse',
-  'sidebar.collections.national': 'Suisse',
-  'sidebar.collections.cantons': 'Cantons',
-  'sidebar.collection.press': 'Presse',
-  'sidebar.collection.documents': 'Documents',
+  'sidebar.series.label': 'Série',
+  'sidebar.types.label': 'Type de document',
   'sidebar.period.label': 'Période',
   'sidebar.period.from': 'De',
   'sidebar.period.to': 'À',
@@ -58,7 +54,7 @@ const translations: Translations = {
   'footer.eddb.of': 'de',
   'about.title': 'À propos',
   'about.content':
-    "Les archives de presse de l'Institut de plurilinguisme rassemblent des articles de presse et de la littérature grise sur l'enseignement des langues et la politique linguistique en Suisse. Collectés depuis 2014, les documents sont classés par canton, dans une collection de presse et une collection de documents ; deux collections couvrent l'ensemble de la Suisse. Chaque notice donne la source, la date, les auteur·e·s, le début du texte et des mots-clés.",
+    "Les archives de presse de l'Institut de plurilinguisme rassemblent des articles de presse et de la littérature grise sur l'enseignement des langues et la politique linguistique en Suisse. Collectés depuis 2014, les documents sont classés en séries : une par canton, et deux pour l'ensemble de la Suisse. Chaque notice donne la source, la date, les auteur·e·s, le début du texte et des mots-clés.",
   'about.fullText':
     "Les textes intégraux ne sont pas publiés, pour des raisons de droits d'auteur. Lorsqu'elle est en ligne, la publication originale est accessible par un lien.",
 }

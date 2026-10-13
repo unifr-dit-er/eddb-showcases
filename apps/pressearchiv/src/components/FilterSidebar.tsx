@@ -2,7 +2,6 @@
 
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { CollectionTree } from '@/components/CollectionTree'
 import { FacetList } from '@/components/FacetList'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFacets } from '@/hooks/useFacets'
@@ -39,9 +38,9 @@ const Divider = () => <div className="h-px bg-sidebar-border/50 my-1" />
 const selectTriggerClass = 'w-full bg-sidebar-accent border-sidebar-border text-sidebar-foreground h-9 text-sm'
 
 export const FilterSidebar = () => {
-  const { filters, setFilter, setFilters, toggleKeyword, resetFilter, resetFilters, hasActiveFilters } = useFilters()
+  const { filters, setFilter, setFilters, toggleKeyword, toggleType, resetFilter, resetFilters, hasActiveFilters } = useFilters()
   const { data: facets } = useFacets()
-  const { t, label, locale } = useLanguage()
+  const { t, label, locale, seriesTitle } = useLanguage()
   const [qInput, setQInput] = useState(filters.q)
   const [syncedQ, setSyncedQ] = useState(filters.q)
 
@@ -65,6 +64,18 @@ export const FilterSidebar = () => {
         .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, locale)),
     [facets, label, locale]
   )
+
+  // The series as they are in the base, the two Swiss-wide ones first.
+  const series = useMemo(() => {
+    const list = [...(facets?.series ?? [])].sort(
+      (a, b) =>
+        Number(b.national) - Number(a.national) || seriesTitle(a).localeCompare(seriesTitle(b), locale)
+    )
+    return {
+      values: list.map((s) => ({ value: s.id, count: s.count })),
+      titles: new Map(list.map((s) => [s.id, seriesTitle(s)])),
+    }
+  }, [facets, seriesTitle, locale])
 
   const reset = (key: ResettableFilter, active: boolean) => (active ? () => resetFilter(key) : undefined)
 
@@ -110,8 +121,34 @@ export const FilterSidebar = () => {
       <Divider />
 
       <div>
-        <SectionHeader onReset={reset('collections', !!filters.series)}>{t('sidebar.collections.label')}</SectionHeader>
-        {facets && <CollectionTree series={facets.series} />}
+        <SectionHeader onReset={reset('series', !!filters.series)}>{t('sidebar.series.label')}</SectionHeader>
+        {facets && (
+          <FacetList
+            id="series"
+            values={series.values}
+            selected={filters.series ? [filters.series] : []}
+            onToggle={(v) => setFilter('series', filters.series === v ? '' : v)}
+            label={(v) => series.titles.get(v) ?? v}
+            initialCount={series.values.length}
+          />
+        )}
+      </div>
+
+      <Divider />
+
+      <div>
+        <SectionHeader onReset={reset('types', filters.types.length > 0)}>{t('sidebar.types.label')}</SectionHeader>
+        {facets && (
+          <FacetList
+            id="type"
+            values={facets.recordTypes}
+            selected={filters.types}
+            onToggle={toggleType}
+            label={(v) => label('recordType', v)}
+            multiple
+            initialCount={facets.recordTypes.length}
+          />
+        )}
       </div>
 
       <Divider />
