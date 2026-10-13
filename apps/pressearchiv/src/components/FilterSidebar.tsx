@@ -2,7 +2,9 @@
 
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { FacetCombobox } from '@/components/FacetCombobox'
 import { FacetList } from '@/components/FacetList'
+import { FilterSection } from '@/components/FilterSection'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFacets } from '@/hooks/useFacets'
 import { useFilters, type ResettableFilter } from '@/hooks/useFilters'
@@ -74,6 +76,7 @@ export const FilterSidebar = () => {
     return {
       values: list.map((s) => ({ value: s.id, count: s.count })),
       titles: new Map(list.map((s) => [s.id, seriesTitle(s)])),
+      national: new Set(list.filter((s) => s.national).map((s) => s.id)),
     }
   }, [facets, seriesTitle, locale])
 
@@ -120,8 +123,12 @@ export const FilterSidebar = () => {
 
       <Divider />
 
-      <div>
-        <SectionHeader onReset={reset('series', !!filters.series)}>{t('sidebar.series.label')}</SectionHeader>
+      <FilterSection
+        title={t('sidebar.series.label')}
+        activeCount={filters.series ? 1 : 0}
+        onReset={reset('series', !!filters.series)}
+        defaultOpen
+      >
         {facets && (
           <FacetList
             id="series"
@@ -130,14 +137,20 @@ export const FilterSidebar = () => {
             onToggle={(v) => setFilter('series', filters.series === v ? '' : v)}
             label={(v) => series.titles.get(v) ?? v}
             initialCount={series.values.length}
+            columns={2}
+            wide={(v) => series.national.has(v)}
           />
         )}
-      </div>
+      </FilterSection>
 
       <Divider />
 
-      <div>
-        <SectionHeader onReset={reset('types', filters.types.length > 0)}>{t('sidebar.types.label')}</SectionHeader>
+      <FilterSection
+        title={t('sidebar.types.label')}
+        activeCount={filters.types.length}
+        onReset={reset('types', filters.types.length > 0)}
+        defaultOpen
+      >
         {facets && (
           <FacetList
             id="type"
@@ -149,12 +162,15 @@ export const FilterSidebar = () => {
             initialCount={facets.recordTypes.length}
           />
         )}
-      </div>
+      </FilterSection>
 
       <Divider />
 
-      <div>
-        <SectionHeader onReset={reset('period', !!(filters.from || filters.to))}>{t('sidebar.period.label')}</SectionHeader>
+      <FilterSection
+        title={t('sidebar.period.label')}
+        activeCount={(filters.from ? 1 : 0) + (filters.to ? 1 : 0)}
+        onReset={reset('period', !!(filters.from || filters.to))}
+      >
         <div className="grid grid-cols-2 gap-2">
           {(['from', 'to'] as const).map((bound) => (
             <div key={bound}>
@@ -177,12 +193,15 @@ export const FilterSidebar = () => {
             </div>
           ))}
         </div>
-      </div>
+      </FilterSection>
 
       <Divider />
 
-      <div>
-        <SectionHeader onReset={reset('language', !!filters.language)}>{t('sidebar.language.label')}</SectionHeader>
+      <FilterSection
+        title={t('sidebar.language.label')}
+        activeCount={filters.language ? 1 : 0}
+        onReset={reset('language', !!filters.language)}
+      >
         <Select value={filters.language || ALL} onValueChange={(v) => setFilter('language', v === ALL ? '' : v)}>
           <SelectTrigger className={selectTriggerClass}>
             <SelectValue />
@@ -196,27 +215,35 @@ export const FilterSidebar = () => {
             ))}
           </SelectContent>
         </Select>
-      </div>
+      </FilterSection>
 
       <Divider />
 
-      <div>
-        <SectionHeader onReset={reset('journal', !!filters.journal)}>{t('sidebar.journal.label')}</SectionHeader>
+      <FilterSection
+        title={t('sidebar.journal.label')}
+        activeCount={filters.journal ? 1 : 0}
+        onReset={reset('journal', !!filters.journal)}
+      >
         {facets && (
-          <FacetList
-            id="journal"
+          <FacetCombobox
             values={facets.journals}
-            selected={filters.journal ? [filters.journal] : []}
-            onToggle={(v) => setFilter('journal', filters.journal === v ? '' : v)}
-            placeholder={t('sidebar.journal.placeholder')}
+            selected={filters.journal}
+            onSelect={(v) => setFilter('journal', v)}
+            placeholder={t('sidebar.journal.choose')}
+            searchPlaceholder={t('sidebar.journal.placeholder')}
+            emptyLabel={t('sidebar.journal.empty')}
+            removeLabel={t('activeFilters.remove')}
           />
         )}
-      </div>
+      </FilterSection>
 
       <Divider />
 
-      <div>
-        <SectionHeader onReset={reset('keywords', filters.keywords.length > 0)}>{t('sidebar.keywords.label')}</SectionHeader>
+      <FilterSection
+        title={t('sidebar.keywords.label')}
+        activeCount={filters.keywords.length}
+        onReset={reset('keywords', filters.keywords.length > 0)}
+      >
         {facets && (
           <FacetList
             id="keyword"
@@ -225,10 +252,11 @@ export const FilterSidebar = () => {
             onToggle={toggleKeyword}
             placeholder={t('sidebar.keywords.placeholder')}
             multiple
-            initialCount={12}
+            initialCount={8}
+            scroll
           />
         )}
-      </div>
+      </FilterSection>
     </div>
   )
 }

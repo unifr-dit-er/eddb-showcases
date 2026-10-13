@@ -1,6 +1,7 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import { ActiveFilters } from '@/components/ActiveFilters'
 import { ArticleCard } from '@/components/ArticleCard'
 import { YearTimeline } from '@/components/YearTimeline'
 import { useArticles } from '@/hooks/useArticles'
@@ -70,6 +71,7 @@ export const ArticleList = () => {
 
   return (
     <div ref={topRef} className="p-4 lg:p-6 space-y-6 max-w-4xl">
+      <ActiveFilters />
       {data && facets && facets.years.max > 0 && (
         <YearTimeline years={data.years} min={facets.years.min} max={facets.years.max} />
       )}

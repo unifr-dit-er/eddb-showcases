@@ -17,6 +17,11 @@ export interface Translations {
   'sidebar.period.any': string
   'sidebar.journal.label': string
   'sidebar.journal.placeholder': string
+  'sidebar.journal.choose': string
+  'sidebar.journal.empty': string
+  'activeFilters.label': string
+  'activeFilters.clear': string
+  'activeFilters.remove': string
   'sidebar.language.label': string
   'sidebar.language.all': string
   'sidebar.keywords.label': string

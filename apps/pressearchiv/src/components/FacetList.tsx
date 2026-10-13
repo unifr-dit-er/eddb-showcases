@@ -22,6 +22,12 @@ interface FacetListProps {
   // Displayed text of a value (translated type, series title); the value
   // itself stays in the URL.
   label?: (value: string) => string
+  // Two columns for short labels (series); `wide` values span both.
+  columns?: 1 | 2
+  wide?: (value: string) => boolean
+  // When the whole list shows, it scrolls in a frame instead of
+  // lengthening the sidebar.
+  scroll?: boolean
 }
 
 // A long list of values with their counts, most frequent first: a text
@@ -36,6 +42,9 @@ export const FacetList = ({
   multiple = false,
   initialCount = 8,
   label = (value) => value,
+  columns = 1,
+  wide = () => false,
+  scroll = false,
 }: FacetListProps) => {
   const { t } = useLanguage()
   const [query, setQuery] = useState('')
@@ -63,12 +72,17 @@ export const FacetList = ({
           className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-8 text-sm"
         />
       )}
-      <ul className="space-y-0.5">
+      <ul
+        className={cn(
+          columns === 2 ? 'grid grid-cols-2 gap-x-1.5 gap-y-0.5' : 'space-y-0.5',
+          scroll && (expanded || query) && 'max-h-80 overflow-y-auto pr-1'
+        )}
+      >
         {visible.map((v) => {
           const isSelected = selected.includes(v.value)
           const inputId = `${id}-${v.value}`
           return (
-            <li key={v.value}>
+            <li key={v.value} className={cn(columns === 2 && wide(v.value) && 'col-span-2')}>
               {multiple ? (
                 <div className="flex items-center gap-2.5 py-1">
                   <Checkbox
