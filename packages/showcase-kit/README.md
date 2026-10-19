@@ -11,5 +11,6 @@ already serves two showcases.
 | `@eddb/showcase-kit/use-local-setting` | Viewer preference in localStorage, hydration-safe |
 | `@eddb/showcase-kit/font-size` | Text-size context and provider |
 | `@eddb/showcase-kit/site-footer` | Footer after the institute layout of the corporate design |
+| `@eddb/showcase-kit/sidebar-masthead` | Top of the sidebar: Unifr logo, showcase name in serif between rules, subtitle |
 
 Rules and theme conventions: root `CLAUDE.md`.

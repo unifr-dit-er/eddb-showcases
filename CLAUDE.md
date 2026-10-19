@@ -40,7 +40,8 @@ its sources with `@source`. It holds:
   official tints (`bg-primary-tint-1/2/3`), never a transparency of it
   (`bg-primary/10`); accented text is midnight blue (`text-primary-ink`).
 - `nocodb` (server-side client), `api-fetch`, `use-local-setting`
-  (hydration-safe viewer preferences), `font-size`, `site-footer`.
+  (hydration-safe viewer preferences), `font-size`, `site-footer`,
+  `sidebar-masthead` (each application loads the Newsreader serif).
 
 shadcn/ui components stay in each application (`src/components/ui`), as the
 shadcn CLI expects.
