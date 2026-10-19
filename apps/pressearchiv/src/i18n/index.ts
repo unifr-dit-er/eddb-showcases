@@ -78,3 +78,10 @@ export const getTranslations = (locale: Locale): Translations =>
 
 export const getLabels = (locale: Locale): Labels =>
   locale === 'de' ? de.labels : fr.labels
+
+export const SHOWCASE_NAME = 'Pressearchiv'
+
+// Title of the browser tab and of search results: the name and the
+// subtitle of the sidebar masthead, in the viewer's language.
+export const getPageTitle = (locale: Locale): string =>
+  `${SHOWCASE_NAME} · ${getTranslations(locale)['sidebar.subtitle']}`

@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { getPageTitle, SHOWCASE_NAME } from '@/i18n'
 import { useFontSize } from '@eddb/showcase-kit/font-size'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
@@ -21,7 +22,7 @@ const SidebarContent = () => {
   const { t } = useLanguage()
   return (
     <>
-      <SidebarMasthead title="Pressearchiv" subtitle={t('sidebar.subtitle')} />
+      <SidebarMasthead title={SHOWCASE_NAME} subtitle={t('sidebar.subtitle')} />
       <ScrollArea className="flex-1 min-h-0">
         <FilterSidebar />
       </ScrollArea>
@@ -38,7 +39,6 @@ export const HomeContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
-    document.title = 'Pressearchiv'
     document.documentElement.lang = locale
   }, [locale])
 
@@ -53,6 +53,8 @@ export const HomeContent = () => {
 
   return (
     <div className="flex h-screen overflow-hidden">
+      {/* React hoists it into <head>, in the viewer's language. */}
+      <title>{getPageTitle(locale)}</title>
       {/* Sidebar — desktop only */}
       <aside className="hidden lg:flex w-80 shrink-0 bg-sidebar text-sidebar-foreground flex-col overflow-hidden border-r border-sidebar-border">
         <SidebarContent />

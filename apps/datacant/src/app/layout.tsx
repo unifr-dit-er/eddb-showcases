@@ -6,6 +6,7 @@ import {
 } from 'next/font/google'
 import './globals.css'
 import Providers from '@/components/Providers'
+import { DEFAULT_LOCALE, getTranslations } from '@/i18n'
 
 // Next.js has no fallback metrics for the Atkinson fonts: without an explicit
 // fallback, Turbopack warns and the text shows in the browser's default serif
@@ -34,12 +35,11 @@ const newsreader = Newsreader({
   style: ['normal', 'italic'],
 })
 
-// Note: metadata and html[lang] are static (server-rendered) and cannot be driven
-// by the client-side LanguageContext. They reflect the default locale (FR).
-// Canton labels in src/lib/cantons.ts are also French-only (follow-up task).
+// The page title is rendered by HomeContent in the viewer's language (a
+// static metadata title would take over again after each navigation);
+// the description and html[lang] stay in the default locale (FR).
 export const metadata: Metadata = {
-  title: 'Base de données — Protection des données',
-  description: 'Décisions juridiques cantonales suisses concernant la protection des données',
+  description: getTranslations(DEFAULT_LOCALE)['header.title'],
 }
 
 export default function RootLayout({
