@@ -2,7 +2,7 @@ import type { Translations } from './index'
 
 export const fr: Translations = {
   'header.title': 'Base de données de jurisprudence cantonale en matière de protection des données',
-  'sidebar.subtitle': 'Jurisprudence · CH',
+  'sidebar.subtitle': 'Jurisprudence cantonale · depuis 1984',
   'sidebar.search.label': 'Recherche',
   'sidebar.search.placeholder': 'Titre, mot-clé…',
   'sidebar.canton.label': 'Canton',

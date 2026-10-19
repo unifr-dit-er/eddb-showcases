@@ -4,13 +4,13 @@ import { getTranslations, getLangSuffix } from '../index'
 describe('getTranslations', () => {
   it('returns french translations for "fr"', () => {
     const t = getTranslations('fr')
-    expect(t['sidebar.subtitle']).toBe('Jurisprudence · CH')
+    expect(t['sidebar.subtitle']).toBe('Jurisprudence cantonale · depuis 1984')
     expect(t['sidebar.search.label']).toBe('Recherche')
   })
 
   it('returns german translations for "de"', () => {
     const t = getTranslations('de')
-    expect(t['sidebar.subtitle']).toBe('Rechtsprechung · CH')
+    expect(t['sidebar.subtitle']).toBe('Kantonale Rechtsprechung · seit 1984')
     expect(t['sidebar.search.label']).toBe('Suche')
   })
 

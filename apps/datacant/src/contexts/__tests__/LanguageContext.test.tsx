@@ -37,11 +37,11 @@ describe('useLanguage', () => {
 
   it('t() returns the correct translation string', () => {
     const { result } = renderHook(() => useLanguage(), { wrapper })
-    expect(result.current.t('sidebar.subtitle')).toBe('Jurisprudence · CH')
+    expect(result.current.t('sidebar.subtitle')).toBe('Jurisprudence cantonale · depuis 1984')
     act(() => {
       result.current.setLocale('de')
     })
-    expect(result.current.t('sidebar.subtitle')).toBe('Rechtsprechung · CH')
+    expect(result.current.t('sidebar.subtitle')).toBe('Kantonale Rechtsprechung · seit 1984')
   })
 
   it('throws when used outside LanguageProvider', () => {

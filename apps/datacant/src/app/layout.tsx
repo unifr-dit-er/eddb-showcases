@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import {
   Atkinson_Hyperlegible_Next,
   Atkinson_Hyperlegible_Mono,
+  Newsreader,
 } from 'next/font/google'
 import './globals.css'
 import Providers from '@/components/Providers'
@@ -25,6 +26,14 @@ const atkinsonMono = Atkinson_Hyperlegible_Mono({
   fallback: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
 })
 
+// Serif of the sidebar masthead (shared press tone of the showcases).
+const newsreader = Newsreader({
+  variable: '--font-newsreader',
+  subsets: ['latin'],
+  display: 'swap',
+  style: ['normal', 'italic'],
+})
+
 // Note: metadata and html[lang] are static (server-rendered) and cannot be driven
 // by the client-side LanguageContext. They reflect the default locale (FR).
 // Canton labels in src/lib/cantons.ts are also French-only (follow-up task).
@@ -39,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html data-faculty="droit" lang="fr" className={`${atkinson.variable} ${atkinsonMono.variable}`}>
+    <html data-faculty="droit" lang="fr" className={`${atkinson.variable} ${atkinsonMono.variable} ${newsreader.variable}`}>
       <body className="antialiased">
         <Providers>{children}</Providers>
       </body>

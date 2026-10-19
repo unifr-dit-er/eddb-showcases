@@ -6,6 +6,7 @@ import DecisionPanel from '@/components/DecisionPanel'
 import FilterSidebar from '@/components/FilterSidebar'
 import LanguageSelector from '@/components/LanguageSelector'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { SidebarMasthead } from '@eddb/showcase-kit/sidebar-masthead'
 import { SiteFooter } from '@eddb/showcase-kit/site-footer'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
@@ -14,23 +15,19 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { useFontSize } from '@eddb/showcase-kit/font-size'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import Image from 'next/image'
 import { Menu } from 'lucide-react'
 
-const SidebarContent = () => (
-  <>
-    <div className="bg-white px-4 py-4 shrink-0">
-      <Image src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/unifr.png`} alt="Université de Fribourg" width={340} height={84} className="h-10 w-auto object-contain" loading="eager" priority />
-    </div>
-    <div className="px-4 py-3 shrink-0">
-      <span className="text-lg font-bold tracking-tight text-sidebar-foreground">Datacant</span>
-    </div>
-    <div className="h-px bg-sidebar-border/60 shrink-0" />
-    <ScrollArea className="flex-1 min-h-0">
-      <FilterSidebar />
-    </ScrollArea>
-  </>
-)
+const SidebarContent = () => {
+  const { t } = useLanguage()
+  return (
+    <>
+      <SidebarMasthead title="Datacant" subtitle={t('sidebar.subtitle')} />
+      <ScrollArea className="flex-1 min-h-0">
+        <FilterSidebar />
+      </ScrollArea>
+    </>
+  )
+}
 
 const HomeContent = () => {
   const searchParams = useSearchParams()

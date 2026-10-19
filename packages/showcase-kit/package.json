@@ -9,7 +9,8 @@
     "./api-fetch": "./src/api-fetch.ts",
     "./use-local-setting": "./src/useLocalSetting.ts",
     "./font-size": "./src/FontSizeContext.tsx",
-    "./site-footer": "./src/SiteFooter.tsx"
+    "./site-footer": "./src/SiteFooter.tsx",
+    "./sidebar-masthead": "./src/SidebarMasthead.tsx"
   },
   "scripts": {
     "lint": "eslint src",
