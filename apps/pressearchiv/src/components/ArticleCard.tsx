@@ -28,6 +28,11 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
     setFilter('series', filters.series === article.seriesId ? '' : article.seriesId)
   }
 
+  const handleLanguageClick = (e: React.MouseEvent, code: string) => {
+    e.stopPropagation()
+    setFilter('language', filters.language === code ? '' : code)
+  }
+
   const handleTypeClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     toggleType(article.recordType)
@@ -102,7 +107,13 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
           </Tag>
         )}
         {article.languages.map((code) => (
-          <Tag key={code} variant="outline" title={label('language', code)}>
+          <Tag
+            key={code}
+            variant="outline"
+            title={label('language', code)}
+            onClick={(e) => handleLanguageClick(e, code)}
+            active={filters.language === code}
+          >
             {shortLanguage(code)}
           </Tag>
         ))}
