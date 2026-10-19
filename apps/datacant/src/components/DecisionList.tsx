@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import ActiveFilters from '@/components/ActiveFilters'
 import DecisionCard from '@/components/DecisionCard'
 import { YearTimeline } from '@eddb/showcase-kit/year-timeline'
-import { useDecisionYears } from '@/hooks/useDecisionYears'
+import { useFacets } from '@/hooks/useFacets'
 import { useDecisions } from '@/hooks/useDecisions'
 import { useFilters } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -17,7 +17,7 @@ const DecisionList = () => {
   const { filters, setFilter, setFilters } = useFilters()
   const { data, isLoading, isError } = useDecisions(filters)
   const { t } = useLanguage()
-  const timeline = useDecisionYears(filters)
+  const { data: facets } = useFacets()
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -35,11 +35,11 @@ const DecisionList = () => {
 
   const yearOf = (date: string) => (date ? Number(date.slice(0, 4)) : null)
   const timelineFigure =
-    timeline.years && timeline.max > 0 ? (
+    data && facets && facets.years.max > 0 ? (
       <YearTimeline
-        years={timeline.years}
-        min={timeline.min}
-        max={timeline.max}
+        years={data.years}
+        min={facets.years.min}
+        max={facets.years.max}
         from={yearOf(filters.from)}
         to={yearOf(filters.to)}
         onSelect={(from, to) => setFilters({ from: from ? `${from}-01-01` : '', to: to ? `${to}-12-31` : '' })}

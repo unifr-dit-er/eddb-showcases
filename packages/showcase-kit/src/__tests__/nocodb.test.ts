@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchNocoDB } from '../nocodb'
+import { fetchAllRecords, fetchNocoDB } from '../nocodb'
 
 describe('fetchNocoDB', () => {
   beforeEach(() => {
@@ -48,5 +48,25 @@ describe('fetchNocoDB', () => {
     } as unknown as Response)
 
     await expect(fetchNocoDB('/api/v1/db/data/noco/decisions')).rejects.toThrow('NocoDB error: 401')
+  })
+})
+
+describe('fetchAllRecords', () => {
+  beforeEach(() => {
+    vi.stubEnv('NEXT_PUBLIC_NOCODB_API_URL', 'http://localhost:8080')
+    vi.stubEnv('NOCODB_API_TOKEN', 'test-token')
+    vi.stubGlobal('fetch', vi.fn())
+  })
+
+  it('follows the pages and asks only for the given fields', async () => {
+    const mockFetch = vi.mocked(fetch)
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ list: [{ Id: 1 }], pageInfo: { isLastPage: false } }) } as Response)
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ list: [{ Id: 2 }], pageInfo: { isLastPage: true } }) } as Response)
+
+    expect(await fetchAllRecords('t1', ['Id', 'Date'])).toEqual([{ Id: 1 }, { Id: 2 }])
+    const second = new URL(mockFetch.mock.calls[1][0] as string)
+    expect(second.searchParams.get('fields')).toBe('Id,Date')
+    expect(second.searchParams.get('offset')).toBe('1000')
   })
 })

@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { normalize } from '@/lib/text'
+import { normalize } from '@eddb/showcase-kit/text'
 import { cn } from '@/lib/utils'
 import type { CountedValue } from '@/types/archive'
 import { ChevronDown, X } from 'lucide-react'

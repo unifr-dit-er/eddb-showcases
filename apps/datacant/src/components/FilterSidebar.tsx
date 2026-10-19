@@ -17,10 +17,10 @@ import {
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFilters } from '@/hooks/useFilters'
 import DatePickerFilter from '@/components/DatePickerFilter'
-import { useKeywords } from '@/hooks/useKeywords'
+import { useFacets } from '@/hooks/useFacets'
 import { CANTONS, getCantonLabel } from '@/lib/cantons'
 import { cn } from '@/lib/utils'
-import type { Keyword } from '@/types/keyword'
+import type { KeywordFacet } from '@/types/keyword'
 import { ChevronRight } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
@@ -52,7 +52,9 @@ const Divider = () => <div className="h-px bg-sidebar-border/50 my-1" />
 
 const FilterSidebar = () => {
   const { filters, setFilter, resetFilters, resetFilter } = useFilters()
-  const { data: keywords = [] } = useKeywords()
+  const { data: facets } = useFacets()
+  const keywords = facets?.keywords ?? []
+  const cantonCounts = new Map((facets?.cantons ?? []).map((c) => [c.value, c.count]))
   const { t, langSuffix } = useLanguage()
   const [qInput, setQInput] = useState(filters.q)
   const [syncedQ, setSyncedQ] = useState(filters.q)
@@ -66,7 +68,7 @@ const FilterSidebar = () => {
 
   // Group keywords by category. A keyword with multiple categories would appear
   // in each group — the checked state is shared via keyword ID regardless.
-  const keywordsByCategory = keywords.reduce<Map<string, Keyword[]>>((acc, kw) => {
+  const keywordsByCategory = keywords.reduce<Map<string, KeywordFacet[]>>((acc, kw) => {
     const cat = kw.category || '—'
     if (!acc.has(cat)) acc.set(cat, [])
     acc.get(cat)!.push(kw)
@@ -153,15 +155,29 @@ const FilterSidebar = () => {
           onValueChange={(v) => setFilter('canton', v === '_all' || v === null ? '' : v)}
         >
           <SelectTrigger className="w-full bg-sidebar-accent border-sidebar-border text-sidebar-foreground h-9 text-base">
-            <SelectValue placeholder={t('sidebar.canton.all')} />
+            {/* The name alone: the count belongs to the list. */}
+            <SelectValue placeholder={t('sidebar.canton.all')}>
+              {filters.canton ? getCantonLabel(filters.canton, langSuffix) : t('sidebar.canton.all')}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="_all">{t('sidebar.canton.all')}</SelectItem>
-            {CANTONS.map((c) => (
-              <SelectItem key={c.code} value={c.code}>
-                {getCantonLabel(c.code, langSuffix)}
-              </SelectItem>
-            ))}
+            {CANTONS.map((c) => {
+              const count = cantonCounts.get(c.code) ?? 0
+              return (
+                <SelectItem
+                  key={c.code}
+                  value={c.code}
+                  disabled={!!facets && count === 0 && c.code !== filters.canton}
+                  className="[&>span:last-child]:flex-1"
+                >
+                  <span className="flex w-full items-center justify-between gap-3">
+                    <span>{getCantonLabel(c.code, langSuffix)}</span>
+                    {facets && <span className="text-xs text-muted-foreground tabular-nums">{count}</span>}
+                  </span>
+                </SelectItem>
+              )
+            })}
           </SelectContent>
         </Select>
       </div>
@@ -235,6 +251,7 @@ const FilterSidebar = () => {
                   filters.keywords.includes(kw.id)
                 ).length
                 const isOpen = openCategories.has(category)
+                const isEmpty = selectedCount === 0 && catKeywords.every((kw) => kw.count === 0)
 
                 return (
                   <Collapsible
@@ -246,7 +263,12 @@ const FilterSidebar = () => {
                         it: a button cannot contain another one. */}
                     <div className="flex items-center gap-1.5">
                       <CollapsibleTrigger className="flex flex-1 min-w-0 items-center justify-between py-1.5 text-left group">
-                        <span className="text-sm text-sidebar-foreground/80 font-medium leading-tight">
+                        <span
+                          className={cn(
+                            'text-sm text-sidebar-foreground/80 font-medium leading-tight',
+                            isEmpty && 'opacity-45'
+                          )}
+                        >
                           {category}
                         </span>
                         <div className="flex items-center gap-1.5 shrink-0 ml-2">
@@ -278,27 +300,34 @@ const FilterSidebar = () => {
                     </div>
                     <CollapsibleContent>
                       <div className="space-y-2 pl-1 pt-1 pb-2">
-                        {catKeywords.map((kw) => (
-                          <div key={kw.id} className="flex items-center gap-2.5">
-                            <Checkbox
-                              id={`kw-${category}-${kw.id}`}
-                              checked={filters.keywords.includes(kw.id)}
-                              onCheckedChange={() => toggleKeyword(kw.id)}
-                              className="border-sidebar-border/60"
-                            />
-                            <label
-                              htmlFor={`kw-${category}-${kw.id}`}
-                              className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 cursor-pointer leading-tight"
-                            >
-                              <span>{kw.label}</span>
-                              {kw.decisionsCount > 0 && (
+                        {catKeywords.map((kw) => {
+                          const checked = filters.keywords.includes(kw.id)
+                          // A keyword that would leave no decision is greyed out.
+                          const empty = kw.count === 0 && !checked
+                          return (
+                            <div key={kw.id} className={cn('flex items-center gap-2.5', empty && 'opacity-45')}>
+                              <Checkbox
+                                id={`kw-${category}-${kw.id}`}
+                                checked={checked}
+                                disabled={empty}
+                                onCheckedChange={() => toggleKeyword(kw.id)}
+                                className="border-sidebar-border/60"
+                              />
+                              <label
+                                htmlFor={`kw-${category}-${kw.id}`}
+                                className={cn(
+                                  'flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 leading-tight',
+                                  empty ? 'cursor-default' : 'cursor-pointer'
+                                )}
+                              >
+                                <span>{kw.label}</span>
                                 <span className="text-[10px] text-sidebar-foreground/65 tabular-nums shrink-0">
-                                  {kw.decisionsCount}
+                                  {kw.count}
                                 </span>
-                              )}
-                            </label>
-                          </div>
-                        ))}
+                              </label>
+                            </div>
+                          )
+                        })}
                       </div>
                     </CollapsibleContent>
                   </Collapsible>

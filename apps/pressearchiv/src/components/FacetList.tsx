@@ -3,7 +3,7 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { normalize } from '@/lib/text'
+import { normalize } from '@eddb/showcase-kit/text'
 import { cn } from '@/lib/utils'
 import type { CountedValue } from '@/types/archive'
 import { useMemo, useState } from 'react'

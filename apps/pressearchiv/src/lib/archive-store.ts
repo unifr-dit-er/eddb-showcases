@@ -7,7 +7,8 @@
  * expose only whitelisted fields.
  */
 import type { Article, Series } from '@/types/archive'
-import { fetchNocoDB } from '@eddb/showcase-kit/nocodb'
+import { fetchAllRecords } from '@eddb/showcase-kit/nocodb'
+import { cachedLoader } from '@eddb/showcase-kit/cached-loader'
 import {
   ARCHIVE_TTL_MS,
   ARTICLE_FIELDS,
@@ -23,40 +24,14 @@ export interface Archive {
   articlesById: Map<string, Article>
   series: Series[]
   seriesById: Map<string, Series>
-  loadedAt: number
-}
-
-const NOCODB_PAGE = 1000
-
-const fetchAll = async (
-  tableId: string,
-  fields: readonly string[],
-  where?: string
-): Promise<NocoDBRecord[]> => {
-  const records: NocoDBRecord[] = []
-  for (let offset = 0; ; offset += NOCODB_PAGE) {
-    const params: Record<string, string> = {
-      fields: fields.join(','),
-      limit: String(NOCODB_PAGE),
-      offset: String(offset),
-    }
-    if (where) params.where = where
-    const data = (await fetchNocoDB(`/api/v2/tables/${tableId}/records`, params)) as {
-      list?: NocoDBRecord[]
-      pageInfo?: { isLastPage?: boolean }
-    }
-    const list = data.list ?? []
-    records.push(...list)
-    if (data.pageInfo?.isLastPage !== false || list.length === 0) return records
-  }
 }
 
 // Always through the NocoDB API, in development as in production, so the
 // app behaves the same with the same token.
 const loadRaw = async () => {
   const [articles, series] = await Promise.all([
-    fetchAll(NOCODB_TABLES.ARTICLES, ARTICLE_FIELDS, '(ok_for_public,eq,YES)'),
-    fetchAll(NOCODB_TABLES.SERIES, SERIES_FIELDS),
+    fetchAllRecords(NOCODB_TABLES.ARTICLES, ARTICLE_FIELDS, '(ok_for_public,eq,YES)'),
+    fetchAllRecords(NOCODB_TABLES.SERIES, SERIES_FIELDS),
   ])
   return { articles, series }
 }
@@ -76,28 +51,10 @@ export const buildArchive = (
     articlesById: new Map(articles.map((a) => [a.id, a])),
     series,
     seriesById: new Map(series.map((s) => [s.id, s])),
-    loadedAt: Date.now(),
   }
 }
 
-let cache: Archive | null = null
-let pending: Promise<Archive> | null = null
-
-export const getArchive = async (): Promise<Archive> => {
-  if (cache && Date.now() - cache.loadedAt < ARCHIVE_TTL_MS) return cache
-  if (!pending) {
-    pending = loadRaw()
-      .then(({ articles, series }) => {
-        cache = buildArchive(articles, series)
-        return cache
-      })
-      .finally(() => {
-        pending = null
-      })
-  }
-  // On a failed refresh, keep serving the previous copy if there is one.
-  return pending.catch((error) => {
-    if (cache) return cache
-    throw error
-  })
-}
+export const getArchive = cachedLoader(async () => {
+  const { articles, series } = await loadRaw()
+  return buildArchive(articles, series)
+}, ARCHIVE_TTL_MS)

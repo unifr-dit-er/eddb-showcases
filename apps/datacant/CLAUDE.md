@@ -5,8 +5,8 @@ There is no authentication and no database — all data comes from NocoDB.
 
 # Monorepo
 
-Part of `eddb-showcases`: theme, NocoDB client, viewer preferences and
-footer come from `@eddb/showcase-kit` (`packages/showcase-kit`); the faculty
+Part of `eddb-showcases`: theme, NocoDB client and cache, viewer preferences
+and shared components come from `@eddb/showcase-kit` (`packages/showcase-kit`); the faculty
 theme is `data-faculty="droit"` on <html>. See the root `CLAUDE.md`.
 
 # Tech Stack
@@ -25,7 +25,16 @@ NOCODB_API_TOKEN=              # NocoDB API token (server-side only)
 
 # Architecture
 
-- All NocoDB requests are proxied through `/app/api/nocodb/` to keep the API token server-side
+- Only whitelisted fields of the Datacant base are read
+  (`src/lib/decisions-config.ts`). There is no proxy to NocoDB: the
+  service-account token reads several bases.
+- `src/lib/decisions-store.ts` loads the decisions, keywords, categories and
+  their links into memory, in both languages, refreshed every hour; the route
+  handlers in `/app/api/` (`decisions`, `decisions/[id]`, `facets`) filter,
+  count and paginate them (`src/lib/decisions-query.ts`). Keywords combine
+  with "and"; counts are contextual. The API token stays server-side.
+- `decisions/[id]/pdf` asks NocoDB for the attachment link on each download
+  and redirects to it: NocoDB signs these links for a couple of hours only.
 - All data fetching on the client uses **TanStack Query** (`useQuery`, `useMutation`)
 - No direct `fetch` calls in components or pages — always go through a custom hook
 - No Server Components for data fetching — use Client Components with TanStack Query
@@ -36,7 +45,8 @@ NOCODB_API_TOKEN=              # NocoDB API token (server-side only)
 src/
 ├── app/
 │   ├── api/
-│   │   └── nocodb/        # Proxy route handlers to NocoDB
+│   │   ├── decisions/     # Filtered list, single decision, its PDF
+│   │   └── facets/        # Counts for the filters
 │   ├── layout.tsx
 │   └── page.tsx
 ├── components/
@@ -44,7 +54,8 @@ src/
 │   └── ...                # App-specific components
 ├── hooks/                 # Custom hooks, all prefixed with "use"
 ├── lib/
-│   └── …                  # NocoDB client: @eddb/showcase-kit/nocodb (route handlers only)
+│   ├── decisions-*.ts     # Whitelist, mapping, in-memory store, queries (server)
+│   └── cantons.ts, period.ts
 └── types/                 # Shared TypeScript types and interfaces
 ```
 
@@ -62,7 +73,7 @@ src/
 - No database or ORM (Prisma, Drizzle, etc.)
 - No global state manager (Zustand, Jotai, Redux, etc.) — TanStack Query handles server state
 - No Server Components for data fetching
-- No direct `fetch` calls outside of `/app/api/` route handlers
+- No direct `fetch` calls outside of `/app/api/` route handlers and `src/lib/decisions-store.ts`
 - No `use client` in page-level components — keep pages as thin wrappers
 
 # shadcn/ui

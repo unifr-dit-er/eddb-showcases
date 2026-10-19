@@ -2,7 +2,7 @@
   "name": "@eddb/showcase-kit",
   "version": "0.1.0",
   "private": true,
-  "description": "Shared kit of the EDDB showcases: theme, NocoDB client, viewer preferences, footer",
+  "description": "Shared kit of the EDDB showcases: theme, NocoDB client and cache, viewer preferences, shared components",
   "exports": {
     "./theme.css": "./src/theme.css",
     "./nocodb": "./src/nocodb.ts",
@@ -12,7 +12,9 @@
     "./site-footer": "./src/SiteFooter.tsx",
     "./sidebar-masthead": "./src/SidebarMasthead.tsx",
     "./year-timeline": "./src/YearTimeline.tsx",
-    "./active-filter-chips": "./src/ActiveFilterChips.tsx"
+    "./active-filter-chips": "./src/ActiveFilterChips.tsx",
+    "./cached-loader": "./src/cachedLoader.ts",
+    "./text": "./src/text.ts"
   },
   "scripts": {
     "lint": "eslint src",

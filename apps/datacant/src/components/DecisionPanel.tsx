@@ -16,6 +16,7 @@ import { getCantonLabel } from '@/lib/cantons'
 import { cn } from '@/lib/utils'
 import { Check, Copy, Download } from 'lucide-react'
 import { useState } from 'react'
+import { withBasePath } from '@eddb/showcase-kit/api-fetch'
 
 interface DecisionPanelProps {
   decisionId: string | null
@@ -101,10 +102,10 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
 
         {decision && (
           <div className="space-y-4">
-            {decision.pdfUrl && (
+            {decision.hasPdf && (
               <div className="flex items-center gap-2 -mt-2 mb-6">
                 <a
-                  href={decision.pdfUrl}
+                  href={withBasePath(`/api/decisions/${encodeURIComponent(decision.id)}/pdf`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-base text-primary-ink hover:text-primary-ink/80 transition-colors font-medium"

@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFilters } from '@/hooks/useFilters'
-import { useKeywords } from '@/hooks/useKeywords'
+import { useFacets } from '@/hooks/useFacets'
 import { getCantonLabel } from '@/lib/cantons'
 import { formatPeriod } from '@/lib/period'
 import { ActiveFilterChips, type FilterChip } from '@eddb/showcase-kit/active-filter-chips'
@@ -10,10 +10,10 @@ import { ActiveFilterChips, type FilterChip } from '@eddb/showcase-kit/active-fi
 // Chips of the active filters, above the results.
 const ActiveFilters = () => {
   const { filters, setFilter, setFilters, resetFilters } = useFilters()
-  const { data: keywords = [] } = useKeywords()
+  const { data: facets } = useFacets()
   const { t, locale, langSuffix } = useLanguage()
 
-  const keywordLabel = (id: string) => keywords.find((kw) => kw.id === id)?.label ?? id
+  const keywordLabel = (id: string) => facets?.keywords.find((kw) => kw.id === id)?.label ?? id
   const period = formatPeriod(filters.from, filters.to, locale)
 
   const chips: FilterChip[] = [

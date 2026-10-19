@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { Decision } from '../decision'
+import type { Decision, DecisionsPage } from '../decision'
 import type { Filters } from '../filters'
-import type { NocoDBListResponse } from '../nocodb'
 
 describe('Types', () => {
   it('Decision type accepts a valid decision object', () => {
@@ -16,10 +15,9 @@ describe('Types', () => {
           id: 'k1',
           label: 'Santé',
           category: 'Santé et sécurité sociale',
-          decisionsCount: 3,
         },
       ],
-      pdfUrl: 'https://example.com/decision.pdf',
+      hasPdf: true,
     }
     expect(decision.id).toBe('1')
   })
@@ -37,8 +35,8 @@ describe('Types', () => {
     expect(filters.page).toBe(1)
   })
 
-  it('NocoDBListResponse wraps a list with pageInfo', () => {
-    const response: NocoDBListResponse<Decision> = {
+  it('DecisionsPage wraps a list with pageInfo and years', () => {
+    const response: DecisionsPage = {
       list: [],
       pageInfo: {
         totalRows: 0,
@@ -47,6 +45,7 @@ describe('Types', () => {
         isFirstPage: true,
         isLastPage: true,
       },
+      years: [],
     }
     expect(response.pageInfo.totalRows).toBe(0)
   })

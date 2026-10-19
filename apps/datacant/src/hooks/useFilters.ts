@@ -4,6 +4,20 @@ import { DEFAULT_FILTERS, type Filters } from '@/types/filters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
+// Query string of the filters for the API routes (same names as the URL).
+export const filtersToQueryString = (filters: Filters, extra: Record<string, string> = {}): string => {
+  const params = new URLSearchParams()
+  if (filters.q) params.set('q', filters.q)
+  if (filters.canton) params.set('canton', filters.canton)
+  filters.keywords.forEach((k) => params.append('keyword', k))
+  if (filters.from) params.set('from', filters.from)
+  if (filters.to) params.set('to', filters.to)
+  if (filters.page > 1) params.set('page', String(filters.page))
+  if (filters.sortDir === 'asc') params.set('sort', 'asc')
+  Object.entries(extra).forEach(([key, value]) => params.set(key, value))
+  return params.toString()
+}
+
 export const useFilters = () => {
   const searchParams = useSearchParams()
   const router = useRouter()

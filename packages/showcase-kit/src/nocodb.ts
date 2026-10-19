@@ -31,3 +31,32 @@ export const fetchNocoDB = async (
 
   return response.json()
 }
+
+const NOCODB_PAGE = 1000
+
+/**
+ * Every record of a table, page after page, limited to the whitelisted
+ * `fields`. Server-side only, like fetchNocoDB.
+ */
+export const fetchAllRecords = async (
+  tableId: string,
+  fields: readonly string[],
+  where?: string
+): Promise<Record<string, unknown>[]> => {
+  const records: Record<string, unknown>[] = []
+  for (let offset = 0; ; offset += NOCODB_PAGE) {
+    const params: Record<string, string> = {
+      fields: fields.join(','),
+      limit: String(NOCODB_PAGE),
+      offset: String(offset),
+    }
+    if (where) params.where = where
+    const data = (await fetchNocoDB(`/api/v2/tables/${tableId}/records`, params)) as {
+      list?: Record<string, unknown>[]
+      pageInfo?: { isLastPage?: boolean }
+    }
+    const list = data.list ?? []
+    records.push(...list)
+    if (data.pageInfo?.isLastPage !== false || list.length === 0) return records
+  }
+}

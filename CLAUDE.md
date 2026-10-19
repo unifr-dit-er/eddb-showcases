@@ -39,7 +39,8 @@ its sources with `@source`. It holds:
   p. 15). Fills use the faculty colour (`bg-primary`), light surfaces its
   official tints (`bg-primary-tint-1/2/3`), never a transparency of it
   (`bg-primary/10`); accented text is midnight blue (`text-primary-ink`).
-- `nocodb` (server-side client), `api-fetch`, `use-local-setting`
+- `nocodb` (server-side client), `cached-loader` (in-memory copy of a
+  base, the pattern of both showcases), `text`, `api-fetch`, `use-local-setting`
   (hydration-safe viewer preferences), `font-size`, `site-footer`,
   `sidebar-masthead` (each application loads the Newsreader serif),
   `year-timeline`, `active-filter-chips`.

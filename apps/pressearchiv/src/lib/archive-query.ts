@@ -13,7 +13,7 @@ import type {
 } from '@/types/archive'
 import { DEFAULT_FILTERS } from '@/types/archive'
 import { PAGE_SIZE } from '@/lib/archive-config'
-import { normalize } from '@/lib/text'
+import { normalize } from '@eddb/showcase-kit/text'
 
 export { normalize }
 

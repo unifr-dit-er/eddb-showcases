@@ -6,8 +6,10 @@ already serves two showcases.
 | Import | Content |
 |---|---|
 | `@eddb/showcase-kit/theme.css` | Tokens and faculty themes (`data-faculty` on `<html>`), official tints |
-| `@eddb/showcase-kit/nocodb` | NocoDB API client, server-side only |
-| `@eddb/showcase-kit/api-fetch` | `fetch` with the showcase's base path |
+| `@eddb/showcase-kit/nocodb` | NocoDB API client (`fetchNocoDB`, `fetchAllRecords` for whitelisted fields of a whole table), server-side only |
+| `@eddb/showcase-kit/cached-loader` | In-memory copy of a base, reloaded after a TTL, previous copy kept if NocoDB fails |
+| `@eddb/showcase-kit/text` | `normalize`: case- and accent-insensitive matching |
+| `@eddb/showcase-kit/api-fetch` | `fetch` with the showcase's base path; `withBasePath` for links |
 | `@eddb/showcase-kit/use-local-setting` | Viewer preference in localStorage, hydration-safe |
 | `@eddb/showcase-kit/font-size` | Text-size context and provider |
 | `@eddb/showcase-kit/site-footer` | Footer after the institute layout of the corporate design |

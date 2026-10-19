@@ -86,7 +86,7 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
             <span className="text-primary-ink font-medium tabular-nums">{formattedDate}</span>
           </>
         )}
-        {decision.pdfUrl && (
+        {decision.hasPdf && (
           <span className="ml-auto flex items-center gap-1 text-[0.6875rem] font-semibold tracking-[0.1em] uppercase text-muted-foreground">
             <FileText className="h-3.5 w-3.5" aria-hidden />
             PDF
