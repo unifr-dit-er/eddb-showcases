@@ -1,6 +1,7 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import ActiveFilters from '@/components/ActiveFilters'
 import DecisionCard from '@/components/DecisionCard'
 import { YearTimeline } from '@eddb/showcase-kit/year-timeline'
 import { useDecisionYears } from '@/hooks/useDecisionYears'
@@ -14,7 +15,7 @@ import { useCallback } from 'react'
 
 const DecisionList = () => {
   const { filters, setFilter, setFilters } = useFilters()
-  const { data, isLoading, isError, nocodbQueries, nocodbError } = useDecisions(filters)
+  const { data, isLoading, isError } = useDecisions(filters)
   const { t } = useLanguage()
   const timeline = useDecisionYears(filters)
   const searchParams = useSearchParams()
@@ -50,34 +51,10 @@ const DecisionList = () => {
       />
     ) : null
 
-  const nocodbBaseUrl = process.env.NEXT_PUBLIC_NOCODB_API_URL?.replace(/\/$/, '')
-  const devCallout = process.env.NODE_ENV === 'development' ? (
-    <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 font-mono text-[11px] text-amber-800 space-y-1">
-      {nocodbError && (
-        <div className="text-red-700 font-semibold mb-1">{nocodbError}</div>
-      )}
-      {nocodbQueries.map((q, i) => (
-        <div key={i} className="break-all">
-          {nocodbQueries.length > 1 && (
-            <span className="font-semibold mr-2">[{i + 1}/{nocodbQueries.length}]</span>
-          )}
-          <a
-            href={nocodbBaseUrl ? `${nocodbBaseUrl}${q}` : q}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:text-amber-900"
-          >
-            {q}
-          </a>
-        </div>
-      ))}
-    </div>
-  ) : null
-
   if (isError) {
     return (
       <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
-        {devCallout}
+        <ActiveFilters />
         <div className="flex items-center justify-center h-48 text-base text-muted-foreground">
           {t('decisions.error')}
         </div>
@@ -88,7 +65,7 @@ const DecisionList = () => {
   if (isLoading) {
     return (
       <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
-        {devCallout}
+        <ActiveFilters />
         {timelineFigure}
         <div className="space-y-3">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -112,7 +89,7 @@ const DecisionList = () => {
   if (decisions.length === 0) {
     return (
       <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
-        {devCallout}
+        <ActiveFilters />
         {timelineFigure}
         <div className="flex items-center justify-center h-48 text-base text-muted-foreground">
           {t('decisions.empty')}
@@ -128,7 +105,7 @@ const DecisionList = () => {
 
   return (
     <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
-      {devCallout}
+      <ActiveFilters />
       {timelineFigure}
       {pageInfo && (
         <div className="flex items-center justify-between">

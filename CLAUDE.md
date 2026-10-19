@@ -42,7 +42,7 @@ its sources with `@source`. It holds:
 - `nocodb` (server-side client), `api-fetch`, `use-local-setting`
   (hydration-safe viewer preferences), `font-size`, `site-footer`,
   `sidebar-masthead` (each application loads the Newsreader serif),
-  `year-timeline`.
+  `year-timeline`, `active-filter-chips`.
 
 shadcn/ui components stay in each application (`src/components/ui`), as the
 shadcn CLI expects.

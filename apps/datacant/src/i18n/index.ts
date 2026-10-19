@@ -33,6 +33,9 @@ export interface Translations {
   'decisions.next': string
   'timeline.label': string
   'timeline.hint': string
+  'activeFilters.label': string
+  'activeFilters.clear': string
+  'activeFilters.remove': string
   'footer.faculty': string
   'footer.faculty.url': string
   'footer.institute': string

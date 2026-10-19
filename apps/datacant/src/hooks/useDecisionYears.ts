@@ -26,7 +26,7 @@ const fetchYears = async (where: string): Promise<YearCount[]> => {
 const fetchFilteredYears = async (filters: Filters, langSuffix: LangSuffix): Promise<YearCount[]> => {
   let ids: string[] | undefined
   if (filters.keywords.length > 0) {
-    ids = (await fetchDecisionIdsForKeywords(filters.keywords)).ids
+    ids = await fetchDecisionIdsForKeywords(filters.keywords)
     if (ids.length === 0) return []
   }
   return fetchYears(buildWhere(filters, langSuffix, ids, false))

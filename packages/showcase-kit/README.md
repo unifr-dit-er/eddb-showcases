@@ -13,5 +13,6 @@ already serves two showcases.
 | `@eddb/showcase-kit/site-footer` | Footer after the institute layout of the corporate design |
 | `@eddb/showcase-kit/sidebar-masthead` | Top of the sidebar: Unifr logo, showcase name in serif between rules, subtitle |
 | `@eddb/showcase-kit/year-timeline` | Distribution by year of the results, click to select a year or a period |
+| `@eddb/showcase-kit/active-filter-chips` | Chips of the active filters above the results, each removable; the showcase builds them |
 
 Rules and theme conventions: root `CLAUDE.md`.
