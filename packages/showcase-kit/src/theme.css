@@ -1,0 +1,133 @@
+/*
+ * Theme of the EDDB showcases, after the Unifr corporate design manual
+ * (Almanac: diter/documents/2013-11-manuel-corporate-design-unifr-fr.pdf,
+ * palette p. 14-15).
+ *
+ * Imported by each application's globals.css, after Tailwind. The faculty
+ * colour is chosen with `data-faculty` on <html>:
+ *   - fills, bars and rules: the faculty colour, never darkened;
+ *   - light surfaces (selections, chips, hovers): its three official tints,
+ *     never a transparency of it;
+ *   - accented text: midnight blue, the university's secondary colour,
+ *     which the manual allows with every faculty colour.
+ * Every text/background pair below meets WCAG AA (4.5:1).
+ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-atkinson);
+  --font-mono: var(--font-atkinson-mono);
+  --font-heading: var(--font-atkinson);
+  --font-serif: var(--font-newsreader);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-primary-tint-1: var(--primary-tint-1);
+  --color-primary-tint-2: var(--primary-tint-2);
+  --color-primary-tint-3: var(--primary-tint-3);
+  --color-primary-ink: var(--primary-ink);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(0.975 0.007 82);        /* warm parchment */
+  --foreground: oklch(0.17 0.008 250);         /* deep charcoal */
+  --card: oklch(0.985 0.005 82);
+  --card-foreground: oklch(0.17 0.008 250);
+  --popover: oklch(0.99 0.003 82);
+  --popover-foreground: oklch(0.17 0.008 250);
+  /* Midnight blue, Pantone 2768 C (#071D49): the manual prints RGB 10/56/89,
+     which matches neither its CMYK, its Pantone nor its swatch. */
+  --primary-ink: oklch(0.245 0.087 262);
+  --secondary: oklch(0.93 0.006 82);
+  --secondary-foreground: oklch(0.17 0.008 250);
+  --muted: oklch(0.93 0.006 82);
+  --muted-foreground: oklch(0.52 0.008 78);
+  --accent: oklch(0.93 0.006 82);
+  --accent-foreground: oklch(0.17 0.008 250);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.87 0.006 82);
+  --input: oklch(0.87 0.006 82);
+  --ring: var(--primary);
+  --chart-1: var(--primary);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.16 0.012 264);           /* deep navy charcoal */
+  --sidebar-foreground: oklch(0.92 0.006 76); /* warm off-white */
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: oklch(0.21 0.012 264);    /* slightly lighter for inputs */
+  --sidebar-accent-foreground: oklch(0.92 0.006 76);
+  --sidebar-border: oklch(0.27 0.012 264);
+  --sidebar-ring: var(--primary);
+}
+
+/* Faculty colours (manual p. 15, printed RGB) and their tints at about 70,
+   45 and 25 %, measured on the manual's swatches. Text on the full colour:
+   black or white, whichever meets AA; midnight blue on the tints. */
+
+/* Faculty of Humanities: sky blue RGB 0/131/190. */
+[data-faculty='lettres'] {
+  --primary: oklch(0.58 0.13 238.7);            /* #0083BE */
+  --primary-foreground: oklch(0 0 0);           /* black, 5.0:1 */
+  --primary-tint-1: oklch(0.693 0.106 230.8);   /* #4CA8D2 */
+  --primary-tint-2: oklch(0.799 0.072 228.2);   /* #8CC7E2, midnight blue 8.9:1 */
+  --primary-tint-3: oklch(0.888 0.04 227);      /* #BFE0EF, midnight blue 11.8:1 */
+}
+
+/* Faculty of Law: red RGB 191/18/56. */
+[data-faculty='droit'] {
+  --primary: oklch(0.515 0.199 18.5);           /* #BF1238 */
+  --primary-foreground: oklch(1 0 0);           /* white, 6.3:1 */
+  --primary-tint-1: oklch(0.624 0.154 8.9);     /* #D25974 */
+  --primary-tint-2: oklch(0.749 0.096 5.4);     /* #E294A5, midnight blue 7.0:1 */
+  --primary-tint-3: oklch(0.86 0.05 4.1);       /* #EFC4CD, midnight blue 10.5:1 */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}

@@ -43,8 +43,8 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
       className={cn(
         'w-full text-left rounded-xl bg-card border shadow-sm px-5 py-4 transition-all duration-200 cursor-pointer',
         isActive
-          ? 'border-primary/40 shadow-md ring-1 ring-primary/10 bg-primary/[0.02]'
-          : 'border-border hover:shadow-md hover:border-primary/25'
+          ? 'border-primary-tint-2 shadow-md ring-1 ring-primary-tint-3'
+          : 'border-border hover:shadow-md hover:border-primary-tint-2'
       )}
     >
       <h3 className="text-base font-medium leading-snug line-clamp-2 mb-2.5 text-foreground">
@@ -57,14 +57,14 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
             className={cn(
               'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
               filters.canton === decision.canton
-                ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                : 'text-muted-foreground bg-muted hover:bg-primary/15 hover:text-primary'
+                ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                : 'text-muted-foreground bg-muted hover:bg-primary-tint-2 hover:text-primary-ink'
             )}
           >
             {decision.canton}
           </span>
         )}
-        <span className="text-[0.8125rem] text-primary font-medium">{formattedDate}</span>
+        <span className="text-[0.8125rem] text-primary-ink font-medium">{formattedDate}</span>
       </div>
       {decision.keywords.length > 0 && (
         <div className="flex flex-wrap gap-1">
@@ -76,8 +76,8 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
               className={cn(
                 'text-xs px-1.5 py-0 font-normal cursor-pointer transition-colors',
                 filters.keywords.includes(kw.id)
-                  ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                  : 'hover:bg-primary/15 hover:text-primary'
+                  ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                  : 'hover:bg-primary-tint-2 hover:text-primary-ink'
               )}
             >
               {kw.label}

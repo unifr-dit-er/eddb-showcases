@@ -53,7 +53,7 @@ export const ActiveFilters = () => {
           key={chip.key}
           onClick={chip.remove}
           aria-label={`${t('activeFilters.remove')} : ${chip.text}`}
-          className="inline-flex max-w-full items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-[0.8125rem] text-primary-ink hover:bg-primary/20 transition-colors"
+          className="inline-flex max-w-full items-center gap-1 rounded-full border border-primary-tint-2 bg-primary-tint-3 px-2.5 py-0.5 text-[0.8125rem] text-primary-ink hover:bg-primary-tint-2 transition-colors"
         >
           <span className="truncate">{chip.text}</span>
           <X className="h-3.5 w-3.5 shrink-0 opacity-70" />

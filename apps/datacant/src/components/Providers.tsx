@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import { LanguageProvider } from '@/contexts/LanguageContext'
-import { FontSizeProvider } from '@/contexts/FontSizeContext'
+import { FontSizeProvider } from '@eddb/showcase-kit/font-size'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(

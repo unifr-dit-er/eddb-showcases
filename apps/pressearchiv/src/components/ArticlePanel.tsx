@@ -122,7 +122,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
             {article.teaser && (
               <div>
                 <SectionLabel>{t('article.teaser')}</SectionLabel>
-                <blockquote className="border-l-2 border-primary/60 pl-4 font-serif text-[1.0625rem] leading-relaxed text-foreground/85">
+                <blockquote className="border-l-2 border-primary-tint-1 pl-4 font-serif text-[1.0625rem] leading-relaxed text-foreground/85">
                   {article.teaser}
                   {/* The archive keeps only the opening lines; some already end with […]. */}
                   {!/(\[(\.\.\.|…)\]|…)\s*$/.test(article.teaser) && (
@@ -162,8 +162,8 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                       className={cn(
                         'text-xs px-2 py-0.5 font-normal cursor-pointer transition-colors',
                         filters.keywords.includes(kw)
-                          ? 'bg-primary/10 text-primary-ink hover:bg-primary/15'
-                          : 'hover:bg-primary/10 hover:text-primary-ink'
+                          ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                          : 'hover:bg-primary-tint-3 hover:text-primary-ink'
                       )}
                     >
                       {kw}

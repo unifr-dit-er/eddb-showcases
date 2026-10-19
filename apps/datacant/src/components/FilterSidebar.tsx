@@ -22,7 +22,7 @@ import { CANTONS, getCantonLabel } from '@/lib/cantons'
 import { cn } from '@/lib/utils'
 import type { Keyword } from '@/types/keyword'
 import { ChevronRight } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 const SectionHeader = ({
   children,
@@ -34,13 +34,13 @@ const SectionHeader = ({
   resetLabel?: string
 }) => (
   <div className="flex items-center justify-between mb-2.5">
-    <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-sidebar-foreground/45">
+    <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-sidebar-foreground/65">
       {children}
     </p>
     {onReset && (
       <button
         onClick={onReset}
-        className="text-[11px] text-sidebar-foreground/40 hover:text-sidebar-foreground/70 transition-colors"
+        className="text-[11px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors"
       >
         {resetLabel}
       </button>
@@ -55,11 +55,14 @@ const FilterSidebar = () => {
   const { data: keywords = [] } = useKeywords()
   const { t, langSuffix } = useLanguage()
   const [qInput, setQInput] = useState(filters.q)
+  const [syncedQ, setSyncedQ] = useState(filters.q)
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set())
 
-  useEffect(() => {
+  // The field follows the URL (reset, back button) without an effect.
+  if (filters.q !== syncedQ) {
+    setSyncedQ(filters.q)
     setQInput(filters.q)
-  }, [filters.q])
+  }
 
   // Group keywords by category. A keyword with multiple categories would appear
   // in each group — the checked state is shared via keyword ID regardless.
@@ -109,7 +112,7 @@ const FilterSidebar = () => {
         <>
           <button
             onClick={resetFilters}
-            className="w-full text-[13px] text-sidebar-foreground/45 hover:text-sidebar-foreground/80 transition-colors py-1 text-center"
+            className="w-full text-[13px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors py-1 text-center"
           >
             {t('sidebar.resetFilters')}
           </button>
@@ -131,7 +134,7 @@ const FilterSidebar = () => {
           onChange={(e) => setQInput(e.target.value)}
           onKeyDown={handleQKeyDown}
           onBlur={() => setFilter('q', qInput)}
-          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/30 focus-visible:border-primary focus-visible:ring-primary/30 h-9 text-base"
+          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-9 text-base"
         />
       </div>
 
@@ -175,7 +178,7 @@ const FilterSidebar = () => {
         </SectionHeader>
         <div className="space-y-2">
           <div>
-            <p className="text-[11px] text-sidebar-foreground/40 mb-1 tracking-widest uppercase">
+            <p className="text-[11px] text-sidebar-foreground/65 mb-1 tracking-widest uppercase">
               {t('sidebar.period.from')}
             </p>
             <DatePickerFilter
@@ -185,7 +188,7 @@ const FilterSidebar = () => {
             />
           </div>
           <div>
-            <p className="text-[11px] text-sidebar-foreground/40 mb-1 tracking-widest uppercase">
+            <p className="text-[11px] text-sidebar-foreground/65 mb-1 tracking-widest uppercase">
               {t('sidebar.period.to')}
             </p>
             <DatePickerFilter
@@ -203,14 +206,14 @@ const FilterSidebar = () => {
           <Divider />
           <div>
             <div className="flex items-center justify-between mb-2.5">
-              <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-sidebar-foreground/45">
+              <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-sidebar-foreground/65">
                 {t('sidebar.keywords.label')}
               </p>
               <div className="flex items-center gap-2.5">
                 {filters.keywords.length > 0 && (
                   <button
                     onClick={() => resetFilter('keywords')}
-                    className="text-[11px] text-sidebar-foreground/40 hover:text-sidebar-foreground/70 transition-colors"
+                    className="text-[11px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors"
                   >
                     {t('sidebar.clear')}
                   </button>
@@ -218,7 +221,7 @@ const FilterSidebar = () => {
                 {openCategories.size > 0 && (
                   <button
                     onClick={() => setOpenCategories(new Set())}
-                    className="text-[11px] text-sidebar-foreground/40 hover:text-sidebar-foreground/70 transition-colors"
+                    className="text-[11px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors"
                   >
                     {t('sidebar.keywords.collapseAll')}
                   </button>
@@ -255,7 +258,7 @@ const FilterSidebar = () => {
                                 const catIds = catKeywords.map((kw) => kw.id)
                                 setFilter('keywords', filters.keywords.filter((k) => !catIds.includes(k)))
                               }}
-                              className="text-[10px] text-sidebar-foreground/40 hover:text-sidebar-foreground/70 transition-colors leading-none"
+                              className="text-[10px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors leading-none"
                             >
                               ×
                             </button>
@@ -263,7 +266,7 @@ const FilterSidebar = () => {
                         )}
                         <ChevronRight
                           className={cn(
-                            'h-3.5 w-3.5 text-sidebar-foreground/35 transition-transform duration-150',
+                            'h-3.5 w-3.5 text-sidebar-foreground/65 transition-transform duration-150',
                             isOpen && 'rotate-90'
                           )}
                         />
@@ -281,11 +284,11 @@ const FilterSidebar = () => {
                             />
                             <label
                               htmlFor={`kw-${category}-${kw.id}`}
-                              className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/65 cursor-pointer leading-tight"
+                              className="flex-1 flex items-center justify-between gap-1.5 text-sm text-sidebar-foreground/80 cursor-pointer leading-tight"
                             >
                               <span>{kw.label}</span>
                               {kw.decisionsCount > 0 && (
-                                <span className="text-[10px] text-sidebar-foreground/50 tabular-nums shrink-0">
+                                <span className="text-[10px] text-sidebar-foreground/65 tabular-nums shrink-0">
                                   {kw.decisionsCount}
                                 </span>
                               )}

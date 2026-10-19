@@ -1,6 +1,6 @@
 import type { ArchiveFilters, Facets, SeriesFacet } from '@/types/archive'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { apiFetch } from '@/lib/api-fetch'
+import { apiFetch } from '@eddb/showcase-kit/api-fetch'
 import { filtersToQueryString, useFilters } from '@/hooks/useFilters'
 import { useMemo } from 'react'
 

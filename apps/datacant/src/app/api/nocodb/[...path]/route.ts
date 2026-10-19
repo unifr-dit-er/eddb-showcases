@@ -1,4 +1,4 @@
-import { fetchNocoDB } from '@/lib/nocodb'
+import { fetchNocoDB } from '@eddb/showcase-kit/nocodb'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = async (

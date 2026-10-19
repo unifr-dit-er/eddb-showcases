@@ -3,7 +3,7 @@ import type { LangSuffix } from '@/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { NOCODB_TABLES } from '@/lib/nocodb-tables'
 import { mapDecision } from '@/lib/nocodb-mappers'
-import { apiFetch } from '@/lib/api-fetch'
+import { apiFetch } from '@eddb/showcase-kit/api-fetch'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export const DECISION_QUERY_KEY = (id: string | null, langSuffix: LangSuffix) =>

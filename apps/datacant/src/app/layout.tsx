@@ -6,11 +6,15 @@ import {
 import './globals.css'
 import Providers from '@/components/Providers'
 
+// Next.js has no fallback metrics for the Atkinson fonts: without an explicit
+// fallback, Turbopack warns and the text shows in the browser's default serif
+// until the font loads.
 const atkinson = Atkinson_Hyperlegible_Next({
   variable: '--font-atkinson',
   subsets: ['latin'],
   display: 'swap',
   adjustFontFallback: false,
+  fallback: ['Arial', 'Helvetica', 'sans-serif'],
 })
 
 const atkinsonMono = Atkinson_Hyperlegible_Mono({
@@ -18,6 +22,7 @@ const atkinsonMono = Atkinson_Hyperlegible_Mono({
   subsets: ['latin'],
   display: 'swap',
   adjustFontFallback: false,
+  fallback: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
 })
 
 // Note: metadata and html[lang] are static (server-rendered) and cannot be driven
@@ -34,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={`${atkinson.variable} ${atkinsonMono.variable}`}>
+    <html data-faculty="droit" lang="fr" className={`${atkinson.variable} ${atkinsonMono.variable}`}>
       <body className="antialiased">
         <Providers>{children}</Providers>
       </body>

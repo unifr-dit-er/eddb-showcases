@@ -1,6 +1,6 @@
 import type { ArchiveFilters, ArticlesPage } from '@/types/archive'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { apiFetch } from '@/lib/api-fetch'
+import { apiFetch } from '@eddb/showcase-kit/api-fetch'
 import { filtersToQueryString } from '@/hooks/useFilters'
 
 export const ARTICLES_QUERY_KEY = (filters: ArchiveFilters) => ['articles', filters] as const

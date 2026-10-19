@@ -1,12 +1,7 @@
 'use client'
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  type ReactNode,
-} from 'react'
+import { createContext, useContext, useCallback, type ReactNode } from 'react'
+import { useLocalSetting } from '@eddb/showcase-kit/use-local-setting'
 import {
   type Locale,
   type LangSuffix,
@@ -26,17 +21,12 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    if (typeof window === 'undefined') return DEFAULT_LOCALE
-    const stored = localStorage.getItem(LOCALE_STORAGE_KEY)
-    return stored === 'de' ? 'de' : DEFAULT_LOCALE
-  })
+const LOCALES: readonly Locale[] = ['fr', 'de']
 
-  const setLocale = useCallback((next: Locale) => {
-    localStorage.setItem(LOCALE_STORAGE_KEY, next)
-    setLocaleState(next)
-  }, [])
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  // Hydration-safe: the server and the first render use the default locale,
+  // then the stored one (see useLocalSetting).
+  const [locale, setLocale] = useLocalSetting<Locale>(LOCALE_STORAGE_KEY, LOCALES, DEFAULT_LOCALE)
 
   const t = useCallback(
     (key: keyof Translations) => getTranslations(locale)[key],

@@ -55,8 +55,8 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
       className={cn(
         'group w-full text-left rounded-xl bg-card border shadow-sm px-5 py-4 transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring/40',
         isActive
-          ? 'border-primary/40 shadow-md ring-1 ring-primary/10 bg-primary/[0.02]'
-          : 'border-border hover:shadow-md hover:border-primary/25'
+          ? 'border-primary-tint-2 shadow-md ring-1 ring-primary-tint-3'
+          : 'border-border hover:shadow-md hover:border-primary-tint-2'
       )}
     >
       {/* Dateline: type, source, date, as at the head of a press clipping */}
@@ -102,8 +102,8 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
             className={cn(
               'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
               filters.series === article.seriesId
-                ? 'bg-primary/10 text-primary-ink hover:bg-primary/15'
-                : 'text-muted-foreground bg-muted hover:bg-primary/10 hover:text-primary-ink'
+                ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                : 'text-muted-foreground bg-muted hover:bg-primary-tint-3 hover:text-primary-ink'
             )}
           >
             {seriesTitle(series)}
@@ -126,8 +126,8 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
             className={cn(
               'text-xs px-1.5 py-0 font-normal cursor-pointer transition-colors',
               filters.keywords.includes(kw)
-                ? 'bg-primary/10 text-primary-ink hover:bg-primary/15'
-                : 'hover:bg-primary/10 hover:text-primary-ink'
+                ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                : 'hover:bg-primary-tint-3 hover:text-primary-ink'
             )}
           >
             {kw}

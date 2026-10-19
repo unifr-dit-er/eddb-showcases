@@ -1,6 +1,6 @@
 import type { Article } from '@/types/archive'
 import { useQuery } from '@tanstack/react-query'
-import { apiFetch } from '@/lib/api-fetch'
+import { apiFetch } from '@eddb/showcase-kit/api-fetch'
 
 export const ARTICLE_QUERY_KEY = (id: string | null) => ['article', id] as const
 

@@ -41,18 +41,18 @@ const DatePickerFilter = ({ value, onChange, placeholder }: DatePickerFilterProp
           className={cn(
             'w-full flex items-center justify-between gap-2 h-9 px-3 rounded-md border text-base transition-colors',
             'bg-sidebar-accent border-sidebar-border text-sidebar-foreground',
-            'hover:border-primary/50 focus:outline-none focus:border-primary',
-            !formatted && 'text-sidebar-foreground/40'
+            'hover:border-primary-tint-2 focus:outline-none focus:border-primary',
+            !formatted && 'text-sidebar-foreground/65'
           )}
         >
           <span className="truncate">{formatted ?? placeholder}</span>
           {value ? (
             <X
-              className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/40 hover:text-sidebar-foreground"
+              className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/65 hover:text-sidebar-foreground"
               onClick={(e) => { e.stopPropagation(); onChange('') }}
             />
           ) : (
-            <CalendarIcon className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/40" />
+            <CalendarIcon className="h-3.5 w-3.5 shrink-0 text-sidebar-foreground/65" />
           )}
         </button>
       </PopoverTrigger>

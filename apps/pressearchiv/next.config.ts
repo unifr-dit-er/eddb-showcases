@@ -6,6 +6,8 @@ const monorepoRoot = path.join(__dirname, '../..')
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // The shared kit is TypeScript source, compiled with each application.
+  transpilePackages: ['@eddb/showcase-kit'],
   outputFileTracingRoot: monorepoRoot,
   turbopack: { root: monorepoRoot },
   // Mount point, fixed at build time: empty for a domain of its own

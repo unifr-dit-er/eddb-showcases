@@ -94,8 +94,8 @@ export const YearTimeline = ({ years, min, max }: YearTimelineProps) => {
               <span
                 className={cn(
                   'w-full rounded-t-[4px] transition-colors',
-                  highlighted ? 'bg-primary' : 'bg-muted-foreground/20',
-                  hovered === bar.year && (highlighted ? 'bg-primary/80' : 'bg-muted-foreground/40')
+                  highlighted ? 'bg-primary' : 'bg-primary-tint-3',
+                  hovered === bar.year && (highlighted ? 'bg-primary-tint-1' : 'bg-primary-tint-2')
                 )}
                 style={{ height }}
               />

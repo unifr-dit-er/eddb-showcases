@@ -6,12 +6,12 @@ import { ArticlePanel } from '@/components/ArticlePanel'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import LanguageSelector from '@/components/LanguageSelector'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { SiteFooter } from '@/components/SiteFooter'
+import { SiteFooter } from '@eddb/showcase-kit/site-footer'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { useFontSize } from '@/contexts/FontSizeContext'
+import { useFontSize } from '@eddb/showcase-kit/font-size'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
@@ -107,7 +107,7 @@ export const HomeContent = () => {
             <h1 className="text-sm lg:text-base font-semibold text-foreground leading-snug line-clamp-2">
               {t('header.title')}
             </h1>
-            <span className="hidden sm:inline shrink-0 text-[10px] tracking-[0.15em] uppercase font-semibold text-primary-ink border border-primary/40 rounded px-1.5 py-0.5">
+            <span className="hidden sm:inline shrink-0 text-[10px] tracking-[0.15em] uppercase font-semibold text-primary-ink border border-primary-tint-2 rounded px-1.5 py-0.5">
               {t('header.prototype')}
             </span>
             <div className="w-px h-4 bg-border shrink-0" />
@@ -135,7 +135,11 @@ export const HomeContent = () => {
           <ArticleList />
         </div>
 
-        <SiteFooter />
+        <SiteFooter
+          faculty={{ label: t('footer.faculty'), url: t('footer.faculty.url') }}
+          institute={{ label: t('footer.institute'), url: t('footer.institute.url') }}
+          credit={{ lead: t('footer.eddb'), of: t('footer.eddb.of') }}
+        />
       </main>
       <ArticlePanel articleId={articleId} onClose={closePanel} />
     </div>

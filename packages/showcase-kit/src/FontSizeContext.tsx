@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, type ReactNode } from 'react'
-import { useLocalSetting } from '@/hooks/useLocalSetting'
+import { useLocalSetting } from './useLocalSetting'
 
 export type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 

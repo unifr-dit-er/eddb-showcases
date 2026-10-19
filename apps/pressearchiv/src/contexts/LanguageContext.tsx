@@ -11,7 +11,7 @@ import {
   getTranslations,
 } from '@/i18n'
 import type { Series } from '@/types/archive'
-import { useLocalSetting } from '@/hooks/useLocalSetting'
+import { useLocalSetting } from '@eddb/showcase-kit/use-local-setting'
 
 const LOCALES: readonly Locale[] = ['fr', 'de']
 

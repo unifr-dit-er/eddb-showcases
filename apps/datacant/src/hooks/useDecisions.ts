@@ -3,11 +3,11 @@ import type { Decision } from '@/types/decision'
 import type { NocoDBListResponse } from '@/types/nocodb'
 import type { LangSuffix } from '@/i18n'
 import { useQuery } from '@tanstack/react-query'
-import { useRef } from 'react'
+import { useState } from 'react'
 import { NOCODB_TABLES } from '@/lib/nocodb-tables'
 import { mapDecision } from '@/lib/nocodb-mappers'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { apiFetch } from '@/lib/api-fetch'
+import { apiFetch } from '@eddb/showcase-kit/api-fetch'
 export const DECISIONS_QUERY_KEY = (filters: Filters, langSuffix: LangSuffix) =>
   ['decisions', filters, langSuffix] as const
 
@@ -100,20 +100,18 @@ const fetchDecisions = async (
 
 export const useDecisions = (filters: Filters) => {
   const { langSuffix } = useLanguage()
-  // Tracks the last attempted queries — updated progressively during fetch so
-  // that even on error the callout shows the real queries (not the placeholder).
-  const lastQueriesRef = useRef<string[]>([])
+  // The last attempted queries, updated progressively during fetch so that
+  // even on error the callout shows the real queries (not the placeholder).
+  const [lastQueries, setLastQueries] = useState<string[]>([])
 
   const query = useQuery({
     queryKey: DECISIONS_QUERY_KEY(filters, langSuffix),
     queryFn: () =>
-      fetchDecisions(filters, langSuffix, filters.keywords, (qs) => {
-        lastQueriesRef.current = qs
-      }),
+      fetchDecisions(filters, langSuffix, filters.keywords, setLastQueries),
     staleTime: 5 * 60 * 1000,
   })
 
-  // Prefer data._devQueries (full set after success), then the ref (partial on
+  // Prefer data._devQueries (full set after success), then the last attempt (partial on
   // error), then the static placeholder while the first fetch is in flight.
   const pendingQueries: string[] = filters.keywords.length > 0
     ? [
@@ -130,7 +128,7 @@ export const useDecisions = (filters: Filters) => {
 
   const nocodbQueries =
     query.data?._devQueries ??
-    (lastQueriesRef.current.length > 0 ? lastQueriesRef.current : pendingQueries)
+    (lastQueries.length > 0 ? lastQueries : pendingQueries)
 
   const nocodbError =
     query.error instanceof Error ? query.error.message : undefined

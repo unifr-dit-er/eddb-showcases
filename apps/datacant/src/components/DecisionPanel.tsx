@@ -15,7 +15,7 @@ import { useFilters } from '@/hooks/useFilters'
 import { getCantonLabel } from '@/lib/cantons'
 import { cn } from '@/lib/utils'
 import { Check, Copy, Download } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 interface DecisionPanelProps {
   decisionId: string | null
@@ -28,14 +28,17 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
   const { filters, setFilter } = useFilters()
   const [linkCopied, setLinkCopied] = useState(false)
   const [isOpen, setIsOpen] = useState(!!decisionId)
+  const [shownId, setShownId] = useState(decisionId)
 
   // The open/closed state is kept local rather than driven directly by
   // `decisionId` so the sheet always closes instantly on click — in some
   // production setups the URL update triggered by onClose() can lag or be
-  // cached, which otherwise left the panel stuck open.
-  useEffect(() => {
+  // cached, which otherwise left the panel stuck open. A new decision
+  // reopens it.
+  if (decisionId !== shownId) {
+    setShownId(decisionId)
     if (decisionId) setIsOpen(true)
-  }, [decisionId])
+  }
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open)
@@ -104,7 +107,7 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
                   href={decision.pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-base text-primary hover:text-primary/80 transition-colors font-medium"
+                  className="flex items-center gap-2 text-base text-primary-ink hover:text-primary-ink/80 transition-colors font-medium"
                 >
                   <Download className="h-4 w-4" />
                   {t('decision.downloadPdf')}
@@ -128,14 +131,14 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
                   className={cn(
                     'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
                     filters.canton === decision.canton
-                      ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                      : 'bg-muted text-muted-foreground hover:bg-primary/15 hover:text-primary'
+                      ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                      : 'bg-muted text-muted-foreground hover:bg-primary-tint-2 hover:text-primary-ink'
                   )}
                 >
                   {getCantonLabel(decision.canton, langSuffix)}
                 </span>
               )}
-              <span className="text-[0.8125rem] text-primary font-medium">{formattedDate}</span>
+              <span className="text-[0.8125rem] text-primary-ink font-medium">{formattedDate}</span>
             </div>
 
             <Card className="gap-0 py-0">
@@ -174,8 +177,8 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
                           className={cn(
                             'text-xs px-2 py-0.5 font-normal cursor-pointer transition-colors',
                             filters.keywords.includes(kw.id)
-                              ? 'bg-primary/15 text-primary hover:bg-primary/25'
-                              : 'hover:bg-primary/15 hover:text-primary'
+                              ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
+                              : 'hover:bg-primary-tint-2 hover:text-primary-ink'
                           )}
                         >
                           {kw.label}
@@ -193,7 +196,7 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
                 title={t('decision.copyLink')}
                 className={cn(
                   'flex items-center gap-1.5 text-sm font-medium transition-colors cursor-pointer',
-                  linkCopied ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  linkCopied ? 'text-primary-ink' : 'text-muted-foreground hover:text-foreground'
                 )}
               >
                 {linkCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}

@@ -7,7 +7,7 @@
  * expose only whitelisted fields.
  */
 import type { Article, Series } from '@/types/archive'
-import { fetchNocoDB } from '@/lib/nocodb'
+import { fetchNocoDB } from '@eddb/showcase-kit/nocodb'
 import {
   ARCHIVE_TTL_MS,
   ARTICLE_FIELDS,
