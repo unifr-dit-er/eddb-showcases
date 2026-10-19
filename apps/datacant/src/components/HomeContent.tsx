@@ -12,10 +12,10 @@ import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { getPageTitle, SHOWCASE_NAME } from '@/i18n'
+import { SHOWCASE_NAME } from '@/i18n'
 import { useFontSize } from '@eddb/showcase-kit/font-size'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Menu } from 'lucide-react'
 
 const SidebarContent = () => {
@@ -34,13 +34,9 @@ const HomeContent = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const { t, locale } = useLanguage()
+  const { t } = useLanguage()
   const { fontSize, setFontSize, fontSizes, fontSizeLabels } = useFontSize()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
-  useEffect(() => {
-    document.documentElement.lang = locale
-  }, [locale])
 
   const decisionId = searchParams.get('decision')
 
@@ -53,8 +49,6 @@ const HomeContent = () => {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* React hoists it into <head>, in the viewer's language. */}
-      <title>{getPageTitle(locale)}</title>
       {/* Sidebar — desktop only */}
       <aside className="hidden lg:flex w-80 shrink-0 bg-sidebar text-sidebar-foreground flex-col overflow-hidden border-r border-sidebar-border">
         <SidebarContent />

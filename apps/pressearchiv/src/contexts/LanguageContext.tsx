@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useCallback, useEffect, type ReactNode } from 'react'
 import {
   type Labels,
   type Locale,
@@ -9,6 +9,7 @@ import {
   LOCALE_STORAGE_KEY,
   getLabels,
   getTranslations,
+  getPageTitle,
 } from '@/i18n'
 import type { Series } from '@/types/archive'
 import { useLocalSetting } from '@eddb/showcase-kit/use-local-setting'
@@ -45,8 +46,15 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     [locale]
   )
 
+  useEffect(() => {
+    document.documentElement.lang = locale
+  }, [locale])
+
   return (
     <LanguageContext.Provider value={{ locale, setLocale, t, label, seriesTitle }}>
+      {/* Rendered by the server too (unlike the page, which reads the URL):
+          React hoists it into <head>, in the viewer's language. */}
+      <title>{getPageTitle(locale)}</title>
       {children}
     </LanguageContext.Provider>
   )
