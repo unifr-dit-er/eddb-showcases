@@ -4,10 +4,9 @@ import type { MouseEvent, ReactNode } from 'react'
 
 interface TagProps {
   children: ReactNode
-  // `caps`: a category of the record (series, canton); `outline`: a code
-  // (language); `keyword`: capitals too, but tighter and lighter, for long
-  // labels that stay distinct from the category.
-  variant?: 'caps' | 'outline' | 'keyword'
+  // `caps`: a property of the record (series, canton, language);
+  // `keyword`: capitals too, but tighter and lighter, for long labels.
+  variant?: 'caps' | 'keyword'
   // A tag with `onClick` filters on its value; `active` when it does.
   active?: boolean
   onClick?: (e: MouseEvent<HTMLSpanElement>) => void
@@ -16,7 +15,6 @@ interface TagProps {
 
 const VARIANTS = {
   caps: 'text-[0.6875rem] leading-4 font-bold tracking-[0.15em] uppercase',
-  outline: 'text-[0.6875rem] leading-4 font-semibold tracking-[0.1em] uppercase border border-border',
   keyword: 'text-[0.6875rem] leading-4 font-semibold tracking-[0.06em] uppercase',
 }
 
@@ -26,9 +24,7 @@ const VARIANTS = {
 export const Tag = ({ children, variant = 'keyword', active = false, onClick, title }: TagProps) => {
   const colours = active
     ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-    : variant === 'outline'
-      ? 'text-muted-foreground'
-      : `bg-muted ${variant === 'keyword' ? 'text-foreground/80' : 'text-muted-foreground'}`
+    : `bg-muted ${variant === 'keyword' ? 'text-foreground/80' : 'text-muted-foreground'}`
   return (
     <span
       onClick={onClick}

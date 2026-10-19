@@ -109,7 +109,7 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
         {article.languages.map((code) => (
           <Tag
             key={code}
-            variant="outline"
+            variant="caps"
             title={label('language', code)}
             onClick={(e) => handleLanguageClick(e, code)}
             active={filters.language === code}
