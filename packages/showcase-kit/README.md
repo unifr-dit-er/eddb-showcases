@@ -16,6 +16,6 @@ already serves two showcases.
 | `@eddb/showcase-kit/sidebar-masthead` | Top of the sidebar: Unifr logo, showcase name in serif between rules, subtitle |
 | `@eddb/showcase-kit/year-timeline` | Distribution by year of the results, click to select a year or a period |
 | `@eddb/showcase-kit/active-filter-chips` | Chips of the active filters above the results, each removable; the showcase builds them |
-| `@eddb/showcase-kit/tag` | Tags of the entries (cards, panels): `caps` for a category (series, canton), `outline` for a code (language), `plain` for a keyword |
+| `@eddb/showcase-kit/tag` | Tags of the entries (cards, panels): `caps` for a category (series, canton), `outline` for a code (language), `keyword` for a keyword (capitals, tighter and lighter) |
 
 Rules and theme conventions: root `CLAUDE.md`.
