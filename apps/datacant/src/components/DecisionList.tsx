@@ -2,6 +2,8 @@
 
 import { Skeleton } from '@/components/ui/skeleton'
 import DecisionCard from '@/components/DecisionCard'
+import { YearTimeline } from '@eddb/showcase-kit/year-timeline'
+import { useDecisionYears } from '@/hooks/useDecisionYears'
 import { useDecisions } from '@/hooks/useDecisions'
 import { useFilters } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -11,9 +13,10 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 
 const DecisionList = () => {
-  const { filters, setFilter } = useFilters()
+  const { filters, setFilter, setFilters } = useFilters()
   const { data, isLoading, isError, nocodbQueries, nocodbError } = useDecisions(filters)
   const { t } = useLanguage()
+  const timeline = useDecisionYears(filters)
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -29,9 +32,27 @@ const DecisionList = () => {
     [searchParams, router, pathname]
   )
 
+  const yearOf = (date: string) => (date ? Number(date.slice(0, 4)) : null)
+  const timelineFigure =
+    timeline.years && timeline.max > 0 ? (
+      <YearTimeline
+        years={timeline.years}
+        min={timeline.min}
+        max={timeline.max}
+        from={yearOf(filters.from)}
+        to={yearOf(filters.to)}
+        onSelect={(from, to) => setFilters({ from: from ? `${from}-01-01` : '', to: to ? `${to}-12-31` : '' })}
+        labels={{
+          title: t('timeline.label'),
+          hint: t('timeline.hint'),
+          unit: (n) => (n === 1 ? t('decisions.resultUnit_singular') : t('decisions.resultUnit_plural')),
+        }}
+      />
+    ) : null
+
   const nocodbBaseUrl = process.env.NEXT_PUBLIC_NOCODB_API_URL?.replace(/\/$/, '')
   const devCallout = process.env.NODE_ENV === 'development' ? (
-    <div className="mx-6 mt-6 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 font-mono text-[11px] text-amber-800 space-y-1">
+    <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 font-mono text-[11px] text-amber-800 space-y-1">
       {nocodbError && (
         <div className="text-red-700 font-semibold mb-1">{nocodbError}</div>
       )}
@@ -55,20 +76,21 @@ const DecisionList = () => {
 
   if (isError) {
     return (
-      <>
+      <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
         {devCallout}
-        <div className="flex items-center justify-center h-64 text-base text-muted-foreground">
+        <div className="flex items-center justify-center h-48 text-base text-muted-foreground">
           {t('decisions.error')}
         </div>
-      </>
+      </div>
     )
   }
 
   if (isLoading) {
     return (
-      <>
+      <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
         {devCallout}
-        <div className="p-6 space-y-3">
+        {timelineFigure}
+        <div className="space-y-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="rounded-xl bg-card border border-border shadow-sm px-5 py-4 space-y-2">
               <Skeleton className="h-4 w-4/5" />
@@ -80,7 +102,7 @@ const DecisionList = () => {
             </div>
           ))}
         </div>
-      </>
+      </div>
     )
   }
 
@@ -89,12 +111,13 @@ const DecisionList = () => {
 
   if (decisions.length === 0) {
     return (
-      <>
+      <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
         {devCallout}
-        <div className="flex items-center justify-center h-64 text-base text-muted-foreground">
+        {timelineFigure}
+        <div className="flex items-center justify-center h-48 text-base text-muted-foreground">
           {t('decisions.empty')}
         </div>
-      </>
+      </div>
     )
   }
 
@@ -104,8 +127,9 @@ const DecisionList = () => {
       : t('decisions.resultUnit_plural')
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 lg:p-6 space-y-6 max-w-4xl">
       {devCallout}
+      {timelineFigure}
       {pageInfo && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">

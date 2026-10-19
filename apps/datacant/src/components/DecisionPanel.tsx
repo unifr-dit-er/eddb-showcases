@@ -86,7 +86,7 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
     <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetContent className="overflow-y-auto px-6 pb-6 w-[42vw] min-w-[420px] max-w-[760px] sm:max-w-[760px]" showCloseButton={false}>
         <SheetHeader className="px-0 pt-6 pb-0 mb-6">
-          <SheetTitle className="font-heading text-2xl font-bold leading-snug text-foreground">
+          <SheetTitle className="font-serif text-[1.75rem] font-semibold leading-tight text-foreground">
             {decision?.title ?? (isLoading ? t('decision.loading') : '')}
           </SheetTitle>
         </SheetHeader>

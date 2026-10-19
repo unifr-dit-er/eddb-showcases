@@ -31,6 +31,8 @@ export interface Translations {
   'decisions.page': string
   'decisions.prev': string
   'decisions.next': string
+  'timeline.label': string
+  'timeline.hint': string
   'footer.faculty': string
   'footer.faculty.url': string
   'footer.institute': string

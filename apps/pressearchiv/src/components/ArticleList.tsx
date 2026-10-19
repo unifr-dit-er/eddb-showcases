@@ -3,7 +3,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { ActiveFilters } from '@/components/ActiveFilters'
 import { ArticleCard } from '@/components/ArticleCard'
-import { YearTimeline } from '@/components/YearTimeline'
+import { YearTimeline } from '@eddb/showcase-kit/year-timeline'
 import { useArticles } from '@/hooks/useArticles'
 import { useFacets } from '@/hooks/useFacets'
 import { useFilters } from '@/hooks/useFilters'
@@ -30,7 +30,7 @@ const LoadingCards = () => (
 )
 
 export const ArticleList = () => {
-  const { filters, setFilter } = useFilters()
+  const { filters, setFilter, setFilters } = useFilters()
   const { data, isLoading, isError, isPlaceholderData } = useArticles(filters)
   const { data: facets } = useFacets()
   const { t } = useLanguage()
@@ -73,7 +73,19 @@ export const ArticleList = () => {
     <div ref={topRef} className="p-4 lg:p-6 space-y-6 max-w-4xl">
       <ActiveFilters />
       {data && facets && facets.years.max > 0 && (
-        <YearTimeline years={data.years} min={facets.years.min} max={facets.years.max} />
+        <YearTimeline
+          years={data.years}
+          min={facets.years.min}
+          max={facets.years.max}
+          from={filters.from ? Number(filters.from) : null}
+          to={filters.to ? Number(filters.to) : null}
+          onSelect={(from, to) => setFilters({ from: from ? String(from) : '', to: to ? String(to) : '' })}
+          labels={{
+            title: t('timeline.label'),
+            hint: t('timeline.hint'),
+            unit: (n) => (n === 1 ? t('timeline.records_singular') : t('timeline.records_plural')),
+          }}
+        />
       )}
 
       {pageInfo && (

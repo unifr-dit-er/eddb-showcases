@@ -65,7 +65,22 @@ export const useFilters = () => {
     [searchParams, router, pathname]
   )
 
-  return { filters, setFilter, resetFilters, resetFilter }
+  // Several filters at once (both bounds of a period).
+  const setFilters = useCallback(
+    (changes: Partial<Record<'from' | 'to', string>>) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('page')
+      Object.entries(changes).forEach(([key, value]) => {
+        if (value) params.set(key, value)
+        else params.delete(key)
+      })
+      const qs = params.toString()
+      router.push(qs ? `${pathname}?${qs}` : pathname)
+    },
+    [searchParams, router, pathname]
+  )
+
+  return { filters, setFilter, setFilters, resetFilters, resetFilter }
 }
 
 // Re-export DEFAULT_FILTERS for convenience (not used in hook body but available)

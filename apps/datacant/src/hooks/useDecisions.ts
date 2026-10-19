@@ -15,21 +15,32 @@ const PAGE_SIZE = 25
 
 type DecisionsResult = NocoDBListResponse<Decision> & { _devQueries: string[] }
 
+// NocoDB `where` of the filters; `withPeriod: false` leaves the period out
+// (timeline counts).
+export const buildWhere = (
+  filters: Filters,
+  langSuffix: LangSuffix,
+  decisionIds?: string[],
+  withPeriod = true
+): string => {
+  const conditions: string[] = []
+  if (filters.q) conditions.push(`((Description${langSuffix},like,%${filters.q}%)~or(Abstract${langSuffix},like,%${filters.q}%))`)
+  if (filters.canton) conditions.push(`(Canton,eq,${filters.canton})`)
+  if (withPeriod && filters.from) conditions.push(`(Date,ge,exactDate,${filters.from})`)
+  if (withPeriod && filters.to) conditions.push(`(Date,le,exactDate,${filters.to})`)
+  if (decisionIds) conditions.push(`(Id,in,${decisionIds.join(',')})`)
+  return conditions.join('~and')
+}
+
 const buildQueryString = (
   filters: Filters,
   langSuffix: LangSuffix,
   decisionIds?: string[]
 ): string => {
   const params = new URLSearchParams()
-  const conditions: string[] = []
+  const where = buildWhere(filters, langSuffix, decisionIds)
 
-  if (filters.q) conditions.push(`((Description${langSuffix},like,%${filters.q}%)~or(Abstract${langSuffix},like,%${filters.q}%))`)
-  if (filters.canton) conditions.push(`(Canton,eq,${filters.canton})`)
-  if (filters.from) conditions.push(`(Date,ge,exactDate,${filters.from})`)
-  if (filters.to) conditions.push(`(Date,le,exactDate,${filters.to})`)
-  if (decisionIds) conditions.push(`(Id,in,${decisionIds.join(',')})`)
-
-  if (conditions.length > 0) params.set('where', conditions.join('~and'))
+  if (where) params.set('where', where)
   params.set('limit', String(PAGE_SIZE))
   params.set('offset', String((filters.page - 1) * PAGE_SIZE))
   params.set('sort', filters.sortDir === 'asc' ? 'Date' : '-Date')
@@ -37,7 +48,7 @@ const buildQueryString = (
   return params.toString()
 }
 
-const fetchDecisionIdsForKeywords = async (
+export const fetchDecisionIdsForKeywords = async (
   keywordIds: string[]
 ): Promise<{ ids: string[]; devQuery: string }> => {
   const where = `(Keywords_id,in,${keywordIds.join(',')})`

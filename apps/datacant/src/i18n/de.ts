@@ -27,6 +27,8 @@ export const de: Translations = {
   'decisions.page': 'Seite',
   'decisions.prev': '← Zurück',
   'decisions.next': 'Weiter →',
+  'timeline.label': 'Verteilung nach Jahr',
+  'timeline.hint': 'Auf ein Jahr klicken, um es auszuwählen',
   'footer.faculty': 'Rechtswissenschaftliche Fakultät',
   'footer.faculty.url': 'https://www.unifr.ch/ius',
   'footer.institute': 'Institut für Europarecht',

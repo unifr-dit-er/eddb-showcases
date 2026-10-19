@@ -12,5 +12,6 @@ already serves two showcases.
 | `@eddb/showcase-kit/font-size` | Text-size context and provider |
 | `@eddb/showcase-kit/site-footer` | Footer after the institute layout of the corporate design |
 | `@eddb/showcase-kit/sidebar-masthead` | Top of the sidebar: Unifr logo, showcase name in serif between rules, subtitle |
+| `@eddb/showcase-kit/year-timeline` | Distribution by year of the results, click to select a year or a period |
 
 Rules and theme conventions: root `CLAUDE.md`.

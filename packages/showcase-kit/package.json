@@ -10,7 +10,8 @@
     "./use-local-setting": "./src/useLocalSetting.ts",
     "./font-size": "./src/FontSizeContext.tsx",
     "./site-footer": "./src/SiteFooter.tsx",
-    "./sidebar-masthead": "./src/SidebarMasthead.tsx"
+    "./sidebar-masthead": "./src/SidebarMasthead.tsx",
+    "./year-timeline": "./src/YearTimeline.tsx"
   },
   "scripts": {
     "lint": "eslint src",

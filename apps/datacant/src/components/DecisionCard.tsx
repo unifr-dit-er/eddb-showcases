@@ -4,7 +4,9 @@ import { Badge } from '@/components/ui/badge'
 import type { Decision } from '@/types/decision'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFilters } from '@/hooks/useFilters'
+import { getCantonLabel } from '@/lib/cantons'
 import { cn } from '@/lib/utils'
+import { FileText, Landmark } from 'lucide-react'
 
 interface DecisionCardProps {
   decision: Decision
@@ -12,8 +14,12 @@ interface DecisionCardProps {
   onClick: () => void
 }
 
+const MAX_KEYWORDS = 4
+
+// Card in the manner of the pressearchiv showcase: a dateline (canton,
+// date, PDF), the title in serif, the opening of the abstract, keywords.
 const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
-  const { locale } = useLanguage()
+  const { locale, langSuffix } = useLanguage()
   const { filters, setFilter } = useFilters()
 
   const formattedDate = new Date(decision.date).toLocaleDateString(`${locale}-CH`, {
@@ -37,38 +43,68 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
     )
   }
 
+  const keywords = [...decision.keywords].sort((a, b) => a.label.localeCompare(b.label))
+  const extraKeywords = keywords.length - MAX_KEYWORDS
+
   return (
-    <button
+    <article
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }}
       className={cn(
-        'w-full text-left rounded-xl bg-card border shadow-sm px-5 py-4 transition-all duration-200 cursor-pointer',
+        'group w-full text-left rounded-xl bg-card border shadow-sm px-5 py-4 transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring/40',
         isActive
           ? 'border-primary-tint-2 shadow-md ring-1 ring-primary-tint-3'
           : 'border-border hover:shadow-md hover:border-primary-tint-2'
       )}
     >
-      <h3 className="text-base font-medium leading-snug line-clamp-2 mb-2.5 text-foreground">
-        {decision.title}
-      </h3>
-      <div className="flex items-center gap-2 mb-3">
+      {/* Dateline, as at the head of a press clipping */}
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-2 text-[0.8125rem]">
         {decision.canton && (
           <span
             onClick={handleCantonClick}
             className={cn(
-              'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
+              'flex items-center gap-1.5 text-[0.6875rem] font-semibold tracking-[0.15em] uppercase transition-colors cursor-pointer',
               filters.canton === decision.canton
-                ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                : 'text-muted-foreground bg-muted hover:bg-primary-tint-2 hover:text-primary-ink'
+                ? 'text-primary-ink'
+                : 'text-muted-foreground hover:text-primary-ink'
             )}
           >
-            {decision.canton}
+            <Landmark className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            {getCantonLabel(decision.canton, langSuffix)}
           </span>
         )}
-        <span className="text-[0.8125rem] text-primary-ink font-medium">{formattedDate}</span>
+        {decision.date && (
+          <>
+            <span className="text-border" aria-hidden>|</span>
+            <span className="text-primary-ink font-medium tabular-nums">{formattedDate}</span>
+          </>
+        )}
+        {decision.pdfUrl && (
+          <span className="ml-auto flex items-center gap-1 text-[0.6875rem] font-semibold tracking-[0.1em] uppercase text-muted-foreground">
+            <FileText className="h-3.5 w-3.5" aria-hidden />
+            PDF
+          </span>
+        )}
       </div>
-      {decision.keywords.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {[...decision.keywords].sort((a, b) => a.label.localeCompare(b.label)).map((kw) => (
+
+      <h3 className="font-serif text-[1.1875rem] font-semibold leading-snug text-foreground line-clamp-2 mb-1.5">
+        {decision.title}
+      </h3>
+
+      {decision.abstract && (
+        <p className="text-[0.9375rem] leading-relaxed text-foreground/70 line-clamp-2 mb-3">{decision.abstract}</p>
+      )}
+
+      {keywords.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {keywords.slice(0, MAX_KEYWORDS).map((kw) => (
             <Badge
               key={kw.id}
               variant="secondary"
@@ -83,9 +119,10 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
               {kw.label}
             </Badge>
           ))}
+          {extraKeywords > 0 && <span className="text-xs text-muted-foreground">+{extraKeywords}</span>}
         </div>
       )}
-    </button>
+    </article>
   )
 }
 
