@@ -6,13 +6,15 @@ application per showcase.
 
 | Application | Showcase | State |
 |---|---|---|
-| `apps/pressearchiv` | Press archive of the Institute of Multilingualism | prototype |
+| `apps/datacant` | Cantonal case law on data protection (Institute of European Law) | in production at datacant.unifr.ch (still built from the former repository) |
+| `apps/pressearchiv` | Press archive of the Institute of Multilingualism | prototype at eddb.unifr.ch/pressearchiv |
 
 ## Layout
 
 ```
 apps/<showcase>/     one Next.js application per showcase
-packages/            shared kit (to come: extracted as showcases share code)
+packages/showcase-kit  shared kit (@eddb/showcase-kit): theme, NocoDB client,
+                       viewer preferences, footer
 ```
 
 Rules:

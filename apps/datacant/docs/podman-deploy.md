@@ -1,61 +1,54 @@
 # Déploiement avec Podman + Quadlet
 
-## Prérequis
+datacant est en service sur **svx-web-eddb**, sous **https://datacant.unifr.ch**
+(domaine propre, `server_name` dédié dans le nginx de `svx-web-configs`),
+port local **8085**.
 
-- Podman installé sur la VM
-- Accès au répertoire `/home/podman/.config/containers/systemd/`
+> **Bascule vers le monorepo à faire.** Jusqu'à nouvel ordre, l'image en
+> production est encore construite depuis l'ancien dépôt
+> (`~podman/repos/eddb-datacant`). La procédure ci-dessous est celle du
+> monorepo `eddb-showcases`, à suivre lors de la bascule : garder l'image
+> en place sous un autre nom pour pouvoir revenir en arrière.
 
-## 1. Cloner le dépôt
-
-```bash
-git clone <url-du-repo>
-cd eddb-datacant
-```
-
-## 2. Créer le fichier Quadlet
-
-Copier le template et l'adapter :
+Toutes les commandes se lancent **en tant que `podman`** :
 
 ```bash
-cp eddb-datacant.container.example eddb-datacant.container
+sudo machinectl shell --uid podman
 ```
 
-Puis éditer `eddb-datacant.container` :
-- Remplacer `your_token_here` par le vrai token NocoDB
-- Ajuster `PublishPort` si nécessaire (port externe:3000)
-
-> Ce fichier contient des secrets — il est ignoré par git et ne doit jamais être commité.
-
-## 3. Déployer le fichier Quadlet
+## 1. Cloner le monorepo (s'il n'est pas déjà là)
 
 ```bash
-cp eddb-datacant.container /home/podman/.config/containers/systemd/
+git clone https://github.com/unifr-dit-er/eddb-showcases.git ~/repos/eddb-showcases
+cd ~/repos/eddb-showcases
 ```
 
-## 4. Builder l'image
+## 2. Construire l'image
+
+Domaine propre : pas de sous-chemin.
 
 ```bash
-podman build -t eddb-datacant:latest .
+podman tag eddb-datacant:latest eddb-datacant:previous   # retour arrière possible
+podman build --ulimit nofile=4096:4096 \
+  -f apps/datacant/Dockerfile \
+  -t eddb-datacant:latest .
 ```
 
-## 5. Démarrer le service
+## 3. Fichier Quadlet
+
+Le fichier `~/.config/containers/systemd/eddb-datacant.container` existe
+déjà (gabarit : `apps/datacant/eddb-datacant.container.example`) : port
+8085, jeton du compte de service des vitrines. Droits 600, jamais dans git.
+
+## 4. Redémarrer et vérifier
 
 ```bash
-systemctl --user daemon-reload
-systemctl --user start eddb-datacant.service
+systemctl --user restart eddb-datacant
+systemctl --user status eddb-datacant
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8085/   # 200
 ```
 
-## Commandes utiles
+Puis https://datacant.unifr.ch. En cas de problème :
+`podman tag eddb-datacant:previous eddb-datacant:latest` et redémarrer.
 
-```bash
-# Voir les logs
-podman logs -f eddb-datacant
-
-# Statut du service
-systemctl --user status eddb-datacant.service
-
-# Redémarrer après un rebuild
-podman build -t eddb-datacant:latest .
-systemctl --user restart eddb-datacant.service
-```
-
+Mise à jour : [podman-update.md](podman-update.md).

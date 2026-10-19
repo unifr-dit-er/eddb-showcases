@@ -3,6 +3,12 @@
 This is a read-only dashboard/SaaS web app that displays data fetched from a NocoDB API.
 There is no authentication and no database — all data comes from NocoDB.
 
+# Monorepo
+
+Part of `eddb-showcases`: theme, NocoDB client, viewer preferences and
+footer come from `@eddb/showcase-kit` (`packages/showcase-kit`); the faculty
+theme is `data-faculty="droit"` on <html>. See the root `CLAUDE.md`.
+
 # Tech Stack
 
 - **Next.js 16** (App Router) + **TypeScript**
@@ -38,7 +44,7 @@ src/
 │   └── ...                # App-specific components
 ├── hooks/                 # Custom hooks, all prefixed with "use"
 ├── lib/
-│   └── nocodb.ts          # NocoDB API client (used in route handlers only)
+│   └── …                  # NocoDB client: @eddb/showcase-kit/nocodb (route handlers only)
 └── types/                 # Shared TypeScript types and interfaces
 ```
 

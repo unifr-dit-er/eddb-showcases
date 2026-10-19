@@ -5,6 +5,12 @@ Multilingualism (Pressearchiv), with data fetched from a NocoDB API. It follows
 the datacant showcase (same stack, same look). There is no authentication and
 no database — all data comes from NocoDB.
 
+# Monorepo
+
+Part of `eddb-showcases`: theme, NocoDB client, viewer preferences and
+footer come from `@eddb/showcase-kit` (`packages/showcase-kit`); the faculty
+theme is `data-faculty="lettres"` on <html>. See the root `CLAUDE.md`.
+
 # Tech Stack
 
 - **Next.js 16** (App Router) + **TypeScript**
@@ -47,7 +53,6 @@ src/
 │   └── ...                # App-specific components
 ├── hooks/                 # Custom hooks, all prefixed with "use"
 ├── lib/
-│   ├── nocodb.ts          # NocoDB API client (used in route handlers only)
 │   ├── archive-*.ts       # Whitelist, mapping, in-memory store, queries (server)
 │   └── format.ts, text.ts # Shared helpers
 └── types/                 # Shared TypeScript types and interfaces

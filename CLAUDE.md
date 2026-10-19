@@ -1,7 +1,7 @@
 # EDDB showcases — monorepo
 
 Public showcases of EDDB databases: one Next.js application per showcase in
-`apps/`, a shared kit in `packages/` (empty for now). Each application keeps
+`apps/`, a shared kit in `packages/showcase-kit` (`@eddb/showcase-kit`). Each application keeps
 its own `CLAUDE.md`, which applies inside it.
 
 # Why a monorepo
@@ -27,6 +27,23 @@ the kit is checked against every showcase in the same commit.
 - Colours follow the Unifr corporate design (faculty colour for fills,
   midnight blue #071D49 for accented text, never a darkened faculty colour;
   WCAG AA contrast).
+
+# The kit
+
+`@eddb/showcase-kit` is TypeScript source, compiled with each application
+(`transpilePackages`); each `globals.css` imports its `theme.css` and lists
+its sources with `@source`. It holds:
+
+- `theme.css`: tokens and faculty themes, chosen with `data-faculty` on
+  <html> (`lettres`, `droit`; add a faculty from the corporate design manual,
+  p. 15). Fills use the faculty colour (`bg-primary`), light surfaces its
+  official tints (`bg-primary-tint-1/2/3`), never a transparency of it
+  (`bg-primary/10`); accented text is midnight blue (`text-primary-ink`).
+- `nocodb` (server-side client), `api-fetch`, `use-local-setting`
+  (hydration-safe viewer preferences), `font-size`, `site-footer`.
+
+shadcn/ui components stay in each application (`src/components/ui`), as the
+shadcn CLI expects.
 
 # Tooling
 
