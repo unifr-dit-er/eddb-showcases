@@ -242,36 +242,40 @@ const FilterSidebar = () => {
                     open={isOpen}
                     onOpenChange={(open) => toggleOpen(category, open)}
                   >
-                    <CollapsibleTrigger className="flex items-center justify-between w-full py-1.5 text-left group">
-                      <span className="text-sm text-sidebar-foreground/80 font-medium leading-tight">
-                        {category}
-                      </span>
-                      <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                        {selectedCount > 0 && (
-                          <>
+                    {/* The clear button sits beside the trigger, not inside
+                        it: a button cannot contain another one. */}
+                    <div className="flex items-center gap-1.5">
+                      <CollapsibleTrigger className="flex flex-1 min-w-0 items-center justify-between py-1.5 text-left group">
+                        <span className="text-sm text-sidebar-foreground/80 font-medium leading-tight">
+                          {category}
+                        </span>
+                        <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                          {selectedCount > 0 && (
                             <span className="text-[10px] bg-primary text-primary-foreground rounded-full px-1.5 leading-5 font-semibold">
                               {selectedCount}
                             </span>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                const catIds = catKeywords.map((kw) => kw.id)
-                                setFilter('keywords', filters.keywords.filter((k) => !catIds.includes(k)))
-                              }}
-                              className="text-[10px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors leading-none"
-                            >
-                              ×
-                            </button>
-                          </>
-                        )}
-                        <ChevronRight
-                          className={cn(
-                            'h-3.5 w-3.5 text-sidebar-foreground/65 transition-transform duration-150',
-                            isOpen && 'rotate-90'
                           )}
-                        />
-                      </div>
-                    </CollapsibleTrigger>
+                          <ChevronRight
+                            className={cn(
+                              'h-3.5 w-3.5 text-sidebar-foreground/65 transition-transform duration-150',
+                              isOpen && 'rotate-90'
+                            )}
+                          />
+                        </div>
+                      </CollapsibleTrigger>
+                      {selectedCount > 0 && (
+                        <button
+                          onClick={() => {
+                            const catIds = catKeywords.map((kw) => kw.id)
+                            setFilter('keywords', filters.keywords.filter((k) => !catIds.includes(k)))
+                          }}
+                          aria-label={`${t('sidebar.clear')} : ${category}`}
+                          className="shrink-0 text-[10px] text-sidebar-foreground/65 hover:text-sidebar-foreground/80 transition-colors leading-none"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
                     <CollapsibleContent>
                       <div className="space-y-2 pl-1 pt-1 pb-2">
                         {catKeywords.map((kw) => (
