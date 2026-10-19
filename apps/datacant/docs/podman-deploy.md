@@ -4,11 +4,9 @@ datacant est en service sur **svx-web-eddb**, sous **https://datacant.unifr.ch**
 (domaine propre, `server_name` dédié dans le nginx de `svx-web-configs`),
 port local **8085**.
 
-> **Bascule vers le monorepo à faire.** Jusqu'à nouvel ordre, l'image en
-> production est encore construite depuis l'ancien dépôt
-> (`~podman/repos/eddb-datacant`). La procédure ci-dessous est celle du
-> monorepo `eddb-showcases`, à suivre lors de la bascule : garder l'image
-> en place sous un autre nom pour pouvoir revenir en arrière.
+Image construite depuis le monorepo `eddb-showcases` depuis le 19.10.2026
+(l'ancien dépôt `eddb-datacant` est figé). La procédure ci-dessous garde
+l'image en place sous un autre nom pour pouvoir revenir en arrière.
 
 Toutes les commandes se lancent **en tant que `podman`** :
 
