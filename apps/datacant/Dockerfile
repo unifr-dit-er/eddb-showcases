@@ -7,7 +7,10 @@ ARG NEXT_PUBLIC_BASE_PATH=
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
 COPY package.json package-lock.json ./
 COPY apps/datacant/package.json apps/datacant/
-RUN npm ci --workspace=apps/datacant --include-workspace-root
+# The shared kit is a workspace of the monorepo, not a registry package.
+COPY packages/showcase-kit/package.json packages/showcase-kit/
+RUN npm ci --workspace=apps/datacant --workspace=packages/showcase-kit --include-workspace-root
+COPY packages/showcase-kit packages/showcase-kit
 COPY apps/datacant apps/datacant
 RUN npm run build --workspace=apps/datacant
 

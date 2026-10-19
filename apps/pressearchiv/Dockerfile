@@ -7,7 +7,10 @@ ARG NEXT_PUBLIC_BASE_PATH=
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
 COPY package.json package-lock.json ./
 COPY apps/pressearchiv/package.json apps/pressearchiv/
-RUN npm ci --workspace=apps/pressearchiv --include-workspace-root
+# The shared kit is a workspace of the monorepo, not a registry package.
+COPY packages/showcase-kit/package.json packages/showcase-kit/
+RUN npm ci --workspace=apps/pressearchiv --workspace=packages/showcase-kit --include-workspace-root
+COPY packages/showcase-kit packages/showcase-kit
 COPY apps/pressearchiv apps/pressearchiv
 RUN npm run build --workspace=apps/pressearchiv
 
