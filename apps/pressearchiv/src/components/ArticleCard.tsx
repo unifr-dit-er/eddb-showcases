@@ -1,6 +1,6 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Tag } from '@eddb/showcase-kit/tag'
 import { RecordTypeIcon } from '@/components/RecordTypeIcon'
 import type { ArticleSummary } from '@/types/archive'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -97,41 +97,19 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
 
       <div className="flex flex-wrap items-center gap-1.5">
         {series && (
-          <span
-            onClick={handleSeriesClick}
-            className={cn(
-              'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
-              filters.series === article.seriesId
-                ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                : 'text-muted-foreground bg-muted hover:bg-primary-tint-3 hover:text-primary-ink'
-            )}
-          >
+          <Tag variant="caps" onClick={handleSeriesClick} active={filters.series === article.seriesId}>
             {seriesTitle(series)}
-          </span>
+          </Tag>
         )}
         {article.languages.map((code) => (
-          <span
-            key={code}
-            title={label('language', code)}
-            className="text-[0.6875rem] font-semibold tracking-[0.1em] uppercase px-1.5 py-0.5 rounded border border-border text-muted-foreground"
-          >
+          <Tag key={code} variant="outline" title={label('language', code)}>
             {shortLanguage(code)}
-          </span>
+          </Tag>
         ))}
         {article.keywords.slice(0, MAX_KEYWORDS).map((kw) => (
-          <Badge
-            key={kw}
-            variant="secondary"
-            onClick={(e) => handleKeywordClick(e, kw)}
-            className={cn(
-              'text-xs px-1.5 py-0 font-normal cursor-pointer transition-colors',
-              filters.keywords.includes(kw)
-                ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                : 'hover:bg-primary-tint-3 hover:text-primary-ink'
-            )}
-          >
+          <Tag key={kw} onClick={(e) => handleKeywordClick(e, kw)} active={filters.keywords.includes(kw)}>
             {kw}
-          </Badge>
+          </Tag>
         ))}
         {extraKeywords > 0 && <span className="text-xs text-muted-foreground">+{extraKeywords}</span>}
       </div>

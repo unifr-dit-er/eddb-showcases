@@ -1,6 +1,6 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Tag } from '@eddb/showcase-kit/tag'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { RecordTypeIcon } from '@/components/RecordTypeIcon'
@@ -155,19 +155,9 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                 <SectionLabel>{t('article.keywords')}</SectionLabel>
                 <div className="flex flex-wrap gap-1.5">
                   {[...article.keywords].sort((a, b) => a.localeCompare(b)).map((kw) => (
-                    <Badge
-                      key={kw}
-                      variant="secondary"
-                      onClick={() => toggleKeyword(kw)}
-                      className={cn(
-                        'text-xs px-2 py-0.5 font-normal cursor-pointer transition-colors',
-                        filters.keywords.includes(kw)
-                          ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                          : 'hover:bg-primary-tint-3 hover:text-primary-ink'
-                      )}
-                    >
+                    <Tag key={kw} onClick={() => toggleKeyword(kw)} active={filters.keywords.includes(kw)}>
                       {kw}
-                    </Badge>
+                    </Tag>
                   ))}
                 </div>
               </div>

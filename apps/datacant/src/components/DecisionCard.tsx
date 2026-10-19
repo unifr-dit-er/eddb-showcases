@@ -1,6 +1,6 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Tag } from '@eddb/showcase-kit/tag'
 import type { Decision } from '@/types/decision'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFilters } from '@/hooks/useFilters'
@@ -105,19 +105,9 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
       {keywords.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5">
           {keywords.slice(0, MAX_KEYWORDS).map((kw) => (
-            <Badge
-              key={kw.id}
-              variant="secondary"
-              onClick={(e) => handleKeywordClick(e, kw.id)}
-              className={cn(
-                'text-xs px-1.5 py-0 font-normal cursor-pointer transition-colors',
-                filters.keywords.includes(kw.id)
-                  ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                  : 'hover:bg-primary-tint-2 hover:text-primary-ink'
-              )}
-            >
+            <Tag key={kw.id} onClick={(e) => handleKeywordClick(e, kw.id)} active={filters.keywords.includes(kw.id)}>
               {kw.label}
-            </Badge>
+            </Tag>
           ))}
           {extraKeywords > 0 && <span className="text-xs text-muted-foreground">+{extraKeywords}</span>}
         </div>

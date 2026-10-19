@@ -1,6 +1,6 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { Tag } from '@eddb/showcase-kit/tag'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -127,17 +127,9 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
 
             <div className="flex items-center gap-2.5">
               {decision.canton && (
-                <span
-                  onClick={handleCantonClick}
-                  className={cn(
-                    'text-[0.6875rem] font-bold tracking-[0.15em] uppercase px-1.5 py-0.5 rounded transition-colors cursor-pointer',
-                    filters.canton === decision.canton
-                      ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                      : 'bg-muted text-muted-foreground hover:bg-primary-tint-2 hover:text-primary-ink'
-                  )}
-                >
+                <Tag variant="caps" onClick={handleCantonClick} active={filters.canton === decision.canton}>
                   {getCantonLabel(decision.canton, langSuffix)}
-                </span>
+                </Tag>
               )}
               <span className="text-[0.8125rem] text-primary-ink font-medium">{formattedDate}</span>
             </div>
@@ -171,19 +163,9 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
                         .filter((kw) => kw.category === category)
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((kw) => (
-                        <Badge
-                          key={kw.id}
-                          variant="secondary"
-                          onClick={() => handleKeywordClick(kw.id)}
-                          className={cn(
-                            'text-xs px-2 py-0.5 font-normal cursor-pointer transition-colors',
-                            filters.keywords.includes(kw.id)
-                              ? 'bg-primary-tint-3 text-primary-ink hover:bg-primary-tint-2'
-                              : 'hover:bg-primary-tint-2 hover:text-primary-ink'
-                          )}
-                        >
+                        <Tag key={kw.id} onClick={() => handleKeywordClick(kw.id)} active={filters.keywords.includes(kw.id)}>
                           {kw.label}
-                        </Badge>
+                        </Tag>
                       ))}
                     </div>
                   </div>

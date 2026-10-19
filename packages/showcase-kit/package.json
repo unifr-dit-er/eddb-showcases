@@ -14,7 +14,8 @@
     "./year-timeline": "./src/YearTimeline.tsx",
     "./active-filter-chips": "./src/ActiveFilterChips.tsx",
     "./cached-loader": "./src/cachedLoader.ts",
-    "./text": "./src/text.ts"
+    "./text": "./src/text.ts",
+    "./tag": "./src/Tag.tsx"
   },
   "scripts": {
     "lint": "eslint src",
