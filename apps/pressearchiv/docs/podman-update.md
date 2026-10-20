@@ -32,5 +32,14 @@ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8097/pressearchiv   # 
 podman logs -f eddb-pressearchiv
 ```
 
-Chaque construction laisse l'image de l'étape de build, sans nom
-(`<none>`, environ 1 Go) : `podman image prune` les retire.
+## 4. Nettoyer
+
+Une fois la nouvelle version vérifiée : chaque construction laisse l'image
+de l'étape de build et l'ancienne image, sans nom (`<none>`, environ 1 Go).
+
+```bash
+podman image prune -f
+```
+
+Jamais `-a`, qui supprimerait aussi les images nommées gardées pour revenir
+en arrière ; voir `docs/podman.md` de `svx-web-configs`.

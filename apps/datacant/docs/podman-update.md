@@ -13,5 +13,14 @@ systemctl --user status eddb-datacant
 curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8085/   # 200
 ```
 
-Chaque construction laisse une image de build sans nom (`<none>`, environ
-1 Go) : `podman image prune` les retire.
+Une fois la nouvelle version vérifiée, nettoyer : chaque construction laisse
+l'image de l'étape de build et l'ancienne image, sans nom (`<none>`,
+environ 1 Go).
+
+```bash
+podman image prune -f
+```
+
+Jamais `-a`, qui supprimerait aussi les images nommées gardées pour revenir
+en arrière (`eddb-datacant:previous`) ; voir `docs/podman.md` de
+`svx-web-configs`.
