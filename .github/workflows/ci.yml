@@ -1,0 +1,52 @@
+# Lint, typecheck, tests and build of every workspace, then the image of
+# each showcase, on every push to main and every pull request. No secret:
+# the tests do not call NocoDB and the API routes are rendered on demand.
+# No deployment either: svx-web-eddb is rebuilt by hand
+# (apps/<showcase>/docs/podman-update.md).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+
+  image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # Base path as in production: datacant.unifr.ch at the root,
+      # eddb.unifr.ch/pressearchiv under a sub-path.
+      matrix:
+        include:
+          - showcase: datacant
+            base-path: ''
+          - showcase: pressearchiv
+            base-path: /pressearchiv
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Same build as on svx-web-eddb, from the repository root.
+      - run: >
+          docker build
+          -f apps/${{ matrix.showcase }}/Dockerfile
+          --build-arg NEXT_PUBLIC_BASE_PATH=${{ matrix.base-path }}
+          -t eddb-${{ matrix.showcase }}:ci .

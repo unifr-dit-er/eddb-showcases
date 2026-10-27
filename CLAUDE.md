@@ -58,3 +58,13 @@ shadcn CLI expects.
   workspace.
 - Dockerfiles build from the repository root:
   `podman build -f apps/<showcase>/Dockerfile .`
+- **CI** (`.github/workflows/ci.yml`): on every push to main and every
+  pull request, `npm run check`, `npm run build`, then the image of each
+  showcase with its production base path. No secret (tests never call
+  NocoDB, API routes render on demand), no deployment. A new showcase gets
+  its line in the image matrix.
+- **Renovate** (`renovate.json5`): development tools and GitHub Actions
+  weekly, merged by Renovate after a green CI; production dependencies,
+  Node image and lockfile in one monthly batch, merged by hand, then the
+  showcases are redeployed; security fixes at once (label `security`).
+  Node stays on 22. Actions are pinned by commit SHA.
