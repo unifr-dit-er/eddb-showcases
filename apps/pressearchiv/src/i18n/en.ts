@@ -58,6 +58,9 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.institute-multilingualism.ch/en',
   'footer.eddb': 'Database supported by the',
   'footer.eddb.of': 'service of',
+  'sponsor.lead': 'Created for the',
+  'sponsor.name': 'Research Centre on Multilingualism',
+  'sponsor.url': 'https://centre-plurilinguisme.ch/en',
   'about.title': 'About',
   'about.content':
     'The press archive of the Institute of Multilingualism brings together press articles and grey literature on language teaching and language policy in Switzerland. Collected since 2014, the documents are arranged in series: one per canton, and two for Switzerland as a whole. Each record gives the source, the date, the authors, the beginning of the text and keywords.',

@@ -57,6 +57,9 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.institut-plurilinguisme.ch/fr',
   'footer.eddb': 'Base de données soutenue par la prestation',
   'footer.eddb.of': 'de',
+  'sponsor.lead': 'Réalisée pour le',
+  'sponsor.name': 'Centre scientifique de compétence sur le plurilinguisme',
+  'sponsor.url': 'https://centre-plurilinguisme.ch/fr',
   'about.title': 'À propos',
   'about.content':
     "Les archives de presse de l'Institut de plurilinguisme rassemblent des articles de presse et de la littérature grise sur l'enseignement des langues et la politique linguistique en Suisse. Collectés depuis 2014, les documents sont classés en séries : une par canton, et deux pour l'ensemble de la Suisse. Chaque notice donne la source, la date, les auteur·e·s, le début du texte et des mots-clés.",

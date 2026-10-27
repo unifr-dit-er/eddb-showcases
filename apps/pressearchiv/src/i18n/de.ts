@@ -57,6 +57,9 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.institut-mehrsprachigkeit.ch/de',
   'footer.eddb': 'Datenbank unterstützt durch den Dienst',
   'footer.eddb.of': 'von',
+  'sponsor.lead': 'Erstellt für das',
+  'sponsor.name': 'Wissenschaftliches Kompetenzzentrum für Mehrsprachigkeit',
+  'sponsor.url': 'https://centre-plurilinguisme.ch/de',
   'about.title': 'Über',
   'about.content':
     'Das Pressearchiv des Instituts für Mehrsprachigkeit versammelt Presseartikel und graue Literatur zum Sprachenunterricht und zur Sprachenpolitik in der Schweiz. Die seit 2014 gesammelten Dokumente sind in Serien geordnet: eine pro Kanton und zwei für die ganze Schweiz. Jeder Eintrag nennt Quelle, Datum, Autor:innen, Textanfang und Schlagwörter.',

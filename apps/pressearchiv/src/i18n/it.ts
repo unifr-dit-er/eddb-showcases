@@ -58,6 +58,9 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.istituto-plurilinguismo.ch/it',
   'footer.eddb': 'Banca dati sostenuta dal servizio',
   'footer.eddb.of': 'di',
+  'sponsor.lead': 'Realizzata per il',
+  'sponsor.name': 'Centro scientifico di competenza per il plurilinguismo',
+  'sponsor.url': 'https://centre-plurilinguisme.ch/it',
   'about.title': 'Informazioni',
   'about.content':
     "L'archivio della stampa dell'Istituto di plurilinguismo raccoglie articoli di stampa e letteratura grigia sull'insegnamento delle lingue e sulla politica linguistica in Svizzera. Raccolti dal 2014, i documenti sono ordinati in serie: una per cantone e due per l'intera Svizzera. Ogni scheda indica la fonte, la data, gli autori e le autrici, l'inizio del testo e le parole chiave.",

@@ -64,6 +64,9 @@ export interface Translations {
   'footer.institute.url': string
   'footer.eddb': string
   'footer.eddb.of': string
+  'sponsor.lead': string
+  'sponsor.name': string
+  'sponsor.url': string
   'about.title': string
   'about.content': string
   'about.fullText': string

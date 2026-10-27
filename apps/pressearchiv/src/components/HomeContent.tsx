@@ -4,6 +4,7 @@ import { AboutDialog } from '@/components/AboutDialog'
 import { ArticleList } from '@/components/ArticleList'
 import { ArticlePanel } from '@/components/ArticlePanel'
 import { FilterSidebar } from '@/components/FilterSidebar'
+import { SponsorLogo } from '@/components/SponsorLogo'
 import LanguageSelector from '@/components/LanguageSelector'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SidebarMasthead } from '@eddb/showcase-kit/sidebar-masthead'
@@ -105,8 +106,15 @@ export const HomeContent = () => {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto">
-          <ArticleList />
+        {/* The sponsor logo sits bottom right, beside the list, when it fits
+            there (list 896 px + logo 650 px + margins 48 px = 1594 px);
+            otherwise at the end of the list, so that no width changes. */}
+        <div className="relative flex-1 min-h-0 @container">
+          <div className="h-full overflow-y-auto">
+            <ArticleList />
+            <SponsorLogo className="px-4 lg:px-6 pb-8 pt-2 max-w-4xl @min-[1594px]:hidden" />
+          </div>
+          <SponsorLogo className="hidden @min-[1594px]:block absolute bottom-5 right-6 text-right" />
         </div>
 
         <SiteFooter

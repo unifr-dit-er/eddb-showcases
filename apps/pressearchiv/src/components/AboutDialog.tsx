@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
+import { SponsorLogo } from '@/components/SponsorLogo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { Info, Lock } from 'lucide-react'
 
@@ -19,7 +20,8 @@ export const AboutDialog = () => {
           <Info className="h-4 w-4" />
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-xl">
+      {/* Wide enough for the sponsor logo at 650 px. */}
+      <DialogContent className="sm:max-w-[698px]">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">{t('header.title')}</DialogTitle>
         </DialogHeader>
@@ -30,6 +32,10 @@ export const AboutDialog = () => {
           <Lock className="h-4 w-4 mt-0.5 shrink-0" aria-hidden />
           {t('about.fullText')}
         </p>
+
+        <Separator />
+
+        <SponsorLogo labelClassName="text-[11px] tracking-[0.25em] font-semibold text-muted-foreground/60" />
 
         <Separator />
 
