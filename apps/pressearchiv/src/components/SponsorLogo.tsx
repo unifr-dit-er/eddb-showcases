@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/lib/utils'
 
 // Width of the logo of the Centre scientifique de compétence sur le
-// plurilinguisme (CSP), for which the archive was built: its five lines, one
+// plurilinguisme (CSP), which funds the archive: its five lines, one
 // per language, stay legible from 650 px. The logo is never cropped.
 export const SPONSOR_LOGO_WIDTH = 650
 

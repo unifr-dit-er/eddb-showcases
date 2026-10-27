@@ -58,7 +58,7 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.institute-multilingualism.ch/en',
   'footer.eddb': 'Database supported by the',
   'footer.eddb.of': 'service of',
-  'sponsor.lead': 'Created for the',
+  'sponsor.lead': 'With the support of the',
   'sponsor.name': 'Research Centre on Multilingualism',
   'sponsor.url': 'https://centre-plurilinguisme.ch/en',
   'about.title': 'About',

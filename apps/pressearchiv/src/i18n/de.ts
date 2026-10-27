@@ -57,7 +57,7 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.institut-mehrsprachigkeit.ch/de',
   'footer.eddb': 'Datenbank unterstützt durch den Dienst',
   'footer.eddb.of': 'von',
-  'sponsor.lead': 'Erstellt für das',
+  'sponsor.lead': 'Mit Unterstützung des',
   'sponsor.name': 'Wissenschaftliches Kompetenzzentrum für Mehrsprachigkeit',
   'sponsor.url': 'https://centre-plurilinguisme.ch/de',
   'about.title': 'Über',

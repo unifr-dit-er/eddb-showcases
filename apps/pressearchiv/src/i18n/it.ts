@@ -58,7 +58,7 @@ const translations: Translations = {
   'footer.institute.url': 'https://www.istituto-plurilinguismo.ch/it',
   'footer.eddb': 'Banca dati sostenuta dal servizio',
   'footer.eddb.of': 'di',
-  'sponsor.lead': 'Realizzata per il',
+  'sponsor.lead': 'Con il sostegno del',
   'sponsor.name': 'Centro scientifico di competenza per il plurilinguismo',
   'sponsor.url': 'https://centre-plurilinguisme.ch/it',
   'about.title': 'Informazioni',
