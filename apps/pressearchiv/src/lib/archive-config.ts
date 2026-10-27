@@ -29,7 +29,7 @@ export const ARTICLE_FIELDS = [
   'ok_for_public',
 ] as const
 
-export const SERIES_FIELDS = ['Id', 'internal_no', 'title_ger', 'title_fre'] as const
+export const SERIES_FIELDS = ['Id', 'internal_no', 'title_ger', 'title_fre', 'title_ita'] as const
 
 // Series that cover the whole of Switzerland rather than one canton, shown
 // first in the series filter.

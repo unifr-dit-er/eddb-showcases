@@ -1,10 +1,8 @@
 'use client'
 
 import { useLanguage } from '@/contexts/LanguageContext'
-import type { Locale } from '@/i18n'
+import { LOCALES } from '@/i18n'
 import { cn } from '@/lib/utils'
-
-const LOCALES: Locale[] = ['fr', 'de']
 
 const LanguageSelector = () => {
   const { locale, setLocale } = useLanguage()

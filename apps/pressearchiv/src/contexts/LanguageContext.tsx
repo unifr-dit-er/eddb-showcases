@@ -6,6 +6,7 @@ import {
   type Locale,
   type Translations,
   DEFAULT_LOCALE,
+  LOCALES,
   LOCALE_STORAGE_KEY,
   getLabels,
   getTranslations,
@@ -14,15 +15,13 @@ import {
 import type { Series } from '@/types/archive'
 import { useLocalSetting } from '@eddb/showcase-kit/use-local-setting'
 
-const LOCALES: readonly Locale[] = ['fr', 'de']
-
 interface LanguageContextValue {
   locale: Locale
   setLocale: (locale: Locale) => void
   t: (key: keyof Translations) => string
   // Label of a data value (record type, language code), or the value itself.
   label: (kind: keyof Labels, value: string) => string
-  seriesTitle: (series: Pick<Series, 'titleDE' | 'titleFR'>) => string
+  seriesTitle: (series: Pick<Series, 'titleDE' | 'titleFR' | 'titleIT'>) => string
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
@@ -41,8 +40,12 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   )
 
   const seriesTitle = useCallback(
-    (series: Pick<Series, 'titleDE' | 'titleFR'>) =>
-      locale === 'de' ? series.titleDE : series.titleFR,
+    (series: Pick<Series, 'titleDE' | 'titleFR' | 'titleIT'>) => {
+      // The base has no English titles: the German ones stand in for them.
+      if (locale === 'fr') return series.titleFR
+      if (locale === 'it') return series.titleIT
+      return series.titleDE
+    },
     [locale]
   )
 

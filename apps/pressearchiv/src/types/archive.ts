@@ -24,6 +24,7 @@ export interface Series {
   id: string
   titleDE: string
   titleFR: string
+  titleIT: string
   // "CH: Presse" and "CH: Graue Literatur" cover the whole of Switzerland;
   // they come first in the series filter.
   national: boolean

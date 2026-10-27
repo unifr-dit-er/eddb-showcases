@@ -63,6 +63,7 @@ export const mapSeries = (record: NocoDBRecord): Series => {
     id: text(record.Id ?? record.id),
     titleDE,
     titleFR: text(record.title_fre) || titleDE,
+    titleIT: text(record.title_ita) || titleDE,
     national: titleDE.startsWith(NATIONAL_SERIES_PREFIX),
   }
 }

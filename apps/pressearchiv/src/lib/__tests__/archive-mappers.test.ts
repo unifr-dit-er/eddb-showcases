@@ -77,11 +77,16 @@ describe('mapArticle', () => {
 describe('mapSeries', () => {
   it('flags national series', () => {
     expect(mapSeries({ Id: 20, title_ger: 'CH: Presse', title_fre: 'CH : presse' }).national).toBe(true)
-    expect(mapSeries({ Id: 9, title_ger: 'Freiburg', title_fre: 'Fribourg' })).toEqual({
+    expect(mapSeries({ Id: 9, title_ger: 'Freiburg', title_fre: 'Fribourg', title_ita: 'Friburgo' })).toEqual({
       id: '9',
       titleDE: 'Freiburg',
       titleFR: 'Fribourg',
+      titleIT: 'Friburgo',
       national: false,
     })
+  })
+
+  it('falls back on the German title', () => {
+    expect(mapSeries({ Id: 18, title_ger: 'Zug', title_fre: 'Zoug', title_ita: null }).titleIT).toBe('Zug')
   })
 })

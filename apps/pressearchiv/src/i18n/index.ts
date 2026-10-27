@@ -1,7 +1,12 @@
 import { fr } from './fr'
 import { de } from './de'
+import { en } from './en'
+import { it } from './it'
 
-export type Locale = 'fr' | 'de'
+export type Locale = 'fr' | 'de' | 'en' | 'it'
+
+// Order of the language selector.
+export const LOCALES: readonly Locale[] = ['fr', 'de', 'en', 'it']
 
 export interface Translations {
   'header.title': string
@@ -73,11 +78,11 @@ export interface Labels {
 export const LOCALE_STORAGE_KEY = 'locale'
 export const DEFAULT_LOCALE: Locale = 'fr'
 
-export const getTranslations = (locale: Locale): Translations =>
-  locale === 'de' ? de.translations : fr.translations
+const LOCALE_TEXTS: Record<Locale, { translations: Translations; labels: Labels }> = { fr, de, en, it }
 
-export const getLabels = (locale: Locale): Labels =>
-  locale === 'de' ? de.labels : fr.labels
+export const getTranslations = (locale: Locale): Translations => LOCALE_TEXTS[locale].translations
+
+export const getLabels = (locale: Locale): Labels => LOCALE_TEXTS[locale].labels
 
 export const SHOWCASE_NAME = 'Pressearchiv'
 
