@@ -68,8 +68,9 @@
       labels: ['dependencies', 'production'],
     },
     {
+      // The node-version of the CI is matched by its dependency name only.
       description: 'Node stays on 22 (image, CI, types) until we decide to move',
-      matchPackageNames: ['node', '@types/node'],
+      matchDepNames: ['node', '@types/node'],
       allowedVersions: '<23',
     },
     {
