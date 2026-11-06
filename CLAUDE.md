@@ -64,7 +64,9 @@ shadcn CLI expects.
   NocoDB, API routes render on demand), no deployment. A new showcase gets
   its line in the image matrix.
 - **Renovate** (`renovate.json5`): development tools and GitHub Actions
-  weekly, merged by Renovate after a green CI; production dependencies,
+  weekly, merged by Renovate after a green CI, and so are the majors of
+  the development tools, monthly (except Tailwind, Node and the packages
+  that follow Next.js and React); production dependencies,
   Node image and lockfile in one monthly batch, merged by hand, then the
   showcases are redeployed; security fixes at once (label `security`).
   Node stays on 22. Actions are pinned by commit SHA.

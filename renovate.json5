@@ -1,7 +1,9 @@
 // Dependency updates of the monorepo (decision of 27.10.2026,
 // eddb/ops/decisions/2026-10-27-ci-et-renovate.md in Almanac).
 // - Development tools and GitHub Actions: weekly, merged automatically
-//   once CI passes; they change nothing in production.
+//   once CI passes; they change nothing in production. Majors of the
+//   development tools too, monthly (06.11.2026), except Tailwind, which
+//   writes the production CSS.
 // - What runs in production (dependencies, Node image, lockfile): one
 //   batch a month, merged by hand, then the showcases are redeployed.
 // - Security fixes: at once, labelled "security".
@@ -78,6 +80,23 @@
       matchUpdateTypes: ['major'],
       schedule: ['before 6am on the first day of the month'],
       automerge: false,
+    },
+    {
+      // Same CI as the minors; a major left open waits for nobody
+      // (jest-dom 7, 01.11.2026).
+      description: 'Majors of the development tools: monthly, one pull request each, automerged',
+      matchDepTypes: ['devDependencies'],
+      matchUpdateTypes: ['major'],
+      matchPackageNames: [
+        '!tailwindcss',
+        '!@tailwindcss/*',
+        '!eslint-config-next',
+        '!@next/*',
+        '!@types/react',
+        '!@types/react-dom',
+        '!@types/node',
+      ],
+      automerge: true,
     },
   ],
 }
