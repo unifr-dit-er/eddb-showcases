@@ -17,7 +17,7 @@ export const de: Translations = {
   'sidebar.clear': 'Zurücksetzen',
   'sidebar.resetFilters': 'Filter zurücksetzen',
   'decision.loading': 'Wird geladen…',
-  'decision.copyLink': 'Link kopieren',
+  'decision.copyLink': 'Link zu diesem Entscheid kopieren',
   'decision.linkCopied': 'Link kopiert',
   'decision.downloadPdf': 'Urteil als PDF herunterladen',
   'decisions.error': 'Entscheide konnten nicht geladen werden.',
@@ -39,7 +39,7 @@ export const de: Translations = {
   'footer.license.content': 'Inhalte',
   'footer.eddb': 'Datenbank unterstützt durch den Dienst',
   'footer.eddb.of': 'von',
-  'about.title': 'Über',
+  'about.title': 'Über die Datenbank',
   'about.content':
     'Die Urteils-Datenbank Datenschutz macht kantonale Rechtsprechung im Gebiet des Datenschutzes seit 1984 allgemein zugänglich. Die bestehende Datenbank wird kontinuierlich aktualisiert. Zu jedem Urteil steht eine Zusammenfassung zur Verfügung, die von Forschenden des Instituts für Europarecht der Universität Freiburg erstellt werden. Sie sind jeweils in deutscher und in französischer Sprache verfügbar. Die Datenbank richtet sich sowohl an Praktiker-innen des Datenschutzrechts, wie Behördenverter-innen und die Anwaltschaft, als auch an die Wissenschaft.',
 }

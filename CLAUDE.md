@@ -27,6 +27,11 @@ the kit is checked against every showcase in the same commit.
 - Colours follow the Unifr corporate design (faculty colour for fills,
   midnight blue #071D49 for accented text, never a darkened faculty colour;
   WCAG AA contrast).
+- **A request on one showcase may hold for all** (wording, ergonomics,
+  accessibility, filter behaviour): spot it and ask Alrick whether to apply
+  it to every showcase before limiting it to the one that asked (17.11.2026:
+  the About label and the copy-link wording of pressearchiv, which held for
+  datacant). What then serves two showcases moves into the kit.
 
 # The kit
 
@@ -43,7 +48,8 @@ its sources with `@source`. It holds:
   base, the pattern of both showcases), `text`, `api-fetch`, `use-local-setting`
   (hydration-safe viewer preferences), `font-size`, `site-footer`,
   `sidebar-masthead` (each application loads the Newsreader serif),
-  `year-timeline`, `active-filter-chips`, `tag`.
+  `year-timeline`, `active-filter-chips`, `tag`, `about-button` (icon and
+  label that open the About dialog).
 
 shadcn/ui components stay in each application (`src/components/ui`), as the
 shadcn CLI expects.

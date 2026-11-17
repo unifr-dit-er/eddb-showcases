@@ -5,7 +5,8 @@ import { Separator } from '@/components/ui/separator'
 import { SponsorLogo } from '@/components/SponsorLogo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getPageTitle } from '@/i18n'
-import { Info, Lock } from 'lucide-react'
+import { Lock } from 'lucide-react'
+import { AboutButton } from '@eddb/showcase-kit/about-button'
 
 export const AboutDialog = () => {
   const { t, locale } = useLanguage()
@@ -13,12 +14,7 @@ export const AboutDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {/* The icon alone was not visible enough (institute, 29.10.2026). */}
-        <button className="flex items-center gap-1.5 shrink-0 whitespace-nowrap text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-          <Info className="h-4 w-4" aria-hidden />
-          <span className="hidden sm:inline">{t('about.title')}</span>
-          <span className="sr-only sm:hidden">{t('about.title')}</span>
-        </button>
+        <AboutButton label={t('about.title')} />
       </DialogTrigger>
       {/* Wide enough for the sponsor logo at 650 px. */}
       <DialogContent className="sm:max-w-[698px]">
