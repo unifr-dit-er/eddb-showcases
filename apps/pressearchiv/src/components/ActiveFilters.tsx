@@ -3,11 +3,14 @@
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFacets } from '@/hooks/useFacets'
 import { useFilters } from '@/hooks/useFilters'
+import { useKeywordLabel } from '@/hooks/useKeywordLabel'
 import { ActiveFilterChips, type FilterChip } from '@eddb/showcase-kit/active-filter-chips'
 
 // Chips of the active filters, above the results.
 export const ActiveFilters = () => {
-  const { filters, setFilter, setFilters, toggleKeyword, toggleType, resetFilters, hasActiveFilters } = useFilters()
+  const { filters, setFilter, setFilters, toggleKeyword, toggleType, toggleJournal, resetFilters, hasActiveFilters } =
+    useFilters()
+  const keywordLabel = useKeywordLabel()
   const { seriesById } = useFacets()
   const { t, label, seriesTitle } = useLanguage()
 
@@ -35,8 +38,8 @@ export const ActiveFilters = () => {
     ...(filters.language
       ? [{ key: 'lang', text: label('language', filters.language), remove: () => setFilter('language', '') }]
       : []),
-    ...(filters.journal ? [{ key: 'journal', text: filters.journal, remove: () => setFilter('journal', '') }] : []),
-    ...filters.keywords.map((kw) => ({ key: `kw-${kw}`, text: kw, remove: () => toggleKeyword(kw) })),
+    ...filters.journals.map((j) => ({ key: `journal-${j}`, text: j, remove: () => toggleJournal(j) })),
+    ...filters.keywords.map((kw) => ({ key: `kw-${kw}`, text: keywordLabel(kw), remove: () => toggleKeyword(kw) })),
   ]
 
   return (

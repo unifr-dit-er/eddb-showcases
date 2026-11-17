@@ -6,6 +6,8 @@
 export const NOCODB_TABLES = {
   ARTICLES: 'mp4j2pa1lhvi78j',
   SERIES: 'm8v65j6m9rjy1bh',
+  // Keyword thesaurus of the CSP / KFM, completed by the institute (17.11.2026).
+  THESAURUS: 'mt1q865ha6bs79x',
 } as const
 
 // Whitelist of the fields read from NocoDB. Anything else (pdf_filename,
@@ -29,7 +31,11 @@ export const ARTICLE_FIELDS = [
   'ok_for_public',
 ] as const
 
-export const SERIES_FIELDS = ['Id', 'internal_no', 'title_ger', 'title_fre', 'title_ita'] as const
+export const SERIES_FIELDS = ['Id', 'internal_no', 'title_ger', 'title_fre', 'title_ita', 'title_eng'] as const
+
+// `en` is the form used in `key_words`; `masquer` hides a keyword (internal
+// work marks and terms the institute does not want shown).
+export const THESAURUS_FIELDS = ['en', 'de', 'fr', 'it', 'masquer'] as const
 
 // Series that cover the whole of Switzerland rather than one canton, shown
 // first in the series filter.

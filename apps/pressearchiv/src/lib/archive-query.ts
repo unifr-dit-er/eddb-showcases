@@ -5,6 +5,7 @@
 import type {
   ArchiveFilters,
   Article,
+  ArticleDetail,
   ArticlesPage,
   ArticleSummary,
   CountedValue,
@@ -28,7 +29,7 @@ export const parseFilters = (params: URLSearchParams): ArchiveFilters => {
     q: (params.get('q') ?? '').trim(),
     series: params.get('series') ?? '',
     types: params.getAll('type').filter(Boolean),
-    journal: params.get('journal') ?? '',
+    journals: params.getAll('journal').filter(Boolean),
     keywords: params.getAll('keyword').filter(Boolean),
     language: params.get('lang') ?? '',
     from: YEAR.test(from) ? from : '',
@@ -50,6 +51,7 @@ const haystackOf = (article: Article): string => {
         article.journal,
         ...article.authors.map((a) => a.name),
         ...article.keywords,
+        ...article.keywordTerms,
       ].join(' \n ')
     )
     haystacks.set(article, value)
@@ -73,7 +75,7 @@ export const filterArticles = (
   return articles.filter((a) => {
     if (filters.series && a.seriesId !== filters.series) return false
     if (filters.types.length > 0 && !filters.types.includes(a.recordType)) return false
-    if (filters.journal && a.journal !== filters.journal) return false
+    if (filters.journals.length > 0 && !filters.journals.includes(a.journal)) return false
     if (filters.language && !a.languages.includes(filters.language)) return false
     // Keywords narrow the results: an article must carry all of them.
     if (filters.keywords.some((k) => !a.keywords.includes(k))) return false
@@ -115,6 +117,12 @@ export const toSummary = (a: Article): ArticleSummary => ({
   seriesId: a.seriesId,
   keywords: a.keywords,
   teaser: a.teaser,
+})
+
+export const toDetail = (a: Article): ArticleDetail => ({
+  ...toSummary(a),
+  url: a.url,
+  internalNo: a.internalNo,
 })
 
 const countBy = (values: Iterable<string>): CountedValue[] => {
@@ -174,8 +182,8 @@ const countPresent = (values: string[], selected: string[]): CountedValue[] => {
 /**
  * Counts for the filters, given the active ones. Each filter counts its
  * values against every other active filter but not itself, so the user can
- * still switch from one series, source or language to another; record
- * types, combined with "or", likewise. Keywords, combined with "and",
+ * still switch from one series or language to another; record types and
+ * sources, combined with "or", likewise. Keywords, combined with "and",
  * count against every filter, keywords included. The year range is the
  * archive's, for a stable timeline axis.
  */
@@ -191,7 +199,7 @@ export const computeFacets = (
   const bySeries = without({ series: '' })
   const byType = without({ types: [] })
   const byLanguage = without({ language: '' })
-  const byJournal = without({ journal: '' })
+  const byJournal = without({ journals: [] })
 
   return {
     total: matching.length,
@@ -209,7 +217,7 @@ export const computeFacets = (
     ),
     journals: countPresent(
       byJournal.map((a) => a.journal),
-      filters.journal ? [filters.journal] : []
+      filters.journals
     ),
     keywords: countPresent(
       matching.flatMap((a) => a.keywords),

@@ -7,6 +7,7 @@ import { RecordTypeIcon } from '@/components/RecordTypeIcon'
 import { useArticle } from '@/hooks/useArticle'
 import { useFacets } from '@/hooks/useFacets'
 import { useFilters } from '@/hooks/useFilters'
+import { useKeywordLabel } from '@/hooks/useKeywordLabel'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { displayName, formatDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
@@ -28,7 +29,8 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
   const { data: article, isLoading } = useArticle(articleId)
   const { seriesById } = useFacets()
   const { t, locale, label, seriesTitle } = useLanguage()
-  const { filters, setFilter, toggleKeyword, toggleType } = useFilters()
+  const { filters, setFilter, toggleJournal, toggleKeyword, toggleType } = useFilters()
+  const keywordLabel = useKeywordLabel()
   const [linkCopied, setLinkCopied] = useState(false)
   const [isOpen, setIsOpen] = useState(!!articleId)
   const [shownId, setShownId] = useState(articleId)
@@ -86,8 +88,11 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
                 </button>
                 {article.journal && (
                   <button
-                    onClick={() => setFilter('journal', filters.journal === article.journal ? '' : article.journal)}
-                    className="font-serif italic text-base text-foreground/85 hover:text-primary-ink transition-colors"
+                    onClick={() => toggleJournal(article.journal)}
+                    className={cn(
+                      'font-serif italic text-base transition-colors',
+                      filters.journals.includes(article.journal) ? 'text-primary-ink' : 'text-foreground/85 hover:text-primary-ink'
+                    )}
                   >
                     {article.journal}
                   </button>
@@ -135,7 +140,19 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
             <div className="rounded-lg bg-muted/70 px-4 py-3 flex gap-3 text-[0.875rem] text-muted-foreground leading-relaxed">
               <Lock className="h-4 w-4 mt-0.5 shrink-0" aria-hidden />
               <div className="space-y-2">
-                <p>{t('article.fullTextNotice')}</p>
+                <p>
+                  {t('article.fullTextNotice')}{' '}
+                  {t('fullText.contact')}{' '}
+                  <a
+                    href={t('fullText.url')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-primary-ink hover:text-primary-ink/80 transition-colors underline-offset-2 hover:underline"
+                  >
+                    {t('fullText.urlLabel')}
+                  </a>
+                  .
+                </p>
                 {article.url && (
                   <a
                     href={article.url}
@@ -154,11 +171,13 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
               <div>
                 <SectionLabel>{t('article.keywords')}</SectionLabel>
                 <div className="flex flex-wrap gap-1.5">
-                  {[...article.keywords].sort((a, b) => a.localeCompare(b)).map((kw) => (
-                    <Tag key={kw} onClick={() => toggleKeyword(kw)} active={filters.keywords.includes(kw)}>
-                      {kw}
-                    </Tag>
-                  ))}
+                  {[...article.keywords]
+                    .sort((a, b) => keywordLabel(a).localeCompare(keywordLabel(b), locale))
+                    .map((kw) => (
+                      <Tag key={kw} onClick={() => toggleKeyword(kw)} active={filters.keywords.includes(kw)}>
+                        {keywordLabel(kw)}
+                      </Tag>
+                    ))}
                 </div>
               </div>
             )}

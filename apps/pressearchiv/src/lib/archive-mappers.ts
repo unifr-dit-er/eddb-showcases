@@ -1,4 +1,4 @@
-import type { Article, Author, Series } from '@/types/archive'
+import type { Article, Author, Series, ThesaurusTerm } from '@/types/archive'
 import { NATIONAL_SERIES_PREFIX } from '@/lib/archive-config'
 
 type NocoDBRecord = Record<string, unknown>
@@ -55,6 +55,7 @@ export const mapArticle = (record: NocoDBRecord): Article => ({
   keywords: [...new Set(splitMulti(record.key_words))],
   teaser: text(record.teaser_text),
   url: text(record.url),
+  keywordTerms: [],
 })
 
 export const mapSeries = (record: NocoDBRecord): Series => {
@@ -64,6 +65,19 @@ export const mapSeries = (record: NocoDBRecord): Series => {
     titleDE,
     titleFR: text(record.title_fre) || titleDE,
     titleIT: text(record.title_ita) || titleDE,
+    titleEN: text(record.title_eng) || titleDE,
     national: titleDE.startsWith(NATIONAL_SERIES_PREFIX),
+  }
+}
+
+// A missing translation falls back on the stored (`en`) form.
+export const mapThesaurusTerm = (record: NocoDBRecord): ThesaurusTerm => {
+  const en = text(record.en)
+  return {
+    en,
+    de: text(record.de) || en,
+    fr: text(record.fr) || en,
+    it: text(record.it) || en,
+    hidden: record.masquer === true || text(record.masquer).toLowerCase() === 'true',
   }
 }

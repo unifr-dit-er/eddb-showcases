@@ -2,12 +2,12 @@
 
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { FacetCombobox } from '@/components/FacetCombobox'
 import { FacetList } from '@/components/FacetList'
 import { FilterSection } from '@/components/FilterSection'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFacets } from '@/hooks/useFacets'
 import { useFilters, type ResettableFilter } from '@/hooks/useFilters'
+import { useKeywordLabel } from '@/hooks/useKeywordLabel'
 import { useMemo, useState } from 'react'
 
 const ALL = '_all'
@@ -40,7 +40,18 @@ const Divider = () => <div className="h-px bg-sidebar-border/50 my-1" />
 const selectTriggerClass = 'w-full bg-sidebar-accent border-sidebar-border text-sidebar-foreground h-9 text-sm'
 
 export const FilterSidebar = () => {
-  const { filters, setFilter, setFilters, toggleKeyword, toggleType, resetFilter, resetFilters, hasActiveFilters } = useFilters()
+  const {
+    filters,
+    setFilter,
+    setFilters,
+    toggleKeyword,
+    toggleType,
+    toggleJournal,
+    resetFilter,
+    resetFilters,
+    hasActiveFilters,
+  } = useFilters()
+  const keywordLabel = useKeywordLabel()
   const { data: facets } = useFacets()
   const { t, label, locale, seriesTitle } = useLanguage()
   const [qInput, setQInput] = useState(filters.q)
@@ -219,18 +230,19 @@ export const FilterSidebar = () => {
 
       <FilterSection
         title={t('sidebar.journal.label')}
-        activeCount={filters.journal ? 1 : 0}
-        onReset={reset('journal', !!filters.journal)}
+        activeCount={filters.journals.length}
+        onReset={reset('journals', filters.journals.length > 0)}
       >
         {facets && (
-          <FacetCombobox
+          <FacetList
+            id="journal"
             values={facets.journals}
-            selected={filters.journal}
-            onSelect={(v) => setFilter('journal', v)}
-            placeholder={t('sidebar.journal.choose')}
-            searchPlaceholder={t('sidebar.journal.placeholder')}
-            emptyLabel={t('sidebar.journal.empty')}
-            removeLabel={t('activeFilters.remove')}
+            selected={filters.journals}
+            onToggle={toggleJournal}
+            placeholder={t('sidebar.journal.placeholder')}
+            multiple
+            initialCount={8}
+            scroll
           />
         )}
       </FilterSection>
@@ -248,6 +260,7 @@ export const FilterSidebar = () => {
             values={facets.keywords}
             selected={filters.keywords}
             onToggle={toggleKeyword}
+            label={keywordLabel}
             placeholder={t('sidebar.keywords.placeholder')}
             multiple
             initialCount={8}

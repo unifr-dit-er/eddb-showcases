@@ -3,7 +3,8 @@ import type { Labels, Translations } from './index'
 const translations: Translations = {
   'header.title': 'Articles de presse et littérature grise sur l’enseignement des langues et la politique linguistique en Suisse',
   'header.prototype': 'Prototype',
-  'sidebar.subtitle': 'Archives de la presse · 2014-2025',
+  'sidebar.title': "Archives de presse suisse",
+  'sidebar.subtitle': "Plurilinguisme : 2014-2025",
   'sidebar.search.label': 'Recherche',
   'sidebar.search.placeholder': 'Titre, auteur·e, mot-clé…',
   'sidebar.series.label': 'Série',
@@ -14,8 +15,6 @@ const translations: Translations = {
   'sidebar.period.any': 'Toutes',
   'sidebar.journal.label': 'Source',
   'sidebar.journal.placeholder': 'Filtrer les sources…',
-  'sidebar.journal.choose': 'Choisir une source…',
-  'sidebar.journal.empty': 'Aucune source',
   'activeFilters.label': 'Filtres actifs',
   'activeFilters.clear': 'Tout effacer',
   'activeFilters.remove': 'Retirer le filtre',
@@ -29,12 +28,15 @@ const translations: Translations = {
   'sidebar.resetFilters': 'Réinitialiser les filtres',
   'sidebar.open': 'Ouvrir les filtres',
   'article.loading': 'Chargement…',
-  'article.copyLink': 'Copier le lien',
+  'article.copyLink': "Copier le lien vers ce résultat",
   'article.linkCopied': 'Lien copié',
   'article.original': 'Consulter la publication originale',
   'article.teaser': 'Début du texte',
   'article.fullTextNotice':
-    "Le texte intégral est conservé par l'Institut de plurilinguisme ; il n'est pas publié, pour des raisons de droits d'auteur.",
+    "Le texte intégral n'est disponible qu'à des fins de recherche interne.",
+  'fullText.contact': "Pour en obtenir l'accès, contactez le",
+  'fullText.urlLabel': "Centre scientifique de compétence sur le plurilinguisme",
+  'fullText.url': 'https://centre-plurilinguisme.ch/',
   'article.authors': 'Auteur·e·s',
   'article.keywords': 'Mots-clés',
   'article.archiveNo': "N° d'archive",
@@ -62,9 +64,7 @@ const translations: Translations = {
   'sponsor.url': 'https://centre-plurilinguisme.ch/fr',
   'about.title': 'À propos',
   'about.content':
-    "Les archives de presse de l'Institut de plurilinguisme rassemblent des articles de presse et de la littérature grise sur l'enseignement des langues et la politique linguistique en Suisse. Collectés depuis 2014, les documents sont classés en séries : une par canton, et deux pour l'ensemble de la Suisse. Chaque notice donne la source, la date, les auteur·e·s, le début du texte et des mots-clés.",
-  'about.fullText':
-    "Les textes intégraux ne sont pas publiés, pour des raisons de droits d'auteur. Lorsqu'elle est en ligne, la publication originale est accessible par un lien.",
+    "Les archives de presse du Centre scientifique de compétence sur le plurilinguisme rassemblent des articles de presse et de la littérature grise sur l'enseignement des langues et la politique linguistique en Suisse. Collectés entre 2014 et 2025, les documents sont classés en séries : une par canton, et deux pour l'ensemble de la Suisse. Chaque entrée donne la source, la date, les auteur·e·s, le début du texte et des mots-clés. La collection n'est plus mise à jour depuis fin 2025. Les textes intégraux ne sont disponibles qu'à des fins de recherche interne.",
 }
 
 const labels: Labels = {
@@ -76,7 +76,7 @@ const labels: Labels = {
     Film: 'Vidéo',
     Website: 'Site web',
     'Blog post': 'Billet de blog',
-    Document: 'Document',
+    Document: 'Autre',
     Report: 'Rapport',
     Bill: 'Projet de loi',
     Book: 'Livre',
