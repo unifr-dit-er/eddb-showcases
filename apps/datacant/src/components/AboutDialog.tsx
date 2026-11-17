@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { Info } from 'lucide-react'
+import { AboutButton } from '@eddb/showcase-kit/about-button'
 
 const AboutDialog = () => {
   const { t } = useLanguage()
@@ -11,13 +11,7 @@ const AboutDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button
-          className="flex items-center justify-center text-muted-foreground/60 hover:text-foreground transition-colors cursor-pointer"
-          aria-label={t('about.title')}
-          title={t('about.title')}
-        >
-          <Info className="h-4 w-4" />
-        </button>
+        <AboutButton label={t('about.title')} />
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
