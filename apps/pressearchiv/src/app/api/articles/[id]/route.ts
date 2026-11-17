@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getArchive } from '@/lib/archive-store'
 import { archiveUnavailable } from '@/lib/api-error'
+import { toDetail } from '@/lib/archive-query'
 
 // Looked up in the public copy held in memory: an id outside it, or a
 // record not cleared for publication, is simply not found.
@@ -13,7 +14,7 @@ export const GET = async (
     const { articlesById } = await getArchive()
     const article = articlesById.get(id)
     if (!article) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-    return NextResponse.json(article)
+    return NextResponse.json(toDetail(article))
   } catch (error) {
     return archiveUnavailable(error)
   }

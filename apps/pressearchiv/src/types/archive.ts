@@ -25,6 +25,7 @@ export interface Series {
   titleDE: string
   titleFR: string
   titleIT: string
+  titleEN: string
   // "CH: Presse" and "CH: Graue Literatur" cover the whole of Switzerland;
   // they come first in the series filter.
   national: boolean
@@ -50,9 +51,29 @@ export interface ArticleSummary {
   teaser: string
 }
 
-export interface Article extends ArticleSummary {
+// What the detail panel reads.
+export interface ArticleDetail extends ArticleSummary {
   url: string
   internalNo: string
+}
+
+export interface Article extends ArticleDetail {
+  // The keywords in every language of the thesaurus, for the text search;
+  // never sent to the client.
+  keywordTerms: string[]
+}
+
+// A keyword (its `en` form, as stored in `key_words`) in the four languages
+// of the interface, from the thesaurus; a missing translation falls back on it.
+export interface KeywordLabels {
+  en: string
+  de: string
+  fr: string
+  it: string
+}
+
+export interface ThesaurusTerm extends KeywordLabels {
+  hidden: boolean
 }
 
 export interface CountedValue {
@@ -95,7 +116,8 @@ export interface ArchiveFilters {
   series: string
   // record_level values; a record matches if it has any of them.
   types: string[]
-  journal: string
+  // Sources; a record matches if it comes from any of them.
+  journals: string[]
   keywords: string[]
   language: string
   from: string
@@ -108,7 +130,7 @@ export const DEFAULT_FILTERS: ArchiveFilters = {
   q: '',
   series: '',
   types: [],
-  journal: '',
+  journals: [],
   keywords: [],
   language: '',
   from: '',

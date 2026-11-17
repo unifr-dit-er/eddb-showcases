@@ -3,7 +3,8 @@ import type { Labels, Translations } from './index'
 const translations: Translations = {
   'header.title': 'Presseartikel und graue Literatur zum Sprachenunterricht und zur Sprachenpolitik in der Schweiz',
   'header.prototype': 'Prototyp',
-  'sidebar.subtitle': 'Archiv der Presse · 2014-2025',
+  'sidebar.title': "Schweizer Pressearchiv",
+  'sidebar.subtitle': "Mehrsprachigkeit: 2014-2025",
   'sidebar.search.label': 'Suche',
   'sidebar.search.placeholder': 'Titel, Autor:in, Schlagwort…',
   'sidebar.series.label': 'Serie',
@@ -14,8 +15,6 @@ const translations: Translations = {
   'sidebar.period.any': 'Alle',
   'sidebar.journal.label': 'Quelle',
   'sidebar.journal.placeholder': 'Quellen filtern…',
-  'sidebar.journal.choose': 'Quelle wählen…',
-  'sidebar.journal.empty': 'Keine Quelle',
   'activeFilters.label': 'Aktive Filter',
   'activeFilters.clear': 'Alle entfernen',
   'activeFilters.remove': 'Filter entfernen',
@@ -29,12 +28,15 @@ const translations: Translations = {
   'sidebar.resetFilters': 'Filter zurücksetzen',
   'sidebar.open': 'Filter öffnen',
   'article.loading': 'Wird geladen…',
-  'article.copyLink': 'Link kopieren',
+  'article.copyLink': "Link zu diesem Ergebnis kopieren",
   'article.linkCopied': 'Link kopiert',
   'article.original': 'Originalpublikation ansehen',
   'article.teaser': 'Textanfang',
   'article.fullTextNotice':
-    'Der Volltext wird vom Institut für Mehrsprachigkeit aufbewahrt; aus urheberrechtlichen Gründen wird er nicht veröffentlicht.',
+    "Der Volltext steht ausschliesslich für interne Forschungszwecke zur Verfügung.",
+  'fullText.contact': "Für den Zugang wenden Sie sich an das",
+  'fullText.urlLabel': "Wissenschaftliche Kompetenzzentrum für Mehrsprachigkeit",
+  'fullText.url': 'https://centre-plurilinguisme.ch/',
   'article.authors': 'Autor:innen',
   'article.keywords': 'Schlagwörter',
   'article.archiveNo': 'Archivnummer',
@@ -60,11 +62,9 @@ const translations: Translations = {
   'sponsor.lead': 'Mit Unterstützung des',
   'sponsor.name': 'Wissenschaftliches Kompetenzzentrum für Mehrsprachigkeit',
   'sponsor.url': 'https://centre-plurilinguisme.ch/de',
-  'about.title': 'Über',
+  'about.title': "Über das Archiv",
   'about.content':
-    'Das Pressearchiv des Instituts für Mehrsprachigkeit versammelt Presseartikel und graue Literatur zum Sprachenunterricht und zur Sprachenpolitik in der Schweiz. Die seit 2014 gesammelten Dokumente sind in Serien geordnet: eine pro Kanton und zwei für die ganze Schweiz. Jeder Eintrag nennt Quelle, Datum, Autor:innen, Textanfang und Schlagwörter.',
-  'about.fullText':
-    'Aus urheberrechtlichen Gründen werden die Volltexte nicht veröffentlicht. Ist die Originalpublikation online, führt ein Link zu ihr.',
+    "Das Pressearchiv des Wissenschaftlichen Kompetenzzentrums für Mehrsprachigkeit umfasst Presseartikel und graue Literatur zum Thema Sprachunterricht und Sprachpolitik in der Schweiz. Die zwischen 2014 und 2025 gesammelten Dokumente sind in Reihen gegliedert: eine pro Kanton und zwei für die gesamte Schweiz. Jeder Eintrag enthält die Quelle, das Datum, die Autor_innen, den Anfang des Textes und Stichwörter. Die Sammlung wird seit Ende 2025 nicht mehr aktualisiert. Die Volltexte stehen ausschliesslich für interne Forschungszwecke zur Verfügung.",
 }
 
 const labels: Labels = {
@@ -76,7 +76,7 @@ const labels: Labels = {
     Film: 'Video',
     Website: 'Website',
     'Blog post': 'Blogbeitrag',
-    Document: 'Dokument',
+    Document: 'Sonstiges',
     Report: 'Bericht',
     Bill: 'Gesetzesentwurf',
     Book: 'Buch',

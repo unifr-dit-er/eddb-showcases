@@ -4,33 +4,44 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Separator } from '@/components/ui/separator'
 import { SponsorLogo } from '@/components/SponsorLogo'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { getPageTitle } from '@/i18n'
 import { Info, Lock } from 'lucide-react'
 
 export const AboutDialog = () => {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button
-          className="flex items-center justify-center text-muted-foreground/60 hover:text-foreground transition-colors cursor-pointer"
-          aria-label={t('about.title')}
-          title={t('about.title')}
-        >
-          <Info className="h-4 w-4" />
+        {/* The icon alone was not visible enough (institute, 29.10.2026). */}
+        <button className="flex items-center gap-1.5 shrink-0 whitespace-nowrap text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+          <Info className="h-4 w-4" aria-hidden />
+          <span className="hidden sm:inline">{t('about.title')}</span>
+          <span className="sr-only sm:hidden">{t('about.title')}</span>
         </button>
       </DialogTrigger>
       {/* Wide enough for the sponsor logo at 650 px. */}
       <DialogContent className="sm:max-w-[698px]">
         <DialogHeader>
-          <DialogTitle className="font-serif text-2xl">{t('header.title')}</DialogTitle>
+          <DialogTitle className="font-serif text-2xl">{getPageTitle(locale)}</DialogTitle>
         </DialogHeader>
 
         <DialogDescription className="text-sm text-muted-foreground leading-relaxed">{t('about.content')}</DialogDescription>
 
         <p className="flex gap-2.5 text-sm text-muted-foreground leading-relaxed">
           <Lock className="h-4 w-4 mt-0.5 shrink-0" aria-hidden />
-          {t('about.fullText')}
+          <span>
+            {t('fullText.contact')}{' '}
+            <a
+              href={t('fullText.url')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-primary-ink hover:text-primary-ink/80 transition-colors underline-offset-2 hover:underline"
+            >
+              {t('fullText.urlLabel')}
+            </a>
+            .
+          </span>
         </p>
 
         <Separator />

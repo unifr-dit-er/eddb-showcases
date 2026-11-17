@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { buildArchive } from '../archive-store'
-import { computeFacets, normalize, parseFilters, queryArticles } from '../archive-query'
+import { computeFacets, normalize, parseFilters, queryArticles, toDetail } from '../archive-query'
 import { DEFAULT_FILTERS } from '@/types/archive'
 
 const raw = [
@@ -50,7 +50,8 @@ describe('queryArticles', () => {
 
   it('filters by series, journal, language and years', () => {
     expect(ids({ series: '1' })).toEqual(['2', '1'])
-    expect(ids({ journal: 'Le Temps' })).toEqual(['4'])
+    expect(ids({ journals: ['Le Temps'] })).toEqual(['4'])
+    expect(ids({ journals: ['Le Temps', 'Corriere del Ticino'] })).toEqual(['3', '4'])
     expect(ids({ language: 'ita' })).toEqual(['3'])
     expect(ids({ from: '2016', to: '2016' })).toEqual(['3', '1'])
   })
@@ -110,5 +111,38 @@ describe('computeFacets', () => {
 
   it('keeps the year range of the whole archive', () => {
     expect(computeFacets(articles, allSeries, { ...DEFAULT_FILTERS, series: '2' }).years).toEqual({ min: 2016, max: 2018 })
+  })
+})
+
+describe('thesaurus', () => {
+  const thesaurus = [
+    { en: 'French', de: 'Französisch', fr: 'Français', it: 'Francese', masquer: false },
+    { en: 'Thurgau', de: 'Thurgau', fr: 'Thurgovie', it: 'Turgovia', masquer: false },
+    { en: 'Language policy', de: 'Sprachpolitik', fr: '', it: 'Politica linguistica', masquer: true },
+  ]
+  const archive = buildArchive(raw, series, thesaurus)
+  const find = (q: string) =>
+    queryArticles(archive.articles, { ...DEFAULT_FILTERS, q }).list.map((a) => a.id)
+
+  it('drops hidden keywords from the records and the labels', () => {
+    expect(archive.articles.find((a) => a.id === '2')?.keywords).toEqual(['French'])
+    expect(archive.keywordLabels.has('Language policy')).toBe(false)
+  })
+
+  it('labels keywords in each language, the stored form when missing', () => {
+    expect(archive.keywordLabels.get('Thurgau')).toEqual({ en: 'Thurgau', de: 'Thurgau', fr: 'Thurgovie', it: 'Turgovia' })
+    expect(archive.keywordLabels.get('Italian')).toEqual({ en: 'Italian', de: 'Italian', fr: 'Italian', it: 'Italian' })
+  })
+
+  it('finds records by a translated keyword', () => {
+    expect(find('thurgovie')).toEqual(['1'])
+    expect(find('sprachpolitik')).toEqual([])
+  })
+
+  it('never sends the translated terms to the client', () => {
+    const summary = queryArticles(archive.articles, DEFAULT_FILTERS).list[0]
+    expect(summary).not.toHaveProperty('keywordTerms')
+    expect(toDetail(archive.articles[0])).not.toHaveProperty('keywordTerms')
+    expect(toDetail(archive.articles[0])).toHaveProperty('internalNo')
   })
 })

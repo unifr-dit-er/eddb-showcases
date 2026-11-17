@@ -11,6 +11,7 @@ export const LOCALES: readonly Locale[] = ['fr', 'de', 'en', 'it']
 export interface Translations {
   'header.title': string
   'header.prototype': string
+  'sidebar.title': string
   'sidebar.subtitle': string
   'sidebar.search.label': string
   'sidebar.search.placeholder': string
@@ -22,8 +23,6 @@ export interface Translations {
   'sidebar.period.any': string
   'sidebar.journal.label': string
   'sidebar.journal.placeholder': string
-  'sidebar.journal.choose': string
-  'sidebar.journal.empty': string
   'activeFilters.label': string
   'activeFilters.clear': string
   'activeFilters.remove': string
@@ -42,6 +41,9 @@ export interface Translations {
   'article.original': string
   'article.teaser': string
   'article.fullTextNotice': string
+  'fullText.contact': string
+  'fullText.urlLabel': string
+  'fullText.url': string
   'article.authors': string
   'article.keywords': string
   'article.archiveNo': string
@@ -69,7 +71,6 @@ export interface Translations {
   'sponsor.url': string
   'about.title': string
   'about.content': string
-  'about.fullText': string
 }
 
 // Labels of data values, which stay in their source form in the URL.
@@ -87,9 +88,10 @@ export const getTranslations = (locale: Locale): Translations => LOCALE_TEXTS[lo
 
 export const getLabels = (locale: Locale): Labels => LOCALE_TEXTS[locale].labels
 
-export const SHOWCASE_NAME = 'Pressearchiv'
-
-// Title of the browser tab and of search results: the name and the
-// subtitle of the sidebar masthead, in the viewer's language.
-export const getPageTitle = (locale: Locale): string =>
-  `${SHOWCASE_NAME} · ${getTranslations(locale)['sidebar.subtitle']}`
+// Title of the archive chosen by the institute (29.10.2026), in the viewer's
+// language: the masthead shows it on two lines, the browser tab, search
+// results and the About dialog in full.
+export const getPageTitle = (locale: Locale): string => {
+  const t = getTranslations(locale)
+  return `${t['sidebar.title']} – ${t['sidebar.subtitle']}`
+}

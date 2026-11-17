@@ -3,7 +3,8 @@ import type { Labels, Translations } from './index'
 const translations: Translations = {
   'header.title': 'Press articles and grey literature on language teaching and language policy in Switzerland',
   'header.prototype': 'Prototype',
-  'sidebar.subtitle': 'Press archive · 2014-2025',
+  'sidebar.title': "Swiss Press Archive",
+  'sidebar.subtitle': "Multilingualism: 2014–2025",
   'sidebar.search.label': 'Search',
   'sidebar.search.placeholder': 'Title, author, keyword…',
   'sidebar.series.label': 'Series',
@@ -14,8 +15,6 @@ const translations: Translations = {
   'sidebar.period.any': 'All',
   'sidebar.journal.label': 'Source',
   'sidebar.journal.placeholder': 'Filter sources…',
-  'sidebar.journal.choose': 'Choose a source…',
-  'sidebar.journal.empty': 'No source',
   'activeFilters.label': 'Active filters',
   'activeFilters.clear': 'Clear all',
   'activeFilters.remove': 'Remove filter',
@@ -29,12 +28,14 @@ const translations: Translations = {
   'sidebar.resetFilters': 'Reset filters',
   'sidebar.open': 'Open filters',
   'article.loading': 'Loading…',
-  'article.copyLink': 'Copy link',
+  'article.copyLink': "Copy link to this result",
   'article.linkCopied': 'Link copied',
   'article.original': 'View the original publication',
   'article.teaser': 'Beginning of the text',
-  'article.fullTextNotice':
-    'The full text is kept by the Institute of Multilingualism; it is not published, for copyright reasons.',
+  'article.fullTextNotice': "The full text is available for internal research purposes only.",
+  'fullText.contact': "To request access, contact the",
+  'fullText.urlLabel': "Research Centre on Multilingualism",
+  'fullText.url': 'https://centre-plurilinguisme.ch/',
   'article.authors': 'Authors',
   'article.keywords': 'Keywords',
   'article.archiveNo': 'Archive no.',
@@ -63,9 +64,7 @@ const translations: Translations = {
   'sponsor.url': 'https://centre-plurilinguisme.ch/en',
   'about.title': 'About',
   'about.content':
-    'The press archive of the Institute of Multilingualism brings together press articles and grey literature on language teaching and language policy in Switzerland. Collected since 2014, the documents are arranged in series: one per canton, and two for Switzerland as a whole. Each record gives the source, the date, the authors, the beginning of the text and keywords.',
-  'about.fullText':
-    'The full texts are not published, for copyright reasons. When the original publication is online, a link leads to it.',
+    "The press archive of the Research Centre on Multilingualism brings together press articles and grey literature on language teaching and language policy in Switzerland. Collected between 2014 and 2025, the documents are organised into series: one per canton, and two covering Switzerland as a whole. Each entry provides the source, date, authors, the start of the text and keywords. The collection is no longer being updated since the end of 2025. The full texts are available for internal research purposes only.",
 }
 
 const labels: Labels = {
@@ -77,7 +76,7 @@ const labels: Labels = {
     Film: 'Video',
     Website: 'Website',
     'Blog post': 'Blog post',
-    Document: 'Document',
+    Document: 'Other',
     Report: 'Report',
     Bill: 'Bill',
     Book: 'Book',

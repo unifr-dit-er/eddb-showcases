@@ -6,6 +6,7 @@ import type { ArticleSummary } from '@/types/archive'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFilters } from '@/hooks/useFilters'
 import { useFacets } from '@/hooks/useFacets'
+import { useKeywordLabel } from '@/hooks/useKeywordLabel'
 import { displayName, formatDate, shortLanguage } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
@@ -20,6 +21,7 @@ const MAX_KEYWORDS = 4
 export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) => {
   const { t, locale, label, seriesTitle } = useLanguage()
   const { filters, setFilter, toggleKeyword, toggleType } = useFilters()
+  const keywordLabel = useKeywordLabel()
   const { seriesById } = useFacets()
   const series = seriesById.get(article.seriesId)
 
@@ -119,7 +121,7 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
         ))}
         {article.keywords.slice(0, MAX_KEYWORDS).map((kw) => (
           <Tag key={kw} onClick={(e) => handleKeywordClick(e, kw)} active={filters.keywords.includes(kw)}>
-            {kw}
+            {keywordLabel(kw)}
           </Tag>
         ))}
         {extraKeywords > 0 && <span className="text-xs text-muted-foreground">+{extraKeywords}</span>}

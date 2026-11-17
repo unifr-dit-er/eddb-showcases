@@ -50,7 +50,7 @@ describe('useLanguage', () => {
 
   it('seriesTitle() follows the locale', () => {
     const { result } = renderHook(() => useLanguage(), { wrapper })
-    const series = { titleDE: 'Freiburg', titleFR: 'Fribourg', titleIT: 'Friburgo' }
+    const series = { titleDE: 'Freiburg', titleFR: 'Fribourg', titleIT: 'Friburgo', titleEN: 'Fribourg (Canton)' }
     expect(result.current.seriesTitle(series)).toBe('Fribourg')
     act(() => {
       result.current.setLocale('de')
@@ -63,7 +63,7 @@ describe('useLanguage', () => {
     act(() => {
       result.current.setLocale('en')
     })
-    expect(result.current.seriesTitle(series)).toBe('Freiburg')
+    expect(result.current.seriesTitle(series)).toBe('Fribourg (Canton)')
   })
 
   it('throws when used outside LanguageProvider', () => {

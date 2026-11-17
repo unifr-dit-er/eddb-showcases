@@ -10,7 +10,7 @@ const PARAM: Record<keyof ArchiveFilters, string> = {
   q: 'q',
   series: 'series',
   types: 'type',
-  journal: 'journal',
+  journals: 'journal',
   keywords: 'keyword',
   language: 'lang',
   from: 'from',
@@ -19,14 +19,14 @@ const PARAM: Record<keyof ArchiveFilters, string> = {
   sortDir: 'sort',
 }
 
-export type ResettableFilter = 'q' | 'series' | 'types' | 'period' | 'journal' | 'language' | 'keywords'
+export type ResettableFilter = 'q' | 'series' | 'types' | 'period' | 'journals' | 'language' | 'keywords'
 
 const RESET_PARAMS: Record<ResettableFilter, string[]> = {
   q: ['q'],
   series: ['series'],
   types: ['type'],
   period: ['from', 'to'],
-  journal: ['journal'],
+  journals: ['journal'],
   language: ['lang'],
   keywords: ['keyword'],
 }
@@ -51,7 +51,7 @@ export const useFilters = () => {
       q: searchParams.get('q') ?? '',
       series: searchParams.get('series') ?? '',
       types: searchParams.getAll('type'),
-      journal: searchParams.get('journal') ?? '',
+      journals: searchParams.getAll('journal'),
       keywords: searchParams.getAll('keyword'),
       language: searchParams.get('lang') ?? '',
       from: searchParams.get('from') ?? '',
@@ -97,7 +97,7 @@ export const useFilters = () => {
 
   // Adds or removes one value of a multi-valued filter.
   const toggleValue = useCallback(
-    (key: 'keywords' | 'types', value: string) =>
+    (key: 'keywords' | 'types' | 'journals', value: string) =>
       setFilter(
         key,
         filters[key].includes(value) ? filters[key].filter((v) => v !== value) : [...filters[key], value]
@@ -106,6 +106,7 @@ export const useFilters = () => {
   )
   const toggleKeyword = useCallback((keyword: string) => toggleValue('keywords', keyword), [toggleValue])
   const toggleType = useCallback((type: string) => toggleValue('types', type), [toggleValue])
+  const toggleJournal = useCallback((journal: string) => toggleValue('journals', journal), [toggleValue])
 
   const resetFilter = useCallback(
     (key: ResettableFilter) => {
@@ -131,12 +132,22 @@ export const useFilters = () => {
     filters.q ||
       filters.series ||
       filters.types.length ||
-      filters.journal ||
+      filters.journals.length ||
       filters.language ||
       filters.keywords.length ||
       filters.from ||
       filters.to
   )
 
-  return { filters, setFilter, setFilters, toggleKeyword, toggleType, resetFilter, resetFilters, hasActiveFilters }
+  return {
+    filters,
+    setFilter,
+    setFilters,
+    toggleKeyword,
+    toggleType,
+    toggleJournal,
+    resetFilter,
+    resetFilters,
+    hasActiveFilters,
+  }
 }
