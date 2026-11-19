@@ -61,12 +61,10 @@ export interface Translations {
   'timeline.records_singular': string
   'timeline.records_plural': string
   'footer.faculty': string
-  'footer.faculty.url': string
   'footer.institute': string
   'footer.institute.url': string
   'footer.eddb': string
   'footer.eddb.of': string
-  'sponsor.lead': string
   'sponsor.name': string
   'sponsor.url': string
   'about.title': string

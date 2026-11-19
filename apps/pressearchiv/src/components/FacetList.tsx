@@ -69,7 +69,7 @@ export const FacetList = ({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-8 text-sm"
+          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-sidebar-primary focus-visible:ring-sidebar-primary/30 h-8 text-sm"
         />
       )}
       <ul
@@ -114,7 +114,7 @@ export const FacetList = ({
                   className={cn(
                     'w-full flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm leading-tight transition-colors',
                     isSelected
-                      ? 'bg-primary text-primary-foreground'
+                      ? 'bg-sidebar-primary text-sidebar-primary-foreground'
                       : isEmpty
                         ? 'text-sidebar-foreground/80 opacity-40 cursor-default'
                         : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground'
@@ -124,7 +124,7 @@ export const FacetList = ({
                   <span
                     className={cn(
                       'text-[10px] tabular-nums shrink-0',
-                      isSelected ? 'text-primary-foreground/80' : 'text-sidebar-foreground/65'
+                      isSelected ? 'text-sidebar-primary-foreground/80' : 'text-sidebar-foreground/65'
                     )}
                   >
                     {v.count}

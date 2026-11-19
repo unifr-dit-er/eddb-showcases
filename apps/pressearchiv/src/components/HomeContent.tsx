@@ -117,7 +117,7 @@ export const HomeContent = () => {
         </div>
 
         <SiteFooter
-          faculty={{ label: t('footer.faculty'), url: t('footer.faculty.url') }}
+          faculty={{ label: t('footer.faculty') }}
           institute={{ label: t('footer.institute'), url: t('footer.institute.url') }}
           credit={{ lead: t('footer.eddb'), of: t('footer.eddb.of') }}
         />

@@ -126,7 +126,7 @@ export const FilterSidebar = () => {
             if (e.key === 'Enter') setFilter('q', qInput)
           }}
           onBlur={() => qInput !== filters.q && setFilter('q', qInput)}
-          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-primary focus-visible:ring-primary/30 h-9 text-base"
+          className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60 focus-visible:border-sidebar-primary focus-visible:ring-sidebar-primary/30 h-9 text-base"
         />
       </div>
 
