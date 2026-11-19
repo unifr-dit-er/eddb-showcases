@@ -51,7 +51,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      data-faculty="lettres"
+      data-faculty="interfacultaire"
       lang="fr"
       className={`${atkinson.variable} ${atkinsonMono.variable} ${newsreader.variable}`}
     >

@@ -42,16 +42,14 @@ export const AboutDialog = () => {
 
         <Separator />
 
-        <SponsorLogo labelClassName="text-[11px] tracking-[0.25em] font-semibold text-muted-foreground/60" />
+        <SponsorLogo />
 
         <Separator />
 
         <div className="flex flex-col gap-1.5">
           <p className="flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase font-semibold text-muted-foreground/60">
             <span className="inline-block h-2.5 w-2.5 bg-primary shrink-0" />
-            <a href={t('footer.faculty.url')} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-              {t('footer.faculty')}
-            </a>
+            <span className="text-muted-foreground">{t('footer.faculty')}</span>
           </p>
           <p className="flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase font-semibold text-muted-foreground/60">
             <a href={t('footer.institute.url')} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
