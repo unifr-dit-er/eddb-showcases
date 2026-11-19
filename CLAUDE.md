@@ -41,7 +41,8 @@ its sources with `@source`. It holds:
 
 - `theme.css`: tokens and faculty themes, chosen with `data-faculty` on
   <html> (`lettres`, `droit`; add a faculty from the corporate design manual,
-  p. 15). Fills use the faculty colour (`bg-primary`), light surfaces its
+  p. 15; `interfacultaire`, anthracite RAL 7016, for an interfaculty
+  institute, which the manual does not cover). Fills use the faculty colour (`bg-primary`), light surfaces its
   official tints (`bg-primary-tint-1/2/3`), never a transparency of it
   (`bg-primary/10`); accented text is midnight blue (`text-primary-ink`).
 - `nocodb` (server-side client), `cached-loader` (in-memory copy of a
