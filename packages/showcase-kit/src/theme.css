@@ -120,17 +120,18 @@
   --primary-tint-3: oklch(0.86 0.05 4.1);       /* #EFC4CD, midnight blue 10.5:1 */
 }
 
-/* Interfaculty institute: the manual gives it no faculty colour, so the
-   charcoal of the sidebar takes its place (Alrick, 19.11.2026, pressearchiv,
-   Institut de plurilinguisme), with tints of it at about 70, 45 and 25 %.
-   In the sidebar, where that colour would vanish, selections and focus
-   rings are inverted: warm off-white with charcoal text. */
+/* Interfaculty institute: the manual gives it no faculty colour, so an
+   anthracite grey takes its place, RAL 7016 (Alrick, 19.11.2026,
+   pressearchiv, Institut de plurilinguisme; the sidebar charcoal, tried
+   first, looked black), with tints of it at about 70, 45 and 25 %.
+   In the sidebar, where that grey would barely stand out, selections and
+   focus rings are inverted: warm off-white with charcoal text. */
 [data-faculty='interfacultaire'] {
-  --primary: oklch(0.16 0.012 264);             /* #0B0D13, the sidebar */
-  --primary-foreground: oklch(1 0 0);           /* white, 19.4:1 */
-  --primary-tint-1: oklch(0.452 0.006 264.3);   /* #545659 */
-  --primary-tint-2: oklch(0.66 0.004 264.4);    /* #919295, midnight blue 5.3:1 */
-  --primary-tint-3: oklch(0.816 0.002 264.4);   /* #C2C3C4, midnight blue 9.3:1 */
+  --primary: oklch(0.36 0.011 236.9);           /* #383E42, RAL 7016 */
+  --primary-foreground: oklch(1 0 0);           /* white, 10.8:1 */
+  --primary-tint-1: oklch(0.57 0.007 236.6);    /* #74787B */
+  --primary-tint-2: oklch(0.73 0.004 236.5);    /* #A5A8AA, midnight blue 6.9:1 */
+  --primary-tint-3: oklch(0.853 0.002 236.5);   /* #CDCFD0, midnight blue 10.5:1 */
   --sidebar-primary: oklch(0.92 0.006 76);      /* the sidebar's off-white */
   --sidebar-primary-foreground: oklch(0.16 0.012 264); /* 15.3:1 */
   --sidebar-ring: oklch(0.92 0.006 76);
