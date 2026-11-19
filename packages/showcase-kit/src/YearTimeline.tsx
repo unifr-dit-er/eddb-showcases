@@ -23,6 +23,11 @@ interface YearTimelineProps {
     hint: string
     unit: (count: number) => string
   }
+  // Width of a bar in years (default 1). With a wider bar, `years` still
+  // counts single years; a click selects the whole span of the bar.
+  bucket?: number
+  // Display of a year on the axis and in the hover line (default: as is).
+  formatYear?: (year: number) => string
 }
 
 const HEIGHT = 56
@@ -33,29 +38,49 @@ const cx = (...classes: (string | false | null | undefined)[]) => classes.filter
 // and rounded tops, recessive axis; the selected period stays in the full
 // colour while the other years take its lightest tint. Click selects a
 // year, shift-click extends the period, a second click clears it.
-export const YearTimeline = ({ years, min, max, from, to, onSelect, labels }: YearTimelineProps) => {
+export const YearTimeline = ({
+  years,
+  min,
+  max,
+  from,
+  to,
+  onSelect,
+  labels,
+  bucket = 1,
+  formatYear,
+}: YearTimelineProps) => {
   const [hovered, setHovered] = useState<number | null>(null)
-
+  // A bar is named by its first year; negative years (before the common
+  // era) fall in the bar below them (-450 in the bar of -500).
+  
   const bars = useMemo(() => {
-    const counts = new Map(years.map((y) => [y.year, y.count]))
+    const counts = new Map<number, number>()
+    for (const y of years) {
+      const start = Math.floor(y.year / bucket) * bucket
+      counts.set(start, (counts.get(start) ?? 0) + y.count)
+    }
     const span: YearCount[] = []
-    for (let y = min; y <= max; y++) span.push({ year: y, count: counts.get(y) ?? 0 })
+    for (let y = Math.floor(min / bucket) * bucket; y <= max; y += bucket) span.push({ year: y, count: counts.get(y) ?? 0 })
     return span
-  }, [years, min, max])
+  }, [years, min, max, bucket])
 
   if (bars.length === 0) return null
 
   const peak = Math.max(1, ...bars.map((b) => b.count))
   const hasPeriod = from !== null || to !== null
-  const inPeriod = (year: number) => (from === null || year >= from) && (to === null || year <= to)
+  const endOf = (start: number) => start + bucket - 1
+  const inPeriod = (start: number) => (from === null || endOf(start) >= from) && (to === null || start <= to)
+  const show = (year: number) => (formatYear ? formatYear(year) : String(year))
+  const barLabel = (start: number) => (bucket === 1 ? show(start) : `${show(start)} – ${show(endOf(start))}`)
   // Axis labels thin out with the span: every year up to 20 bars, then
   // every 5th; twice as sparse on narrow screens.
   const step = bars.length > 20 ? 5 : 1
 
-  const select = (year: number, extend: boolean) => {
-    if (extend && hasPeriod) onSelect(Math.min(from ?? year, year), Math.max(to ?? year, year))
-    else if (from === year && to === year) onSelect(null, null)
-    else onSelect(year, year)
+  const select = (start: number, extend: boolean) => {
+    const end = endOf(start)
+    if (extend && hasPeriod) onSelect(Math.min(from ?? start, start), Math.max(to ?? end, end))
+    else if (from === start && to === end) onSelect(null, null)
+    else onSelect(start, end)
   }
 
   const active = bars.find((b) => b.year === hovered)
@@ -68,7 +93,7 @@ export const YearTimeline = ({ years, min, max, from, to, onSelect, labels }: Ye
         </span>
         <span className="text-[0.75rem] text-muted-foreground/70 tabular-nums text-right">
           {active ? (
-            `${active.year} · ${active.count} ${labels.unit(active.count)}`
+            `${barLabel(active.year)} · ${active.count} ${labels.unit(active.count)}`
           ) : (
             <span className="hidden sm:inline">{labels.hint}</span>
           )}
@@ -91,7 +116,7 @@ export const YearTimeline = ({ years, min, max, from, to, onSelect, labels }: Ye
               onMouseEnter={() => setHovered(bar.year)}
               onFocus={() => setHovered(bar.year)}
               onBlur={() => setHovered(null)}
-              aria-label={`${bar.year} : ${bar.count} ${labels.unit(bar.count)}`}
+              aria-label={`${barLabel(bar.year)} : ${bar.count} ${labels.unit(bar.count)}`}
               aria-pressed={hasPeriod && inPeriod(bar.year)}
               // The hit target is the whole column, taller than the bar.
               className="group relative flex-1 min-w-0 h-full flex items-end cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring/40 rounded-t-sm"
@@ -129,8 +154,14 @@ export const YearTimeline = ({ years, min, max, from, to, onSelect, labels }: Ye
                 hovered === bar.year && 'text-foreground'
               )}
             >
-              <span className="sm:hidden">{String(bar.year).slice(2)}</span>
-              <span className="hidden sm:inline">{bar.year}</span>
+              {formatYear ? (
+                show(bar.year)
+              ) : (
+                <>
+                  <span className="sm:hidden">{String(bar.year).slice(2)}</span>
+                  <span className="hidden sm:inline">{bar.year}</span>
+                </>
+              )}
             </span>
           )
         })}

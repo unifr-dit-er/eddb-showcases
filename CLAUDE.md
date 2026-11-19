@@ -49,8 +49,9 @@ its sources with `@source`. It holds:
   base, the pattern of both showcases), `text`, `api-fetch`, `use-local-setting`
   (hydration-safe viewer preferences), `font-size`, `site-footer`,
   `sidebar-masthead` (each application loads the Newsreader serif),
-  `year-timeline`, `active-filter-chips`, `tag`, `about-button` (icon and
-  label that open the About dialog).
+  `year-timeline` (one bar per year, or per `bucket` years with
+  `formatYear` for dates before the common era), `active-filter-chips`,
+  `tag`, `about-button` (icon and label that open the About dialog).
 
 shadcn/ui components stay in each application (`src/components/ui`), as the
 shadcn CLI expects.
