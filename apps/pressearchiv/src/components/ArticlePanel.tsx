@@ -1,6 +1,7 @@
 'use client'
 
 import { Tag } from '@eddb/showcase-kit/tag'
+import { FieldLabel } from '@eddb/showcase-kit/field-label'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { RecordTypeIcon } from '@/components/RecordTypeIcon'
@@ -18,12 +19,6 @@ interface ArticlePanelProps {
   articleId: string | null
   onClose: () => void
 }
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-semibold text-muted-foreground mb-2">
-    {children}
-  </p>
-)
 
 export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
   const { data: article, isLoading } = useArticle(articleId)
@@ -117,7 +112,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
           <div className="space-y-6">
             {article.authors.length > 0 && (
               <div>
-                <SectionLabel>{t('article.authors')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('article.authors')}</FieldLabel>
                 <p className="text-base text-foreground/85">
                   {article.authors.map((a) => displayName(a.name)).join(' · ')}
                 </p>
@@ -126,7 +121,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
 
             {article.teaser && (
               <div>
-                <SectionLabel>{t('article.teaser')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('article.teaser')}</FieldLabel>
                 <blockquote className="border-l-2 border-primary-tint-1 pl-4 font-serif text-[1.0625rem] leading-relaxed text-foreground/85">
                   {article.teaser}
                   {/* The archive keeps only the opening lines; some already end with […]. */}
@@ -169,7 +164,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
 
             {article.keywords.length > 0 && (
               <div>
-                <SectionLabel>{t('article.keywords')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('article.keywords')}</FieldLabel>
                 <div className="flex flex-wrap gap-1.5">
                   {[...article.keywords]
                     .sort((a, b) => keywordLabel(a).localeCompare(keywordLabel(b), locale))
@@ -182,16 +177,16 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
               </div>
             )}
 
-            <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[0.875rem]">
+            <dl className="grid grid-cols-[minmax(0,12rem)_1fr] items-baseline gap-x-4 gap-y-2 text-[0.875rem]">
               {article.languages.length > 0 && (
                 <>
-                  <dt className="text-muted-foreground">{t('sidebar.language.label')}</dt>
+                  <FieldLabel as="dt">{t('sidebar.language.label')}</FieldLabel>
                   <dd>{article.languages.map((code) => label('language', code)).join(', ')}</dd>
                 </>
               )}
               {article.internalNo && (
                 <>
-                  <dt className="text-muted-foreground">{t('article.archiveNo')}</dt>
+                  <FieldLabel as="dt">{t('article.archiveNo')}</FieldLabel>
                   <dd className="font-mono text-[0.8125rem] tabular-nums">{article.internalNo}</dd>
                 </>
               )}

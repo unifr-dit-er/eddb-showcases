@@ -1,5 +1,6 @@
 'use client'
 
+import { FieldLabel } from '@eddb/showcase-kit/field-label'
 import { Tag } from '@eddb/showcase-kit/tag'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -155,9 +156,7 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
               <div className="space-y-4">
                 {Object.keys(groupedKeywords).map((category) => (
                   <div key={category}>
-                    <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-semibold text-muted-foreground mb-2">
-                      {category}
-                    </p>
+                    <FieldLabel className="mb-2">{category}</FieldLabel>
                     <div className="flex flex-wrap gap-1.5">
                       {decision.keywords
                         .filter((kw) => kw.category === category)

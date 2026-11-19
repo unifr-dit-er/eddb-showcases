@@ -1,6 +1,7 @@
 'use client'
 
 import { Tag } from '@eddb/showcase-kit/tag'
+import { FieldLabel } from '@eddb/showcase-kit/field-label'
 import { Emphasis } from '@/components/Emphasis'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -17,10 +18,6 @@ interface ItemPanelProps {
   itemId: string | null
   onClose: () => void
 }
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[0.6875rem] tracking-[0.2em] uppercase font-semibold text-muted-foreground mb-2">{children}</p>
-)
 
 // Long texts keep the line breaks of the base.
 const LongText = ({ children }: { children: string }) => (
@@ -105,16 +102,16 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
           <div className="space-y-6">
             {item.description && (
               <div>
-                <SectionLabel>{t('item.description')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('item.description')}</FieldLabel>
                 <LongText>{item.description}</LongText>
               </div>
             )}
 
             {facts.length > 0 && (
-              <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[0.9375rem]">
+              <dl className="grid grid-cols-[minmax(0,12rem)_1fr] items-baseline gap-x-4 gap-y-2 text-[0.9375rem]">
                 {facts.map((f) => (
                   <div key={f.label} className="contents">
-                    <dt className="text-muted-foreground">{t(f.label)}</dt>
+                    <FieldLabel as="dt">{t(f.label)}</FieldLabel>
                     <dd>
                       {f.filter ? (
                         <button
@@ -137,7 +134,7 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
 
             {item.subjects.length > 0 && (
               <div>
-                <SectionLabel>{t('item.subjects')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('item.subjects')}</FieldLabel>
                 <div className="flex flex-wrap gap-1.5">
                   {[...item.subjects]
                     .sort((a, b) => a.localeCompare(b, 'fr'))
@@ -152,14 +149,14 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
 
             {item.sources && (
               <div>
-                <SectionLabel>{t('item.sources')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('item.sources')}</FieldLabel>
                 <LongText>{item.sources}</LongText>
               </div>
             )}
 
             {item.bibliography && (
               <div>
-                <SectionLabel>{t('item.bibliography')}</SectionLabel>
+                <FieldLabel className="mb-2">{t('item.bibliography')}</FieldLabel>
                 <LongText>{item.bibliography}</LongText>
               </div>
             )}
