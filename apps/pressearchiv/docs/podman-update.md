@@ -14,7 +14,7 @@ git pull
 ```bash
 podman build --ulimit nofile=4096:4096 \
   -f apps/pressearchiv/Dockerfile \
-  --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv \
+  --build-arg NEXT_PUBLIC_BASE_PATH=/presse-csp-kfm \
   -t eddb-pressearchiv:latest .
 ```
 
@@ -28,7 +28,7 @@ systemctl --user restart eddb-pressearchiv
 
 ```bash
 systemctl --user status eddb-pressearchiv
-curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8097/pressearchiv   # 200
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8097/presse-csp-kfm   # 200
 podman logs -f eddb-pressearchiv
 ```
 

@@ -7,7 +7,7 @@ application per showcase.
 | Application | Showcase | State |
 |---|---|---|
 | `apps/datacant` | Cantonal case law on data protection (Institute of European Law) | in production at datacant.unifr.ch (still built from the former repository) |
-| `apps/pressearchiv` | Press archive of the Institute of Multilingualism | prototype at eddb.unifr.ch/pressearchiv |
+| `apps/pressearchiv` | Press archive of the Institute of Multilingualism | prototype at eddb.unifr.ch/presse-csp-kfm |
 
 ## Layout
 
@@ -56,7 +56,7 @@ fixed at build time (empty for a domain of its own):
 ```bash
 podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
 podman build -f apps/pressearchiv/Dockerfile \
-  --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv -t eddb-pressearchiv:latest .
+  --build-arg NEXT_PUBLIC_BASE_PATH=/presse-csp-kfm -t eddb-pressearchiv:latest .
 ```
 
 Procedures of each showcase: `apps/<showcase>/docs/`.

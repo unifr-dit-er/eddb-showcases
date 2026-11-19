@@ -1,6 +1,6 @@
 # Build from the monorepo root:
 #   podman build -f apps/pressearchiv/Dockerfile -t eddb-pressearchiv:latest .
-# Under a sub-path of eddb.unifr.ch, add --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv
+# Under a sub-path of eddb.unifr.ch, add --build-arg NEXT_PUBLIC_BASE_PATH=/presse-csp-kfm
 FROM node:22-alpine AS builder
 WORKDIR /repo
 ARG NEXT_PUBLIC_BASE_PATH=
