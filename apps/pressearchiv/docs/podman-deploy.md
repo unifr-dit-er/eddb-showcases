@@ -1,8 +1,8 @@
 # Déploiement avec Podman + Quadlet
 
 En service depuis le 13.10.2026 sur **svx-web-eddb**, sous
-**https://eddb.unifr.ch/pressearchiv** (prototype), port local **8097**.
-Le bloc nginx (`location /pressearchiv`) et la table des ports vivent dans
+**https://eddb.unifr.ch/presse-csp-kfm** (prototype), port local **8097**.
+Le bloc nginx (`location /presse-csp-kfm`) et la table des ports vivent dans
 le dépôt `svx-web-configs`.
 
 Toutes les commandes se lancent **en tant que `podman`**, le compte qui fait
@@ -24,13 +24,13 @@ lancent depuis la racine du dépôt.
 
 ## 2. Construire l'image
 
-Le sous-chemin est fixé à la construction : `/pressearchiv` sous
+Le sous-chemin est fixé à la construction : `/presse-csp-kfm` sous
 eddb.unifr.ch, rien pour un domaine propre.
 
 ```bash
 podman build --ulimit nofile=4096:4096 \
   -f apps/pressearchiv/Dockerfile \
-  --build-arg NEXT_PUBLIC_BASE_PATH=/pressearchiv \
+  --build-arg NEXT_PUBLIC_BASE_PATH=/presse-csp-kfm \
   -t eddb-pressearchiv:latest .
 ```
 
@@ -69,11 +69,11 @@ dossier de Quadlet.
 ## 5. Vérifier
 
 ```bash
-curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8097/pressearchiv   # 200
-curl -s http://127.0.0.1:8097/pressearchiv/api/facets | head -c 80            # "total":3952…
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8097/presse-csp-kfm   # 200
+curl -s http://127.0.0.1:8097/presse-csp-kfm/api/facets | head -c 80            # "total":3952…
 ```
 
-Puis, depuis l'extérieur, https://eddb.unifr.ch/pressearchiv.
+Puis, depuis l'extérieur, https://eddb.unifr.ch/presse-csp-kfm.
 
 ## Commandes utiles
 
