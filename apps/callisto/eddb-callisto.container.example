@@ -1,0 +1,19 @@
+[Unit]
+Description=Eddb Callisto Container
+
+[Container]
+Label=app=eddb-callisto
+ContainerName=eddb-callisto
+Image=localhost/eddb-callisto:latest
+# Port of the callisto showcase under eddb.unifr.ch/callisto (svx-web-configs).
+PublishPort=127.0.0.1:8098:3000
+# Token of the EDDB service account for this showcase (callisto), read
+# server-side only.
+Environment=NOCODB_API_TOKEN=your_token_here
+
+[Service]
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=default.target

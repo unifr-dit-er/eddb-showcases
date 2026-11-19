@@ -8,6 +8,7 @@ application per showcase.
 |---|---|---|
 | `apps/datacant` | Cantonal case law on data protection (Institute of European Law) | in production at datacant.unifr.ch (still built from the former repository) |
 | `apps/pressearchiv` | Press archive of the Institute of Multilingualism | prototype at eddb.unifr.ch/presse-csp-kfm |
+| `apps/callisto` | Callisto, iconography of play and childhood in antiquity (ERC Locus Ludi) | to replace the eddb-vue showcase at eddb.unifr.ch/callisto |
 
 ## Layout
 

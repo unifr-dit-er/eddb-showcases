@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+/* Theme shared by the EDDB showcases (faculty colours, tints, tokens). */
+@import "@eddb/showcase-kit/theme.css";
+
+/* Classes used by the kit's components. */
+@source "../../../../packages/showcase-kit/src";
+
+@custom-variant dark (&:is(.dark *));
