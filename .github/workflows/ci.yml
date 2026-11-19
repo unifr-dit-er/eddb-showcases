@@ -35,13 +35,13 @@ jobs:
     strategy:
       fail-fast: false
       # Base path as in production: datacant.unifr.ch at the root,
-      # eddb.unifr.ch/pressearchiv under a sub-path.
+      # eddb.unifr.ch/presse-csp-kfm under a sub-path.
       matrix:
         include:
           - showcase: datacant
             base-path: ''
           - showcase: pressearchiv
-            base-path: /pressearchiv
+            base-path: /presse-csp-kfm
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # Same build as on svx-web-eddb, from the repository root.
