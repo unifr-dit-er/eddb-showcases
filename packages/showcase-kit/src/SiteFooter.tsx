@@ -2,7 +2,8 @@
 
 interface FooterLink {
   label: string
-  url: string
+  // Optional for the faculty: an interfaculty institute names no faculty site.
+  url?: string
 }
 
 interface SiteFooterProps {
@@ -22,14 +23,18 @@ export const SiteFooter = ({ faculty, institute, credit }: SiteFooterProps) => (
     <div className="h-1 bg-primary" aria-hidden />
     <div className="px-4 lg:px-6 py-2.5 flex items-end justify-between gap-6 [&_a]:transition-colors">
       <div className="text-[11px] uppercase tracking-[0.12em] leading-snug min-w-0">
-        <a
-          href={faculty.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block font-semibold text-foreground hover:text-primary-ink"
-        >
-          {faculty.label}
-        </a>
+        {faculty.url ? (
+          <a
+            href={faculty.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block font-semibold text-foreground hover:text-primary-ink"
+          >
+            {faculty.label}
+          </a>
+        ) : (
+          <span className="block font-semibold text-foreground">{faculty.label}</span>
+        )}
         <a
           href={institute.url}
           target="_blank"
