@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -17,6 +18,17 @@ export const AboutDialog = () => {
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">{t('sidebar.title')}</DialogTitle>
         </DialogHeader>
+
+        {/* Illustration of the former showcase (eddb-vue, img/callisto.png),
+            decorative: a drawing, not one of the base's images. */}
+        <Image
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/callisto.png`}
+          alt=""
+          width={435}
+          height={335}
+          unoptimized
+          className="mx-auto w-full max-w-[320px] h-auto"
+        />
 
         <DialogDescription className="text-sm text-muted-foreground leading-relaxed">{t('about.content')}</DialogDescription>
 
