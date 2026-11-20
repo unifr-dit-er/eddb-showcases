@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import { ItemNotFoundError, useItem } from '@/hooks/useItem'
 import { useFilters, type MultiFilter } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { formatDating } from '@/lib/format'
+import { formatDating, paragraphs } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { Translations } from '@/i18n'
 import { Check, Copy, ImageOff } from 'lucide-react'
@@ -19,11 +19,16 @@ interface ItemPanelProps {
   onClose: () => void
 }
 
-// Long texts keep the line breaks of the base.
+// Long texts: one evenly spaced paragraph per blank-line block of the base,
+// single line breaks kept inside a paragraph.
 const LongText = ({ children }: { children: string }) => (
-  <p className="text-base leading-relaxed text-foreground/85 whitespace-pre-line">
-    <Emphasis>{children}</Emphasis>
-  </p>
+  <div className="space-y-3 text-base leading-relaxed text-foreground/85">
+    {paragraphs(children).map((paragraph, index) => (
+      <p key={index} className="whitespace-pre-line">
+        <Emphasis>{paragraph}</Emphasis>
+      </p>
+    ))}
+  </div>
 )
 
 export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
