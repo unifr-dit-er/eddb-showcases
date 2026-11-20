@@ -1,13 +1,13 @@
 'use client'
 
 import { AboutDialog } from '@/components/AboutDialog'
-import { GoToItem } from '@/components/GoToItem'
 import { ItemList } from '@/components/ItemList'
 import { ItemPanel } from '@/components/ItemPanel'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SidebarMasthead } from '@eddb/showcase-kit/sidebar-masthead'
 import { SiteFooter } from '@eddb/showcase-kit/site-footer'
+import { GoToRecord } from '@eddb/showcase-kit/go-to-record'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -38,6 +38,15 @@ export const HomeContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const itemId = searchParams.get('item')
+
+  const openRecord = useCallback(
+    (id: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('item', id)
+      router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    },
+    [searchParams, router, pathname]
+  )
 
   const closePanel = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString())
@@ -84,7 +93,16 @@ export const HomeContent = () => {
             <AboutDialog />
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <GoToItem />
+            <GoToRecord
+              labels={{
+                field: t('item.number'),
+                label: t('goto.label'),
+                hint: t('goto.hint'),
+                submit: t('goto.submit'),
+                invalid: t('goto.invalid'),
+              }}
+              onOpen={openRecord}
+            />
             <Select value={fontSize} onValueChange={(v) => setFontSize(v as typeof fontSize)}>
               <SelectTrigger className="data-[size=default]:h-auto border-0 shadow-none focus-visible:ring-0 focus-visible:border-0 px-1.5 py-0.5 text-[11px] tracking-[0.15em] uppercase font-semibold bg-muted text-foreground rounded gap-1 [&_svg:not([class*='size-'])]:size-3">
                 <SelectValue />

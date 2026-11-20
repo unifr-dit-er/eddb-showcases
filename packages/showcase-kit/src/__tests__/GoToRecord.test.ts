@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseRecordNumber } from '@/components/GoToItem'
+import { parseRecordNumber } from '../GoToRecord'
 
 describe('parseRecordNumber', () => {
   it('keeps a plain number', () => {
