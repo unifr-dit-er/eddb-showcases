@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { isPublished, mapRepresentation, parseYear, splitOptions } from '@/lib/collection-mappers'
+import { decodeEntities, isPublished, mapRepresentation, parseYear, splitOptions } from '@/lib/collection-mappers'
 import { buildCollection } from '@/lib/collection-store'
 import { REPRESENTATION_FIELDS } from '@/lib/collection-config'
 
 describe('collection mappers', () => {
+  it('decodes the HTML entities left in the texts', () => {
+    expect(decodeEntities('n&deg; 405, l&rsquo;&#233;t&#xE9; &amp; Co')).toEqual('n° 405, l’été & Co')
+    expect(decodeEntities('&unknown; &#0;')).toEqual('&unknown; &#0;')
+  })
+
   it('splits a NocoDB multi-select', () => {
     expect(splitOptions('Jeu de plateau, Pentegrammai ?')).toEqual(['Jeu de plateau', 'Pentegrammai ?'])
     expect(splitOptions(null)).toEqual([])
