@@ -73,6 +73,9 @@ shadcn CLI expects.
   `package.json` only.
 - `npm run check` (lint, typecheck, tests) and `npm run build` run every
   workspace.
+- `next dev` rewrites the `AGENTS.md` of the application it serves (`#`
+  headings turned into `##`, seen on callisto and datacant, 20.11.2026):
+  restore it with `git checkout`, never commit it with other changes.
 - Dockerfiles build from the repository root:
   `podman build -f apps/<showcase>/Dockerfile .`
 - **CI** (`.github/workflows/ci.yml`): on every push to main and every
