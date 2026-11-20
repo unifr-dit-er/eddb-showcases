@@ -1,11 +1,12 @@
 /**
  * From NocoDB records (whitelisted fields) to the in-memory base.
  */
+import { recordText } from '@eddb/showcase-kit/text'
 import type { Localized, StoredDecision, StoredKeyword } from '@/types/decision'
 
 type NocoDBRecord = Record<string, unknown>
 
-const text = (value: unknown): string => (value == null ? '' : String(value).trim())
+const text = recordText
 
 const localized = (record: NocoDBRecord, field: string): Localized => ({
   FR: text(record[`${field}FR`]),

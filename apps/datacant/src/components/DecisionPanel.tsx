@@ -2,6 +2,7 @@
 
 import { FieldLabel } from '@eddb/showcase-kit/field-label'
 import { Tag } from '@eddb/showcase-kit/tag'
+import { LongText } from '@eddb/showcase-kit/long-text'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -137,7 +138,7 @@ const DecisionPanel = ({ decisionId, onClose }: DecisionPanelProps) => {
 
             <Card className="gap-0 py-0">
               <CardContent className="p-4">
-                <p className="text-base leading-relaxed text-foreground/85">{decision.abstract}</p>
+                <LongText text={decision.abstract} />
                 <div className="mt-3 pt-2 border-t border-border/60 flex justify-end">
                   <a
                     href="https://creativecommons.org/licenses/by-nc/4.0/"

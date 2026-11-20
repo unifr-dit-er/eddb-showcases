@@ -54,7 +54,10 @@ its sources with `@source`. It holds:
   `tag`, `about-button` (icon and label that open the About dialog),
   `field-label` (name of a field in a detail panel, the same small capitals
   above a block and in a grid of fields), `go-to-record` (field that opens
-  a record by its number, shortcut `#`).
+  a record by its number, shortcut `#`), `long-text` (long text of a
+  record, one paragraph per line of the base; with `recordText` from `text`,
+  which decodes HTML entities and removes control characters, for every
+  text field read from NocoDB).
 - **Opt-in features** may live in the kit before a second showcase uses
   them, when Alrick wants them available to all but enabled per showcase:
   `go-to-record`, callisto only for now (20.11.2026).
