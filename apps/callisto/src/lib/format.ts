@@ -17,3 +17,12 @@ export const formatDating = (from: number | null, to: number | null): string => 
   if (from >= 0 && to >= 0) return `${from}–${to} ${CE}`
   return `${formatYear(from)} – ${formatYear(to)}`
 }
+
+// Long texts of the base separate their paragraphs by two to six line
+// breaks, sometimes with spaces or tabs between them: any blank line splits
+// a paragraph; a single break stays a line break inside it.
+export const paragraphs = (value: string): string[] =>
+  value
+    .split(/\n[ \t]*(?:\n[ \t]*)+/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
