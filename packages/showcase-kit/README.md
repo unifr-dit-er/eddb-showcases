@@ -1,7 +1,8 @@
 # @eddb/showcase-kit
 
 Shared kit of the EDDB showcases (`apps/*` of this monorepo): only what
-already serves two showcases.
+already serves two showcases, and opt-in features that Alrick wants
+available to every showcase (`go-to-record`).
 
 | Import | Content |
 |---|---|
@@ -16,6 +17,7 @@ already serves two showcases.
 | `@eddb/showcase-kit/sidebar-masthead` | Top of the sidebar: Unifr logo, showcase name in serif between rules, subtitle |
 | `@eddb/showcase-kit/year-timeline` | Distribution by year of the results, click to select a year or a period |
 | `@eddb/showcase-kit/active-filter-chips` | Chips of the active filters above the results, each removable; the showcase builds them |
+| `@eddb/showcase-kit/go-to-record` | Opt-in field that opens a record by its number (shortcut `#`); the showcase sets the URL and says when no record has it. Callisto only, for now |
 | `@eddb/showcase-kit/tag` | Tags of the entries (cards, panels): `caps` for a property of the record (series, canton, language), `keyword` for a keyword (capitals, tighter and lighter) |
 
 Rules and theme conventions: root `CLAUDE.md`.

@@ -53,7 +53,11 @@ its sources with `@source`. It holds:
   `formatYear` for dates before the common era), `active-filter-chips`,
   `tag`, `about-button` (icon and label that open the About dialog),
   `field-label` (name of a field in a detail panel, the same small capitals
-  above a block and in a grid of fields).
+  above a block and in a grid of fields), `go-to-record` (field that opens
+  a record by its number, shortcut `#`).
+- **Opt-in features** may live in the kit before a second showcase uses
+  them, when Alrick wants them available to all but enabled per showcase:
+  `go-to-record`, callisto only for now (20.11.2026).
 
 shadcn/ui components stay in each application (`src/components/ui`), as the
 shadcn CLI expects.

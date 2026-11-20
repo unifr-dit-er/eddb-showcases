@@ -17,7 +17,8 @@
     "./text": "./src/text.ts",
     "./tag": "./src/Tag.tsx",
     "./about-button": "./src/AboutButton.tsx",
-    "./field-label": "./src/FieldLabel.tsx"
+    "./field-label": "./src/FieldLabel.tsx",
+    "./go-to-record": "./src/GoToRecord.tsx"
   },
   "scripts": {
     "lint": "eslint src",
