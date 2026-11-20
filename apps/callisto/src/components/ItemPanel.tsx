@@ -5,7 +5,7 @@ import { FieldLabel } from '@eddb/showcase-kit/field-label'
 import { Emphasis } from '@/components/Emphasis'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { useItem } from '@/hooks/useItem'
+import { ItemNotFoundError, useItem } from '@/hooks/useItem'
 import { useFilters, type MultiFilter } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { formatDating } from '@/lib/format'
@@ -27,7 +27,8 @@ const LongText = ({ children }: { children: string }) => (
 )
 
 export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
-  const { data: item, isLoading } = useItem(itemId)
+  const { data: item, isLoading, error } = useItem(itemId)
+  const notFound = error instanceof ItemNotFoundError
   const { t } = useLanguage()
   const { filters, toggleValue } = useFilters()
   const [linkCopied, setLinkCopied] = useState(false)
@@ -81,7 +82,7 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
             </p>
           )}
           <SheetTitle className="font-serif text-[1.75rem] font-semibold leading-tight text-foreground">
-            {item?.title ?? (isLoading ? t('item.loading') : '')}
+            {item?.title ?? (isLoading ? t('item.loading') : notFound ? `${t('item.number')} ${itemId}` : '')}
           </SheetTitle>
           {item && (
             <SheetDescription className="text-[0.9375rem] text-primary-ink font-medium">
@@ -97,6 +98,8 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
             <Skeleton className="h-4 w-2/3" />
           </div>
         )}
+
+        {notFound && <p className="text-base text-muted-foreground">{t('item.notFound')}</p>}
 
         {item && (
           <div className="space-y-6">

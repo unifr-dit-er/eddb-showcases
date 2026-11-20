@@ -1,6 +1,7 @@
 'use client'
 
 import { AboutDialog } from '@/components/AboutDialog'
+import { GoToItem } from '@/components/GoToItem'
 import { ItemList } from '@/components/ItemList'
 import { ItemPanel } from '@/components/ItemPanel'
 import { FilterSidebar } from '@/components/FilterSidebar'
@@ -83,6 +84,7 @@ export const HomeContent = () => {
             <AboutDialog />
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            <GoToItem />
             <Select value={fontSize} onValueChange={(v) => setFontSize(v as typeof fontSize)}>
               <SelectTrigger className="data-[size=default]:h-auto border-0 shadow-none focus-visible:ring-0 focus-visible:border-0 px-1.5 py-0.5 text-[11px] tracking-[0.15em] uppercase font-semibold bg-muted text-foreground rounded gap-1 [&_svg:not([class*='size-'])]:size-3">
                 <SelectValue />
