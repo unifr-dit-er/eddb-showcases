@@ -1,10 +1,10 @@
+import { recordText } from '@eddb/showcase-kit/text'
 import type { Article, Author, Series, ThesaurusTerm } from '@/types/archive'
 import { NATIONAL_SERIES_PREFIX } from '@/lib/archive-config'
 
 type NocoDBRecord = Record<string, unknown>
 
-const text = (value: unknown): string =>
-  value == null ? '' : String(value).trim()
+const text = recordText
 
 // Multi-valued fields are joined by " | " in the source export.
 export const splitMulti = (value: unknown): string[] =>

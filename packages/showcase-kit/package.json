@@ -18,7 +18,8 @@
     "./tag": "./src/Tag.tsx",
     "./about-button": "./src/AboutButton.tsx",
     "./field-label": "./src/FieldLabel.tsx",
-    "./go-to-record": "./src/GoToRecord.tsx"
+    "./go-to-record": "./src/GoToRecord.tsx",
+    "./long-text": "./src/LongText.tsx"
   },
   "scripts": {
     "lint": "eslint src",

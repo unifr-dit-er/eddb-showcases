@@ -2,13 +2,14 @@
 
 import { Tag } from '@eddb/showcase-kit/tag'
 import { FieldLabel } from '@eddb/showcase-kit/field-label'
+import { LongText } from '@eddb/showcase-kit/long-text'
 import { Emphasis } from '@/components/Emphasis'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { ItemNotFoundError, useItem } from '@/hooks/useItem'
 import { useFilters, type MultiFilter } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { formatDating, paragraphs } from '@/lib/format'
+import { formatDating } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { Translations } from '@/i18n'
 import { Check, Copy, ImageOff } from 'lucide-react'
@@ -19,17 +20,8 @@ interface ItemPanelProps {
   onClose: () => void
 }
 
-// Long texts: one evenly spaced paragraph per blank-line block of the base,
-// single line breaks kept inside a paragraph.
-const LongText = ({ children }: { children: string }) => (
-  <div className="space-y-3 text-base leading-relaxed text-foreground/85">
-    {paragraphs(children).map((paragraph, index) => (
-      <p key={index} className="whitespace-pre-line">
-        <Emphasis>{paragraph}</Emphasis>
-      </p>
-    ))}
-  </div>
-)
+// Long texts: the base marks titles in italics with asterisks.
+const emphasis = (paragraph: string) => <Emphasis>{paragraph}</Emphasis>
 
 export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
   const { data: item, isLoading, error } = useItem(itemId)
@@ -111,7 +103,7 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
             {item.description && (
               <div>
                 <FieldLabel className="mb-2">{t('item.description')}</FieldLabel>
-                <LongText>{item.description}</LongText>
+                <LongText text={item.description} renderParagraph={emphasis} />
               </div>
             )}
 
@@ -158,14 +150,14 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
             {item.sources && (
               <div>
                 <FieldLabel className="mb-2">{t('item.sources')}</FieldLabel>
-                <LongText>{item.sources}</LongText>
+                <LongText text={item.sources} renderParagraph={emphasis} />
               </div>
             )}
 
             {item.bibliography && (
               <div>
                 <FieldLabel className="mb-2">{t('item.bibliography')}</FieldLabel>
-                <LongText>{item.bibliography}</LongText>
+                <LongText text={item.bibliography} renderParagraph={emphasis} />
               </div>
             )}
 
