@@ -53,19 +53,51 @@ export interface TextPart {
   href?: string
 }
 
-// A text cut into plain parts and links, in order.
-export const linkParts = (value: string): TextPart[] => {
+// Bare addresses, outside Markdown links (http://cartelfr.louvre.fr/…, seven
+// callisto records, Alrick, 23.11.2026): the host needs a dot, so that a
+// broken link such as "(http://E. Simon, …" stays text. Punctuation that
+// ends the sentence, and a closing parenthesis without its opening one, are
+// not part of the address.
+const BARE = /https?:\/\/[\w-]+(?:\.[\w-]+)+[^\s<>"]*/g
+const TRAILING = /[.,;:!?'"»”’\]]$/
+
+const trimAddress = (address: string): string => {
+  let end = address
+  for (;;) {
+    if (TRAILING.test(end)) end = end.slice(0, -1)
+    else if (end.endsWith(')') && (end.match(/\(/g)?.length ?? 0) < (end.match(/\)/g)?.length ?? 0)) end = end.slice(0, -1)
+    else return end
+  }
+}
+
+const bareParts = (value: string): TextPart[] => {
   const parts: TextPart[] = []
   let last = 0
-  for (const match of value.matchAll(LINK)) {
+  for (const match of value.matchAll(BARE)) {
+    const address = trimAddress(match[0])
     if (match.index > last) parts.push({ text: value.slice(last, match.index) })
-    parts.push({ text: match[1], href: match[2] })
-    last = match.index + match[0].length
+    parts.push({ text: address, href: address })
+    last = match.index + address.length
   }
   if (last < value.length) parts.push({ text: value.slice(last) })
   return parts
 }
 
-// The same text with each link reduced to its label, for places that cannot
-// hold a link (cards, which are links themselves; excerpts).
+// A text cut into plain parts and links, in order: Markdown links first, then
+// bare addresses in what remains.
+export const linkParts = (value: string): TextPart[] => {
+  const parts: TextPart[] = []
+  let last = 0
+  for (const match of value.matchAll(LINK)) {
+    if (match.index > last) parts.push(...bareParts(value.slice(last, match.index)))
+    parts.push({ text: match[1], href: match[2] })
+    last = match.index + match[0].length
+  }
+  if (last < value.length) parts.push(...bareParts(value.slice(last)))
+  return parts
+}
+
+// The same text with each Markdown link reduced to its label, for places that
+// cannot hold a link (cards, which are links themselves; excerpts). Bare
+// addresses stay, as text.
 export const linkLabels = (value: string): string => value.replace(LINK, '$1')

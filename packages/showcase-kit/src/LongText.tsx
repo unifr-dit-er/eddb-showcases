@@ -14,8 +14,9 @@ interface LinkedTextProps {
   renderText?: RenderText
 }
 
-// A text whose Markdown links, [label](https://…), are shown as links,
-// opened in a new tab (Alrick, 23.11.2026, for every showcase).
+// A text whose links, Markdown ([label](https://…)) or bare addresses, are
+// shown as links, opened in a new tab (Alrick, 23.11.2026, for every
+// showcase). Long addresses may break anywhere.
 export const LinkedText = ({ text, renderText = plain }: LinkedTextProps) => (
   <>
     {linkParts(text).map((part, index) =>
@@ -25,7 +26,7 @@ export const LinkedText = ({ text, renderText = plain }: LinkedTextProps) => (
           href={part.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline decoration-primary/60 underline-offset-2 transition-colors hover:decoration-primary hover:text-foreground"
+          className="[overflow-wrap:anywhere] underline decoration-primary/60 underline-offset-2 transition-colors hover:decoration-primary hover:text-foreground"
         >
           {renderText(part.text)}
         </a>
