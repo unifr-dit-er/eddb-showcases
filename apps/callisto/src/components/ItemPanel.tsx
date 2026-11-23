@@ -20,8 +20,9 @@ interface ItemPanelProps {
   onClose: () => void
 }
 
-// Long texts: the base marks titles in italics with asterisks.
-const emphasis = (paragraph: string) => <Emphasis>{paragraph}</Emphasis>
+// Long texts: the base marks titles in italics with asterisks, also inside
+// the labels of its links.
+const emphasis = (text: string) => <Emphasis>{text}</Emphasis>
 
 export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
   const { data: item, isLoading, error } = useItem(itemId)
@@ -103,7 +104,7 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
             {item.description && (
               <div>
                 <FieldLabel className="mb-2">{t('item.description')}</FieldLabel>
-                <LongText text={item.description} renderParagraph={emphasis} />
+                <LongText text={item.description} renderText={emphasis} />
               </div>
             )}
 
@@ -150,14 +151,14 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
             {item.sources && (
               <div>
                 <FieldLabel className="mb-2">{t('item.sources')}</FieldLabel>
-                <LongText text={item.sources} renderParagraph={emphasis} />
+                <LongText text={item.sources} renderText={emphasis} />
               </div>
             )}
 
             {item.bibliography && (
               <div>
                 <FieldLabel className="mb-2">{t('item.bibliography')}</FieldLabel>
-                <LongText text={item.bibliography} renderParagraph={emphasis} />
+                <LongText text={item.bibliography} renderText={emphasis} />
               </div>
             )}
 

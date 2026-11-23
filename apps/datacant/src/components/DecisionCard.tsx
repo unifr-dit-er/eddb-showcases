@@ -1,6 +1,7 @@
 'use client'
 
 import { Tag } from '@eddb/showcase-kit/tag'
+import { linkLabels } from '@eddb/showcase-kit/text'
 import type { Decision } from '@/types/decision'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useFilters } from '@/hooks/useFilters'
@@ -99,7 +100,7 @@ const DecisionCard = ({ decision, isActive, onClick }: DecisionCardProps) => {
       </h3>
 
       {decision.abstract && (
-        <p className="text-[0.9375rem] leading-relaxed text-foreground/70 line-clamp-2 mb-3">{decision.abstract}</p>
+        <p className="text-[0.9375rem] leading-relaxed text-foreground/70 line-clamp-2 mb-3">{linkLabels(decision.abstract)}</p>
       )}
 
       {keywords.length > 0 && (

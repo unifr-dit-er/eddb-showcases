@@ -39,3 +39,33 @@ export const paragraphs = (value: string): string[] =>
     .split(/\r\n?|\n/)
     .map((line) => line.trim())
     .filter(Boolean)
+
+// Markdown links in the texts of a base, [label](https://…) (callisto,
+// 23.11.2026). Only http and https addresses are links, with at most one
+// level of parentheses inside the address (Wikipedia); anything else stays
+// as written. A stray " (" before the closing parenthesis, left by an earlier
+// editor in callisto ("[Projekt Dyabola](http://… ()", three records), is
+// dropped.
+const LINK = /\[([^\]\n]+)\]\((https?:\/\/(?:[^\s()]|\([^\s()]*\))+)(?: \()?\)/g
+
+export interface TextPart {
+  text: string
+  href?: string
+}
+
+// A text cut into plain parts and links, in order.
+export const linkParts = (value: string): TextPart[] => {
+  const parts: TextPart[] = []
+  let last = 0
+  for (const match of value.matchAll(LINK)) {
+    if (match.index > last) parts.push({ text: value.slice(last, match.index) })
+    parts.push({ text: match[1], href: match[2] })
+    last = match.index + match[0].length
+  }
+  if (last < value.length) parts.push({ text: value.slice(last) })
+  return parts
+}
+
+// The same text with each link reduced to its label, for places that cannot
+// hold a link (cards, which are links themselves; excerpts).
+export const linkLabels = (value: string): string => value.replace(LINK, '$1')

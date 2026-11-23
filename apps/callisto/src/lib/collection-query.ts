@@ -2,6 +2,7 @@
  * Filtering, sorting, pagination and counts over the in-memory collection.
  * Pure functions, shared by the route handlers.
  */
+import { linkLabels } from '@eddb/showcase-kit/text'
 import type {
   CollectionFilters,
   CountedValue,
@@ -125,9 +126,12 @@ export const sortRepresentations = (
   })
 }
 
+// Links are reduced to their labels first: a card cannot hold a link, and a
+// cut must never leave half of one.
 export const excerptOf = (description: string): string => {
-  if (description.length <= EXCERPT_LENGTH) return description
-  const cut = description.slice(0, EXCERPT_LENGTH)
+  const text = linkLabels(description)
+  if (text.length <= EXCERPT_LENGTH) return text
+  const cut = text.slice(0, EXCERPT_LENGTH)
   return `${cut.slice(0, cut.lastIndexOf(' ') > 0 ? cut.lastIndexOf(' ') : EXCERPT_LENGTH).trimEnd()}…`
 }
 

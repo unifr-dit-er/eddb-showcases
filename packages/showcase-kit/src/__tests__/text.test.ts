@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decodeEntities, normalize, paragraphs, recordText } from '../text'
+import { decodeEntities, linkLabels, linkParts, normalize, paragraphs, recordText } from '../text'
 
 describe('normalize', () => {
   it('ignores case and accents', () => {
@@ -36,5 +36,49 @@ describe('paragraphs', () => {
 
   it('gives nothing for an empty text', () => {
     expect(paragraphs('  \n\n ')).toEqual([])
+  })
+})
+
+describe('linkParts', () => {
+  const hermitage =
+    'http://www.hermitage.ru/wps/portal/hermitage/digital-collection/25.+Archaeological+Artifacts/288877/?lng=fr'
+
+  it('cuts a text into plain parts and Markdown links', () => {
+    expect(linkParts(`Voir la [Notice du State Hermitage Museum, St. Petersbourg](${hermitage}).`)).toEqual([
+      { text: 'Voir la ' },
+      { text: 'Notice du State Hermitage Museum, St. Petersbourg', href: hermitage },
+      { text: '.' },
+    ])
+  })
+
+  it('keeps one level of parentheses in the address', () => {
+    expect(linkParts('[Hydrie](https://fr.wikipedia.org/wiki/Hydrie_(vase))')).toEqual([
+      { text: 'Hydrie', href: 'https://fr.wikipedia.org/wiki/Hydrie_(vase)' },
+    ])
+  })
+
+  it('leaves anything but http and https links as written', () => {
+    for (const text of ['[x](javascript:alert(1))', '[x](mailto:a@b.ch)', '[x](/relative)', '[x] (https://a.ch)', 'plain']) {
+      expect(linkParts(text)).toEqual([{ text }])
+    }
+  })
+
+  it('drops the stray " (" an earlier editor left before the closing parenthesis', () => {
+    expect(linkParts('[Projekt Dyabola](http://www.db.dyabola.de/dya/dya_srv2.dll?01&dir=W8A715HE ()')).toEqual([
+      { text: 'Projekt Dyabola', href: 'http://www.db.dyabola.de/dya/dya_srv2.dll?01&dir=W8A715HE' },
+    ])
+  })
+
+  it('finds several links, side by side', () => {
+    expect(linkParts('[a](https://a.ch)[b](https://b.ch)').map((part) => part.href)).toEqual([
+      'https://a.ch',
+      'https://b.ch',
+    ])
+  })
+})
+
+describe('linkLabels', () => {
+  it('reduces each link to its label', () => {
+    expect(linkLabels('Voir [la notice](https://a.ch/x?y=1) et [*CVA*](https://b.ch).')).toBe('Voir la notice et *CVA*.')
   })
 })

@@ -2,6 +2,7 @@
 
 import { Tag } from '@eddb/showcase-kit/tag'
 import { FieldLabel } from '@eddb/showcase-kit/field-label'
+import { LinkedText } from '@eddb/showcase-kit/long-text'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { RecordTypeIcon } from '@/components/RecordTypeIcon'
@@ -123,7 +124,7 @@ export const ArticlePanel = ({ articleId, onClose }: ArticlePanelProps) => {
               <div>
                 <FieldLabel className="mb-2">{t('article.teaser')}</FieldLabel>
                 <blockquote className="border-l-2 border-primary-tint-1 pl-4 font-serif text-[1.0625rem] leading-relaxed text-foreground/85">
-                  {article.teaser}
+                  <LinkedText text={article.teaser} />
                   {/* The archive keeps only the opening lines; some already end with […]. */}
                   {!/(\[(\.\.\.|…)\]|…)\s*$/.test(article.teaser) && (
                     <span className="text-muted-foreground"> […]</span>
