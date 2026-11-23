@@ -49,6 +49,7 @@
   --color-primary-tint-2: var(--primary-tint-2);
   --color-primary-tint-3: var(--primary-tint-3);
   --color-primary-ink: var(--primary-ink);
+  --color-primary-link: var(--primary-link);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -72,6 +73,9 @@
   /* Midnight blue, Pantone 2768 C (#071D49): the manual prints RGB 10/56/89,
      which matches neither its CMYK, its Pantone nor its swatch. */
   --primary-ink: oklch(0.245 0.087 262);
+  /* Text of the links: the faculty colour, darkened in its own hue only where
+     it misses AA on the background (Alrick, 23.11.2026). */
+  --primary-link: var(--primary);
   --secondary: oklch(0.93 0.006 82);
   --secondary-foreground: oklch(0.17 0.008 250);
   --muted: oklch(0.93 0.006 82);
@@ -106,6 +110,7 @@
 [data-faculty='lettres'] {
   --primary: oklch(0.58 0.13 238.7);            /* #0083BE */
   --primary-foreground: oklch(0 0 0);           /* black, 5.0:1 */
+  --primary-link: oklch(0.53 0.13 238.7);       /* #0074AE, 4.8:1 (sky blue: 3.9:1) */
   --primary-tint-1: oklch(0.693 0.106 230.8);   /* #4CA8D2 */
   --primary-tint-2: oklch(0.799 0.072 228.2);   /* #8CC7E2, midnight blue 8.9:1 */
   --primary-tint-3: oklch(0.888 0.04 227);      /* #BFE0EF, midnight blue 11.8:1 */

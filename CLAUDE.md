@@ -26,7 +26,10 @@ the kit is checked against every showcase in the same commit.
   `basePath` comes from `NEXT_PUBLIC_BASE_PATH` at build time.
 - Colours follow the Unifr corporate design (faculty colour for fills,
   midnight blue #071D49 for accented text, never a darkened faculty colour;
-  WCAG AA contrast).
+  WCAG AA contrast). One exception, the text of links: the faculty colour,
+  darkened in its own hue only where it misses AA on the background
+  (`primary-link`: sky blue #0074AE for `lettres`, 4.8:1; red and
+  anthracite as they are; Alrick, 23.11.2026).
 - **A request on one showcase may hold for all** (wording, ergonomics,
   accessibility, filter behaviour): spot it and ask Alrick whether to apply
   it to every showcase before limiting it to the one that asked (17.11.2026:
@@ -44,7 +47,8 @@ its sources with `@source`. It holds:
   p. 15; `interfacultaire`, anthracite RAL 7016, for an interfaculty
   institute, which the manual does not cover). Fills use the faculty colour (`bg-primary`), light surfaces its
   official tints (`bg-primary-tint-1/2/3`), never a transparency of it
-  (`bg-primary/10`); accented text is midnight blue (`text-primary-ink`).
+  (`bg-primary/10`); accented text is midnight blue (`text-primary-ink`);
+  links take `text-primary-link`.
 - `nocodb` (server-side client), `cached-loader` (in-memory copy of a
   base, the pattern of both showcases), `text`, `api-fetch`, `use-local-setting`
   (hydration-safe viewer preferences), `font-size`, `site-footer`,
@@ -55,7 +59,9 @@ its sources with `@source`. It holds:
   `field-label` (name of a field in a detail panel, the same small capitals
   above a block and in a grid of fields), `go-to-record` (field that opens
   a record by its number, shortcut `#`), `long-text` (long text of a
-  record, one paragraph per line of the base; with `recordText` from `text`,
+  record, one paragraph per line of the base, its Markdown links and bare
+  addresses shown as links by `LinkedText`; `linkLabels` from `text` keeps
+  only the labels, for cards; with `recordText` from `text`,
   which decodes HTML entities and removes control characters, for every
   text field read from NocoDB).
 - **Opt-in features** may live in the kit before a second showcase uses
