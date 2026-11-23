@@ -1,6 +1,7 @@
 'use client'
 
 import { Tag } from '@eddb/showcase-kit/tag'
+import { linkLabels } from '@eddb/showcase-kit/text'
 import { RecordTypeIcon } from '@/components/RecordTypeIcon'
 import type { ArticleSummary } from '@/types/archive'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -99,7 +100,7 @@ export const ArticleCard = ({ article, isActive, onClick }: ArticleCardProps) =>
       {authors && <p className="text-[0.8125rem] text-muted-foreground mb-2 line-clamp-1">{authors}</p>}
 
       {article.teaser && (
-        <p className="text-[0.9375rem] leading-relaxed text-foreground/70 line-clamp-2 mb-3">{article.teaser}</p>
+        <p className="text-[0.9375rem] leading-relaxed text-foreground/70 line-clamp-2 mb-3">{linkLabels(article.teaser)}</p>
       )}
 
       <div className="flex flex-wrap items-center gap-1.5">

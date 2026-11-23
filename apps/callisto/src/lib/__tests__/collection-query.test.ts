@@ -94,6 +94,12 @@ describe('queryRepresentations and computeFacets', () => {
     expect(excerptOf(long).length).toBeLessThan(300)
     expect(excerptOf('court')).toBe('court')
   })
+
+  it('reduces the links of the excerpt to their labels, never cut in half', () => {
+    expect(excerptOf('Voir la [notice du musée](https://a.ch/notice).')).toBe('Voir la notice du musée.')
+    const cutInLink = `${'mot '.repeat(60)}[une notice au libellé long](https://a.ch/${'x'.repeat(200)})`
+    expect(excerptOf(cutInLink)).not.toMatch(/[[\]()]|https/)
+  })
 })
 
 describe('formatDating', () => {
