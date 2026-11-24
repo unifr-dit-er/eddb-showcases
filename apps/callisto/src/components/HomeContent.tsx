@@ -3,6 +3,7 @@
 import { AboutDialog } from '@/components/AboutDialog'
 import { ItemList } from '@/components/ItemList'
 import { ItemPanel } from '@/components/ItemPanel'
+import { SponsorLogo } from '@/components/SponsorLogo'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SidebarMasthead } from '@eddb/showcase-kit/sidebar-masthead'
@@ -118,8 +119,15 @@ export const HomeContent = () => {
           </div>
         </header>
 
-        <div className="flex-1 min-h-0 overflow-y-auto">
-          <ItemList />
+        {/* The ERC logo sits bottom right, beside the list, when it fits
+            there (list 896 px + logo 400 px + margins 48 px = 1344 px);
+            otherwise at the end of the list, so that no width changes. */}
+        <div className="relative flex-1 min-h-0 @container">
+          <div className="h-full overflow-y-auto">
+            <ItemList />
+            <SponsorLogo className="px-4 lg:px-6 pb-8 pt-2 max-w-4xl @min-[1344px]:hidden" />
+          </div>
+          <SponsorLogo className="hidden @min-[1344px]:block absolute bottom-5 right-6 text-right" />
         </div>
 
         <SiteFooter

@@ -82,6 +82,8 @@ export const translations = {
   'footer.eddb': 'Base de données soutenue par la prestation',
   'footer.eddb.of': 'de',
   'about.title': 'À propos',
+  'sponsor.name': 'Union européenne, Conseil européen de la recherche (ERC)',
+  'sponsor.url': 'https://erc.europa.eu/',
   // The team's own description, kept in English as written (Alrick,
   // 24.11.2026); paragraphs separated by a blank line.
   'about.content':
