@@ -120,14 +120,14 @@ export const HomeContent = () => {
         </header>
 
         {/* The ERC logo sits bottom right, beside the list, when it fits
-            there (list 896 px + logo 400 px + margins 48 px = 1344 px);
+            there (list 896 px + logo 320 px + margins 48 px = 1264 px);
             otherwise at the end of the list, so that no width changes. */}
         <div className="relative flex-1 min-h-0 @container">
           <div className="h-full overflow-y-auto">
             <ItemList />
-            <SponsorLogo className="px-4 lg:px-6 pb-8 pt-2 max-w-4xl @min-[1344px]:hidden" />
+            <SponsorLogo className="px-4 lg:px-6 pb-8 pt-2 max-w-4xl @min-[1264px]:hidden" />
           </div>
-          <SponsorLogo className="hidden @min-[1344px]:block absolute bottom-5 right-6 text-right" />
+          <SponsorLogo className="hidden @min-[1264px]:block absolute bottom-5 right-6 text-right" />
         </div>
 
         <SiteFooter
