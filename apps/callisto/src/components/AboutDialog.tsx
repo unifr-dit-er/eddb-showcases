@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
+import { SponsorLogo } from '@/components/SponsorLogo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { AboutButton } from '@eddb/showcase-kit/about-button'
 
@@ -40,6 +41,10 @@ export const AboutDialog = () => {
               ))}
           </div>
         </DialogDescription>
+
+        <Separator />
+
+        <SponsorLogo />
 
         <Separator />
 
