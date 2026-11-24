@@ -30,7 +30,16 @@ export const AboutDialog = () => {
           className="mx-auto w-full max-w-[320px] h-auto"
         />
 
-        <DialogDescription className="text-sm text-muted-foreground leading-relaxed">{t('about.content')}</DialogDescription>
+        {/* The team's description, in English (lang for screen readers). */}
+        <DialogDescription asChild>
+          <div lang="en" className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+            {t('about.content')
+              .split('\n\n')
+              .map((paragraph) => (
+                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+              ))}
+          </div>
+        </DialogDescription>
 
         <Separator />
 

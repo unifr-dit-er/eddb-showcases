@@ -8,7 +8,7 @@ export const DEFAULT_LOCALE: Locale = 'fr'
 export const translations = {
   'header.title': 'Culture matérielle et représentations du jeu et de l’enfance dans l’Antiquité',
   'sidebar.title': 'Callisto',
-  'sidebar.subtitle': 'Iconographie du jeu : 800 av. – 500 apr. J.-C.',
+  'sidebar.subtitle': 'Iconography of Play and Games',
   'sidebar.search.label': 'Recherche',
   'sidebar.search.placeholder': 'Titre, description, lieu, bibliographie…',
   'sidebar.periods.label': 'Période',
@@ -80,8 +80,12 @@ export const translations = {
   'footer.eddb': 'Base de données soutenue par la prestation',
   'footer.eddb.of': 'de',
   'about.title': 'À propos',
+  // The team's own description, kept in English as written (Alrick,
+  // 24.11.2026); paragraphs separated by a blank line.
   'about.content':
-    'La base Callisto a été créée en 2010 par l’équipe de recherche du même nom de l’Université de Fribourg, consacrée à la culture matérielle et aux représentations visuelles et textuelles des enfants dans les sociétés antiques. Le projet ERC Locus Ludi l’a élargie à l’ensemble des ressources iconographiques utiles à l’enseignement et à la recherche sur la culture du jeu, de la naissance de la cité grecque, vers 800 av. J.-C., à la fin de l’Empire romain d’Occident, vers 500 apr. J.-C. Chaque fiche comprend un commentaire détaillé de l’objet et sa bibliographie. Les images de la base ne sont pas libres de droits : elles ne sont pas publiées.',
+    'The Callisto Database was set up in 2010 by the eponymous research team of Fribourg University focusing on material culture and visual/textual representations of children in ancient societies. The ERC project Locus Ludi is now vastly expanding the database which will include all iconographic resources useful for teaching and research on play and game culture, involving animals, children and adults, men and women, heroes and gods, through the lenses of gender studies, cultural history, and anthropology.\n\n' +
+    'Callisto is an important collaborative tool for the renewal of research on ancient ludic culture as the fabric of past societies. It brings together a wide set of visual material from the birth of the Greek city-state c. 800 BCE to the end of the Western Roman Empire, c. 500 CE . These documents are often inaccessible and/or unknown. Each entry includes a detailed commentary of the object which reflects different interpretations and links to downloadable scientific papers (PDF).\n\n' +
+    'This database is part of the Locus Ludi project that has received funding from the European Research Council (ERC) under the European Union’s Horizon 2020 research and innovation programme (Grant agreement No. 741520)',
 } as const
 
 export type Translations = typeof translations
