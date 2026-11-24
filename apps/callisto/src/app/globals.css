@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 /* Theme shared by the EDDB showcases (faculty colours, tints, tokens). */
 @import "@eddb/showcase-kit/theme.css";
+/* Printing a record (kit, opt-in). */
+@import "@eddb/showcase-kit/print.css";
 
 /* Classes used by the kit's components. */
 @source "../../../../packages/showcase-kit/src";

@@ -3,6 +3,7 @@
 import { Tag } from '@eddb/showcase-kit/tag'
 import { FieldLabel } from '@eddb/showcase-kit/field-label'
 import { LongText } from '@eddb/showcase-kit/long-text'
+import { PrintButton, PrintSource } from '@eddb/showcase-kit/print-record'
 import { Emphasis } from '@/components/Emphasis'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -70,6 +71,7 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
   return (
     <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetContent
+        data-print-record
         className="overflow-y-auto px-6 pb-6 w-full sm:w-[42vw] sm:min-w-[440px] max-w-[760px] sm:max-w-[760px]"
         showCloseButton={false}
       >
@@ -167,9 +169,10 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
               <p>{t('item.noImage')}</p>
             </div>
 
-            <div className="pt-4 border-t border-border">
+            <div className="pt-4 border-t border-border flex flex-wrap items-center gap-x-6 gap-y-2">
               <button
                 onClick={handleCopyLink}
+                data-print-hide
                 className={cn(
                   'flex items-center gap-1.5 text-sm font-medium transition-colors cursor-pointer',
                   linkCopied ? 'text-primary-ink' : 'text-muted-foreground hover:text-foreground'
@@ -178,6 +181,8 @@ export const ItemPanel = ({ itemId, onClose }: ItemPanelProps) => {
                 {linkCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {linkCopied ? t('item.linkCopied') : t('item.copyLink')}
               </button>
+              <PrintButton label={t('item.print')} />
+              <PrintSource site={t('sidebar.title')} printedOn={t('item.printedOn')} />
             </div>
           </div>
         )}

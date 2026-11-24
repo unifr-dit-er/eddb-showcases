@@ -19,7 +19,9 @@
     "./about-button": "./src/AboutButton.tsx",
     "./field-label": "./src/FieldLabel.tsx",
     "./go-to-record": "./src/GoToRecord.tsx",
-    "./long-text": "./src/LongText.tsx"
+    "./long-text": "./src/LongText.tsx",
+    "./print-record": "./src/PrintRecord.tsx",
+    "./print.css": "./src/print.css"
   },
   "scripts": {
     "lint": "eslint src",
@@ -29,6 +31,7 @@
   "peerDependencies": {
     "next": "*",
     "react": "*",
+    "react-dom": "*",
     "lucide-react": "*"
   }
 }
