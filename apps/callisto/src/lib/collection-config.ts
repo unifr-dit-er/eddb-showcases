@@ -41,8 +41,13 @@ export const PAGE_SIZE = 25
 export const EXCERPT_LENGTH = 280
 
 // The timeline counts the starting years by centuries: the dates run from
-// the second millennium BCE to the sixth century CE.
+// the second millennium BCE to the sixth century CE. The axis starts at the
+// eighth century BCE, the span of the collection; the three Minoan and
+// Mycenaean records before it share a bar. A selected century opens by
+// decades: half of the records start in the fifth century BCE.
 export const TIMELINE_BUCKET = 100
+export const TIMELINE_FLOOR = -800
+export const TIMELINE_ZOOM = 10
 
 // The collection no longer grows: an hour of cache only delays corrections.
 export const COLLECTION_TTL_MS = 60 * 60 * 1000

@@ -9,7 +9,7 @@ import { useItems } from '@/hooks/useItems'
 import { useFacets } from '@/hooks/useFacets'
 import { useFilters } from '@/hooks/useFilters'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { TIMELINE_BUCKET } from '@/lib/collection-config'
+import { TIMELINE_BUCKET, TIMELINE_FLOOR, TIMELINE_ZOOM } from '@/lib/collection-config'
 import { formatAxisYear } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { SortKey } from '@/types/collection'
@@ -81,6 +81,8 @@ export const ItemList = () => {
           min={facets.years.min}
           max={facets.years.max}
           bucket={TIMELINE_BUCKET}
+          floor={TIMELINE_FLOOR}
+          zoom={TIMELINE_ZOOM}
           formatYear={formatAxisYear}
           from={filters.from ? Number(filters.from) : null}
           to={filters.to ? Number(filters.to) : null}
@@ -91,6 +93,10 @@ export const ItemList = () => {
             title: t('timeline.label'),
             hint: t('timeline.hint'),
             unit: (n) => (n === 1 ? t('timeline.records_singular') : t('timeline.records_plural')),
+            before: t('timeline.before'),
+            zoomTitle: (range) => t('timeline.zoom_label').replace('{range}', range),
+            zoomHint: t('timeline.zoom_hint'),
+            back: t('timeline.back'),
           }}
         />
       )}
