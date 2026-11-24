@@ -1,0 +1,52 @@
+/* Printing a record (opt-in: imported by the showcases that offer it, see
+   PrintRecord.tsx). Only the record panel, marked `data-print-record`, is
+   printed, laid out as a plain page: the rest of the page, the overlay and
+   what is marked `data-print-hide` are left out. The panel is a dialog
+   portalled to the body, directly (Radix: body > overlay, panel) or inside
+   a wrapper. */
+@media print {
+  @page {
+    margin: 18mm 16mm;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  body:has([data-print-record]) > *:not([data-print-record]):not(:has([data-print-record])),
+  body:has([data-print-record]) > :has([data-print-record]) > *:not([data-print-record]),
+  [data-print-hide] {
+    display: none !important;
+  }
+
+  /* A block, not the flex column of the panel, which breaks badly across
+     pages; white, without the panel's border or focus outline. */
+  [data-print-record] {
+    display: block !important;
+    background: #fff !important;
+    outline: none !important;
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  [data-print-record] h2 {
+    break-after: avoid;
+  }
+
+  [data-print-record] p {
+    break-inside: avoid;
+  }
+}

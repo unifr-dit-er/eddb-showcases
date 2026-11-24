@@ -54,6 +54,8 @@ export const translations = {
   'item.noImage': 'Les images de la base ne sont pas libres de droits et ne sont pas publiées.',
   'item.copyLink': 'Copier le lien vers cette fiche',
   'item.linkCopied': 'Lien copié',
+  'item.print': 'Imprimer la fiche',
+  'item.printedOn': 'imprimée le',
   'items.error': 'Impossible de charger la base Callisto.',
   'items.empty': 'Aucune fiche ne correspond à vos critères.',
   'items.resultUnit_singular': 'fiche',
