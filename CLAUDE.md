@@ -79,9 +79,15 @@ shadcn CLI expects.
   `package.json` only.
 - `npm run check` (lint, typecheck, tests) and `npm run build` run every
   workspace.
-- `next dev` rewrites the `AGENTS.md` of the application it serves (`#`
-  headings turned into `##`, seen on callisto and datacant, 20.11.2026):
-  restore it with `git checkout`, never commit it with other changes.
+- `next dev` manages a block of each application's `AGENTS.md` (between
+  `<!-- BEGIN:nextjs-agent-rules -->` and its END marker) and rewrites it
+  at every start when it differs from the installed Next.js template
+  (`next/dist/server/lib/generate-agent-files.js`). The committed block is
+  kept current, so the file normally stays untouched. If a Next.js update
+  changes the template and `next dev` rewrites the file, commit the new
+  block for all applications at once, in a commit of its own, never mixed
+  with other changes (Alrick, 24.11.2026; before, restoring it with
+  `git checkout` only recreated the change at the next start).
 - Dockerfiles build from the repository root:
   `podman build -f apps/<showcase>/Dockerfile .`
 - **CI** (`.github/workflows/ci.yml`): on every push to main and every
